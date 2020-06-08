@@ -16,7 +16,6 @@ async function getAllTranscripts() {
             status: entry.status
         }
     });
-    console.log(response);
     return response;
 }
 

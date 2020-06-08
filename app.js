@@ -76,7 +76,7 @@ app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/users", usersRouter);
 app.use("/profile", ensureLogin.ensureLoggedIn(), profileRouter);
-app.use("/api/transcripts", apiTranscriptsRouter);
+app.use("/api/transcripts", ensureLogin.ensureLoggedIn(), apiTranscriptsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
