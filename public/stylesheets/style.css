@@ -35,3 +35,5 @@ div.dropdown-content {
 .dropdown:hover .dropdown-content {display: block;}
 .dropdown-content a { font-style: none;}
 .container{ background-color: #f1f1f1;}
+
+table.transcript th{ text-align: center;}

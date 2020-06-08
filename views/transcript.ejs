@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= user.username %>'s Transcript</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Transcript</h1>
-    <p>Username: <%= user.username %></p>
-    <ul>
-        <% for(var i=0; i<transcript.length; i++) { %>
-            <li><%= JSON.stringify(transcript[i]) %></li>
-        <% } %>
-    </ul>
-
-  </body>
-</html>
+<%- include header %>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p>User: <%= user.username %></p>
+        <table class="mx-auto table table-sm table-hover table-bordered transcript" style="width: fit-content;">
+          <thead class="thead-dark">
+            <th>Member ID</th>
+            <th>Course Number</th>
+            <th>Course Name</th>
+            <th>Status</th>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<transcript.length; i++) { %>
+            <tr>
+              <td><%= transcript[i].memberID %></td>
+              <td><%= transcript[i].courseNumber %></td>
+              <td><%= transcript[i].courseName %></td>
+              <td><%= transcript[i].status %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<%- include footer %>

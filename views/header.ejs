@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title ? title : "University of Scouting" %></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+        <div class="col-1 justify-content-start">
+            <img class="Icon" src="https://i9peu1ikn3a16vg4e45rqi17-wpengine.netdna-ssl.com/wp-content/themes/bsa-child/media/images/logo-shield@3x.png">
+        </div>
+        <div class="col-11">
+            <h1 class="title"><%= title ? title : "University of Scouting" %></h1>
+        </div>
+        </div>
+    </div>
+    <div class="container" style="padding-bottom: 20px;">
+        <div class="row">
+        <div class="col-1">
+            <div class="dropdown">
+            <button class="dropbtn">
+                <img class="menuIcon" src="https://image.flaticon.com/icons/png/512/56/56763.png">
+            </button>
+            <div class="dropdown-content">
+                <% if (!user) { %>
+                <a href="/login">login</a>
+                <% } else { %>
+                <a href="/profile">profile</a>
+                <a href="/transcript">transcript</a>
+                <a href="/logout">logout</a>
+                <% } %>
+            </div>
+            </div>
+        </div>
+        <div class="col-11">
+            <p>Welcome to the <%= title ? title : "University of Scouting" %> <%= user ? user.username : "" %></p>
+        </div>
+        </div>
+    </div>
