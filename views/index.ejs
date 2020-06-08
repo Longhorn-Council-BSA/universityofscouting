@@ -9,7 +9,7 @@
     <% if (!user) { %>
     <p><a href="/login">login</a></p>
     <% } else { %>
-    <p><a href="/logout">logout</a></p>
+    <p><a href="/profile">profile</a> | <a href="/transcript">transcript</a> | <a href="/logout">logout</a></p>
     <% } %>
     <p>Welcome to <%= title %> <%= user ? user.username : "" %></p>
   </body>

@@ -21,6 +21,7 @@ var loginRouter = require("./routes/login");
 var logoutRouter = require("./routes/logout");
 var usersRouter = require("./routes/users");
 var profileRouter = require("./routes/profile");
+var transcriptRouter = require("./routes/transcript");
 var apiTranscriptsRouter = require("./routes/apitranscripts");
 
 // initialize app
@@ -76,6 +77,7 @@ app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/users", usersRouter);
 app.use("/profile", ensureLogin.ensureLoggedIn(), profileRouter);
+app.use("/transcript", ensureLogin.ensureLoggedIn(), transcriptRouter);
 app.use("/api/transcripts", ensureLogin.ensureLoggedIn(), apiTranscriptsRouter);
 
 // catch 404 and forward to error handler
