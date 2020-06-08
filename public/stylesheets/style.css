@@ -11,7 +11,7 @@ body {
   background-color: #003F87;
   height: 100%;
 }
-h1.title { font-size: 45px; padding-top: 10px;}
+h1.title { font-size: 40px; padding-top: 10px;}
 .btn-1{ background-color: #003F87; color: #ddd; font-weight: bold;}
 .btn-1:hover{ background-color: rgb(1, 49, 105); }
 .btn-2{ background-color: #CE1126; color: #ddd; font-weight: bold;}
