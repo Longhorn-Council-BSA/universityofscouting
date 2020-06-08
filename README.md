@@ -11,7 +11,8 @@ hosting service.  Also, create a SESSION_SECRET containing a random string.
     SESSION_SECRET=abc123
 
 # Author
-- Cameron King <cameronking.me>
+- [Cameron King](https://cameronking.me)
+- [Ben Spellmann](https://www.linkedin.com/in/benjamin-spellmann-7036a676/)
 - See commmit log for additional contributors.
 
 # Copying
