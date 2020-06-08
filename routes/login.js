@@ -7,7 +7,7 @@ router.get("/", function (req, res, next) {
   if (req.user) {
     res.redirect("/");
   }
-  res.render("login", { title: "Login", user: req.user });
+  res.render("login", { title: "Login Page", user: req.user });
 });
 
 /* POST login credentials */
