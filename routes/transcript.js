@@ -27,7 +27,7 @@ async function getUserTranscript(memberID) {
 router.get("/", async function (req, res, next) {
   try {
     var transcript = await getUserTranscript(req.user.username);
-    res.render("transcript", { transcript: transcript, user: req.user });
+    res.render("transcript", { transcript: transcript, user: req.user ,title: "Transcript"});
   } catch (err) {
     res.status(500).json({
       message: err.message,

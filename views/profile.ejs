@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= user.username %>'s Profile</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Profile</h1>
-    <p>Username: <%= user.username %></p>
-  </body>
-</html>
+<%- include header %>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p>Username: <%= user.username %></p>
+      </div>
+    </div>
+  </div>
+<%- include footer %>
