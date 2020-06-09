@@ -28,9 +28,13 @@ var app = express();
 
 // database setup
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("connected to database"));
+var db = mongoose.connection;
+db.on("error", function (error) {
+  console.error(error);
+});
+db.once("open", function () {
+  console.log("connected to database");
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -65,7 +69,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
-app.use(session({ secret: process.env["SESSION_SECRET"] }));
+app.use(session({ secret: process.envSESSION_SECRET }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());

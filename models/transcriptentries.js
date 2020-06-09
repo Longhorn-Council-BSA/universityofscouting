@@ -1,3 +1,4 @@
+// jshint.unstable bigint: true
 var mongoose = require('mongoose');
 require('mongoose-long')(mongoose);
 var SchemaTypes = mongoose.Schema.Types;

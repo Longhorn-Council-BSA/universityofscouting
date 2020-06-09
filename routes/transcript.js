@@ -1,12 +1,14 @@
+// jshint esversion: 8
+// async functions
 var express = require("express");
 var router = express.Router();
-const Transcripts = require("../models/transcriptentries");
+var Transcripts = require("../models/transcriptentries");
 
 /**
  * Retrieve all transcript entries from MongoDB.
  */
 async function getUserTranscript(memberID) {
-  const transcript = await TranscriptEntries.find({
+  var transcript = await TranscriptEntries.find({
     memberID: memberID,
   });
   response = transcript.map((entry) => {

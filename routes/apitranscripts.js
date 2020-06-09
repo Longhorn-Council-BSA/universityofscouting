@@ -1,20 +1,22 @@
+// jshint esversion: 8
+// async functions
 var express = require('express');
 var router = express.Router();
-const Transcripts = require('../models/transcriptentries')
+var Transcripts = require('../models/transcriptentries');
 
 /**
  * Retrieve all transcript entries from MongoDB.
  */
 async function getAllTranscripts() {
-    const transcript = await TranscriptEntries.find();
-    response = transcript.map( (entry) => {
+    var transcript = await TranscriptEntries.find();
+    response = transcript.map( function (entry) {
         return {
             _id: entry._id.toString(),
             memberID: entry.memberID.toString(),
             courseNumber: entry.courseNumber,
             courseName: entry.courseName,
             status: entry.status
-        }
+        };
     });
     return response;
 }
