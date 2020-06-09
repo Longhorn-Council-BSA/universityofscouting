@@ -30,9 +30,9 @@ jobs:
       - name: Set git email
         run: git config user.email "automated"
       - name: Set git user
-        run: git config user.name "JSDoc"
+        run: git config user.name "CI Workflow"
       - name: Commit doc update
-        run: git commit -m "doc:generate docs"
+        run: git commit -m "generate docs"
       - name: Update version
         run: docker run -v $(pwd):/repo ckxng/standardversion
       - name: Push repo
