@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title ? title : "University of Scouting" %></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+        <div class="col-1 justify-content-start">
+            <a href="/">
+                <img class="Icon" src="images/LHC_UoS_Logo.png">
+            </a>
+        </div>
+        <div class="col-11">
+            <a href="/" class="title"><h1 class="title">University of Scouting ► <%= title ? title : "" %></h1></a>
+        </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <% if (!user) { %>
+                <a href="/login"><btn class="btn btn-sm btn-1">Login</btn></a>
+                <% } else { %>
+                <a href="/profile"><btn class="btn btn-sm btn-1">Profile</btn></a>
+                <a href="/transcript"><btn class="btn btn-sm btn-1">Transcript</btn></a>
+                <a href="/logout"><btn class="btn btn-sm btn-2">Logout</btn></a>
+                <% } %>
+                <br/><br/>
+            </div>
+        </div>
+    </div>

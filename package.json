@@ -1,0 +1,50 @@
+{
+  "name": "universityofscouting",
+  "version": "0.0.1",
+  "description": "A transcript and schedule reporting tool",
+  "author": "Cameron King <cameronking.me>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckxng/universityofscouting.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ckxng/universityofscouting/issues"
+  },
+  "homepage": "https://github.com/ckxng/docker-standardversion",
+  "dependencies": {
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-csv": "^0.6.0",
+    "express-session": "^1.17.1",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.9.18",
+    "mongoose-long": "^0.3.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.4",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "keywords": [
+    "scouts",
+    "universityofscouting",
+    "transcript",
+    "schedule",
+    "training"
+  ],
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "nodemon node ./bin/www",
+    "test": "jshint . && npm audit"
+  },
+  "devDependencies": {
+    "jshint": "^2.11.1"
+  }
+}

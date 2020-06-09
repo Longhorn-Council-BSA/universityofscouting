@@ -1,0 +1,25 @@
+# When a push occurs to the master branch (such as a pull request to master,
+# or code directly pushed to master), analyze the gitlog according to
+# https://www.conventionalcommits.org/en/v1.0.0/ and bump the package.json
+# file accordingly.
+# 
+# This behavior can be prevented by including "[skip ci]"
+# in the commit log message of the merge.
+# 
+name: Standard Version
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  version:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update version
+        run: docker run -v $(pwd):/repo ckxng/standardversion
+      - name: Push repo
+        run: git push --follow-tags origin master
