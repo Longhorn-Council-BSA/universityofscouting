@@ -23,6 +23,8 @@ jobs:
         run: docker run -v $(pwd):/repo ckxng/standardversion
       - name: Remove old documentation
         run: rm -rf docs/
+      - name: Perform a clean install of modules
+        run: npm ci
       - name: Regenerate documentation with new version number
         run: npm run doc
       - name: Add changes and remove deletions
