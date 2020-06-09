@@ -19,6 +19,11 @@ Members = mongoose.model('Members', new mongoose.Schema({
     council: {
         type: String,
         required: false
+    },
+    access: {
+        type: Number,
+        default: 1,
+        required: true
     }
 }));
 
