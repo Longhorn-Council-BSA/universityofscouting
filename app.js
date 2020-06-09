@@ -69,7 +69,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
-app.use(session({ secret: process.envSESSION_SECRET }));
+app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());
