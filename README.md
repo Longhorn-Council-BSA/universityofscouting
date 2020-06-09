@@ -10,6 +10,10 @@ hosting service.  Also, create a SESSION_SECRET containing a random string.
     DATABASE_URL=mongodb+srv://<username>:<password>@<host>/<dbname>?retryWrites=true&w=majority
     SESSION_SECRET=abc123
 
+# Documentation
+
+View the [generated documentation](https://ckxng.github.io/universityofscouting/docs/).
+
 # Author
 - [Cameron King](https://cameronking.me)
 - [Ben Spellmann](https://www.linkedin.com/in/benjamin-spellmann-7036a676/)
