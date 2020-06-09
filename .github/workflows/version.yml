@@ -32,7 +32,7 @@ jobs:
       - name: Set git user
         run: git config user.name "JSDoc"
       - name: Commit doc update
-        run: git commit -m "doc: generate docs"
+        run: git commit -m "doc:generate docs"
       - name: Update version
         run: docker run -v $(pwd):/repo ckxng/standardversion
       - name: Push repo
