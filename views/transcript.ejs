@@ -4,8 +4,10 @@
       <div class="col-12">
         <p>User: <%= user.username %></p>
         <br/>
+        <button onclick="printCSV()" class="btn btn-sm btn-2">CSV</button>
+        <button onclick="printPDF()" class="btn btn-sm btn-2">PDF</button>
         <div id="transcriptTableDiv">
-          <table id="transcriptTable" class="mx-auto table table-hover table-bordered transcript display" style="width: fit-content;">
+          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
             <thead class="thead-dark">
               <th>Member ID</th>
               <th>Course Number</th>
@@ -30,6 +32,9 @@
 <%- include footer %>
 <iframe id="txtArea1" style="display:none"></iframe>
 <script>
+  function printCSV() {
+    document.querySelector(".buttons-csv").click()
+  }
   function printPDF() {
       var sTable = document.getElementById('transcriptTableDiv').innerHTML;
       var icon = document.getElementById('Icon');
@@ -53,10 +58,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script>
-  $(document).ready(function() {$('#transcriptTable').DataTable( {dom: 'Bfrtip',buttons: ['csvHtml5','pdfHtml5']});});
+  $(document).ready(function() {$('#transcriptTable').DataTable( {dom: 'Bfrtip',buttons: ['csvHtml5']});});
   $(document).ready(
     function() {
       $('.dt-button').addClass('btn btn-sm btn-2');
+      $('.buttons-csv').css('display','none');
       $('#transcriptTable_filter').css('display','none');
       $('#transcriptTable_info').css('display','none');
       $('#transcriptTable_paginate').css('display','none');
