@@ -3,26 +3,28 @@ var mongoose = require('mongoose');
 require('mongoose-long')(mongoose);
 var SchemaTypes = mongoose.Schema.Types;
 
-TranscriptEntries = mongoose.model('TranscriptEntries', new mongoose.Schema({
+Registrations = mongoose.model('Registrations', new mongoose.Schema({
     memberID: {
         type: SchemaTypes.Long,
-        min: 1000,
-        max: 9999999999999999n,
         required: true
     },
-    courseNumber: {
+    date: {
+        type: Date,
+        required: true
+    },
+    title: {
         type: String,
         required: true
     },
-    courseName: {
-        type: String,
-        required: true
+    credits: {
+        type: Number,
+        required: false
     },
     status: {
         type: String,
         required: true,
-        default: 'unknown'
+        default: 'Unknown'
     }
 }));
 
-module.exports = TranscriptEntries;
+module.exports = Registrations;

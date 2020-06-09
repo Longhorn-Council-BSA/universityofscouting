@@ -9,7 +9,7 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Transcripts = require("../models/transcriptentries");
+var Registrations = require("../models/registrations");
 
 /**
  * Retrieve all transcript entries from MongoDB.
@@ -18,13 +18,13 @@ var Transcripts = require("../models/transcriptentries");
  * @returns an object containing all transcript entries
  */
 async function getAllTranscripts() {
-  var transcript = await TranscriptEntries.find();
+  var transcript = await Registrations.find();
   response = transcript.map(function (entry) {
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
-      courseNumber: entry.courseNumber,
-      courseName: entry.courseName,
+      title: entry.title,
+      credits: entry.credits,
       status: entry.status,
     };
   });
