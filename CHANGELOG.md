@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.3 (2020-06-09)
 
+- correct SESSION_SECRET object name
+
 ### 0.0.2 (2020-06-09)
 
 - add api to retrieve transcripts for all users
