@@ -2,9 +2,9 @@
   <div class="container main-body">
     <div class="row">
       <div class="col-12">
-        <p>User: <%= user.username %></p>
-        <button onclick="printCSV()" class="btn btn-sm btn-2">CSV</button>
-        <button onclick="printPDF()" class="btn btn-sm btn-2">PDF</button>
+        <p><strong>User: <%= user.username %></strong></p>
+        <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
+        <button onclick="printPDF()" class="btn btn-sm btn-2">Save PDF</button>
         <div id="transcriptTableDiv">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
             <thead class="thead-dark">
