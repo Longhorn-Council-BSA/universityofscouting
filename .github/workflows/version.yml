@@ -21,10 +21,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update version
         run: docker run -v $(pwd):/repo ckxng/standardversion
+      - name: Remove old documentation
+        run: rm -rf docs/
       - name: Regenerate documentation with new version number
-        run: npm run doc
-      - name: Add changes
-        run: git add doc/
+        run: npm run docs
+      - name: Add changes and remove deletions
+        run: git add -A docs/
       - name: Ammend changes
         run: git commit --amend --no-edit
       - name: Push repo
