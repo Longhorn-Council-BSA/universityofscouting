@@ -24,7 +24,7 @@ jobs:
       - name: Remove old documentation
         run: rm -rf docs/
       - name: Regenerate documentation with new version number
-        run: npm run docs
+        run: npm run doc
       - name: Add changes and remove deletions
         run: git add -A docs/
       - name: Ammend changes
