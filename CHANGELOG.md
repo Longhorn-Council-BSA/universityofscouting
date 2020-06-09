@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.4 (2020-06-09)
 
+- BREAKING CHANGE: removed the TranscriptEntries models
+- added members and registrations models
+- report user data via. api
+- added csv and pdf buttons to transcript
+- updated the logo and templates
+
 ### 0.0.3 (2020-06-09)
 
 - correct SESSION_SECRET object name
