@@ -20,4 +20,6 @@ div.dropdown-content { display: none; position: absolute; background-color: #f1f
 .dropdown:hover .dropdown-content {display: block;}
 .dropdown-content a { font-style: none;}
 .container{ background-color: #f1f1f1;}
+table.transcript { margin-top: 10px;}
 table.transcript th{ text-align: center; white-space: nowrap;}
+table.transcript td{ vertical-align: middle;}

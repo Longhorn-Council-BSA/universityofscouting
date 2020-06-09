@@ -2,23 +2,31 @@
   <div class="container main-body">
     <div class="row">
       <div class="col-12">
-        <p><strong>User: <%= user.username %></strong></p>
-        <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
-        <button onclick="printPDF()" class="btn btn-sm btn-2">Save PDF</button>
+        <div class="row">
+          <div class="col-6">
+            <p><strong>User: <%= user.username %></strong></p>
+          </div>
+          <div class="col-6">
+            <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
+            <button onclick="printPDF()" class="btn btn-sm btn-2">Save PDF</button>
+          </div>
+       </div>
         <div id="transcriptTableDiv">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
             <thead class="thead-dark">
               <th>Member ID</th>
-              <th>Course Number</th>
-              <th>Course Name</th>
+              <th>Course Date</th>
+              <th>Course Title</th>
+              <th>Credits</th>
               <th>Status</th>
             </thead>
             <tbody>
               <% for(var i=0; i<transcript.length; i++) { %>
               <tr>
                 <td><%= transcript[i].memberID %></td>
-                <td><%= transcript[i].courseNumber %></td>
-                <td><%= transcript[i].courseName %></td>
+                <td><%= transcript[i].date %></td>
+                <td><%= transcript[i].title %></td>
+                <td><%= transcript[i].credits %></td>
                 <td><%= transcript[i].status %></td>
               </tr>
               <% } %>
@@ -35,19 +43,19 @@
     document.querySelector(".buttons-csv").click()
   }
   function printPDF() {
-      var sTable = document.getElementById('transcriptTableDiv').innerHTML;
-      var icon = document.getElementById('Icon');
-      var style = "<style>";
-      style += "body{ background-image: url('http://localhost:3000/images/LHC_UoS_Logo_Watermark.png');background-position: center;background-repeat: no-repeat;background-size: 600px 800px;}"
-      style += "table {width: 80%;font: 17px Calibri;margin:0 auto;margin-top:50px;}";
-      style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-      style += "padding: 2px 3px;text-align: center;}";
-      style += "</style>";
-      // CREATE A WINDOW OBJECT.
-      var win = window.open('', '', 'height=700,width=900, copyhistory=no');
-      win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="backgroundImage">'+sTable+'</body></html>');
-      win.document.close(); 	// CLOSE THE CURRENT WINDOW.
-      win.print();    // PRINT THE CONTENTS.
+    var sTable = document.getElementById('transcriptTableDiv').innerHTML;
+    var icon = document.getElementById('Icon');
+    var style = "<style>";
+    style += "body{ background-image: url('http://localhost:3000/images/LHC_UoS_Logo_Watermark.png'); background-position: center;background-repeat: no-repeat; background-size: 600px 800px;}"
+    style += "table {max-width: 80%; font: 10px Calibri; margin:0 auto; margin-top:50px; white-space: nowrap;}";
+    style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+    style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
+    style += "</style>";
+    // CREATE A WINDOW OBJECT.
+    var win = window.open('', '', 'height=700,width=900, copyhistory=no');
+    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="backgroundImage">'+sTable+'</body></html>');
+    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+    win.print();    // PRINT THE CONTENTS.
   }
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -57,7 +65,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script>
-  $(document).ready(function() {$('#transcriptTable').DataTable( {dom: 'Bfrtip',buttons: ['csvHtml5']});});
+  $(document).ready(
+    function() {
+      $('#transcriptTable').DataTable( {dom: 'Bfrtip',buttons: ['csvHtml5']});
+    }
+  );
   $(document).ready(
     function() {
       $('.dt-button').addClass('btn btn-sm btn-2');
