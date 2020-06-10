@@ -7,7 +7,7 @@ h1.title { font-size: 30px; padding-top: 30px;}
 .btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
 .btn-2:hover{ background-color: rgb(161, 13, 31);}
 a.title { text-decoration: none; color: #515354;}
-a.title:hover { color: #515354;}
+a.title:hover { color: #000000;}
 a.title:active { color: #515354;}
 a.title:visited { color: #515354;}
 div.dropdown { position: relative; display: inline-block;}
@@ -22,4 +22,4 @@ div.dropdown-content { display: none; position: absolute; background-color: #f1f
 .container{ background-color: #f1f1f1;}
 table.transcript { margin-top: 10px;}
 table.transcript th{ text-align: center; white-space: nowrap;}
-table.transcript td{ vertical-align: middle;}
+table.transcript td{ vertical-align: middle;width: ;}
