@@ -2,26 +2,26 @@
   <div class="container main-body">
     <div class="row">
       <div class="col-12">
-        <p><strong>User: <%= user.username %></strong></p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
         <table id="profileTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: auto;">
           <thead class="thead-dark">
             <tr>
               <th style="width: fit-content;">Member ID</th>
-              <td style="width: 300px;"><%= user.username %></td>
+              <td style="width: 300px;"><%= user.memberID %></td>
             </tr>
             <tr>
               <th style="width: fit-content;">First Name</th>
-              <td style="width: 300px;">------2------</td>
+              <td style="width: 300px;"><%= user.firstName %></td>
             </tr>
             <tr>
               <th style="width: fit-content;">Last Name</th>
-              <td style="width: 300px;">------3------</td>
+              <td style="width: 300px;"><%= user.lastName %></td>
             </tr>
         </table>
+        <p>
+          This information was imported by Longhorn Council University of Scouting Faculty.  
+          If this information is incorrect or if a name change is required, please contact 
+          University of Scouting Administration for assistance.
+        </p>
       </div>
     </div>
   </div>

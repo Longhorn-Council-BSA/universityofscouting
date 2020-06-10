@@ -17,7 +17,6 @@ var router = express.Router();
  * @memberof module:routes/profile
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
- * @param {String}   req.user.username  the username/memberID of the logged in user
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
