@@ -32,7 +32,7 @@
                 <td><%= transcript[i].title %></td>
                 <td class="text-center"><%= transcript[i].credits %></td>
                 <td class="text-center"><%= transcript[i].status %></td>
-                <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit</button></td>
+                <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit (<%= index %>)</button></td>
               </tr>
               <% } %>
             </tbody>
@@ -56,7 +56,7 @@
     style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
     style += ".title{text-align:center;margin:0 auto;margin-top:50px;}"
-    style += "@media print { .noprint { display:none;}}"
+    style += ".noprint { display:none;}"
     style += "</style>";
     // CREATE A WINDOW OBJECT.
     var win = window.open('', '', 'height=700,width=900, copyhistory=no');
