@@ -16,6 +16,7 @@ a.title { text-decoration: none; color: #515354;}
 a.title:hover { color: #000000;}
 a.title:active { color: #515354;}
 a.title:visited { color: #515354;}
+a.pageTitleURL { text-decoration: none;}
 div.dropdown { position: relative; display: inline-block;}
 .dropbtn { background: transparent; border: transparent; margin-left: 9px;}
 img.Icon { width: 85px; height: 120px; margin-top: 0px; margin-bottom: 0px;}

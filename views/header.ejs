@@ -15,7 +15,7 @@
                     </a>
                 </div>
                 <div class="col-11">
-                    <a href="/" class="title"><h1 class="title">University of Scouting ► <%= title ? title : "" %></h1></a><br/>
+                    <a href="/" class="title"><h1 class="title">University of Scouting</a> ► <span id="titleURL"><%= title ? title : "" %></span></h1><br/>
                     <% if (!user) { %>
                     <a href="/login"><btn class="btn btn-sm nav-btn-1">Login</btn></a>
                     <% } else { %>

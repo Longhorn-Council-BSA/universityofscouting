@@ -19,4 +19,17 @@
       </div>
     </div>
   </body>
+  <script type="text/javascript">
+  document.onload = titleURL();
+  function titleURL(){
+    var pageTitle = document.getElementById("titleURL").innerHTML;
+    var url = "";
+    if(pageTitle == "Home"){url = '<a class="pageTitleURL title" href="/">'+pageTitle+'</a>';
+      }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';
+      }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
+      }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
+      }else{url = "ERROR";}
+    document.getElementById("titleURL").innerHTML = url;
+  }
+  </script>
 </html>
