@@ -1,11 +1,35 @@
-  <div class="container">
-      <div class="row">
-        <div class="col">
-            <hr/>
-            <sub>Copyright &copy; 2020</sub>
-            <br/><br/>
+  <div class="container" id="footer">
+      <div class="row" style="height: 100%;">
+        <div class="col-2" style="height: 100%;">
+          <p class="copyright" style="margin-top: 160px;">Copyright &copy; 2020</p>
+        </div>
+        <div class="col-7" style="height: 100%;"></div>
+        <div class="col-3" style="height: 100%;">
+          <table class="table table-sm" style="margin-top: 160px;color: #ffffff;">
+            <tr>
+              <th>Pri. POC</th>
+              <td>Cameron King</td>
+            </tr>
+            <tr>
+              <th>Alt. POC</th>
+              <td>Ben Spellmann</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
   </body>
+  <script type="text/javascript">
+  document.onload = titleURL();
+  function titleURL(){
+    var pageTitle = document.getElementById("titleURL").innerHTML;
+    var url = "";
+    if(pageTitle == "Home"){url = '<a class="pageTitleURL title" href="/">'+pageTitle+'</a>';
+      }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';
+      }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
+      }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
+      }else{url = "ERROR";}
+    document.getElementById("titleURL").innerHTML = url;
+  }
+  </script>
 </html>

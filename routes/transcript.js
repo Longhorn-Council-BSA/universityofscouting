@@ -44,14 +44,14 @@ async function getUserTranscript(memberID) {
  * @memberof module:routes/transcript
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
- * @param {String}   req.user.username  the username/memberID of the logged in user
+ * @param {String}   req.user.memberID  the memberID of the logged in user
  * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
 async function routerGETTranscipt(req, res, next) {
   try {
-    var transcript = await getUserTranscript(req.user.username);
+    var transcript = await getUserTranscript(req.user.memberID);
     res.render("transcript", {
       transcript: transcript,
       user: req.user,
