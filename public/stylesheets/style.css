@@ -1,11 +1,17 @@
-html { padding: 0px;margin: 0px;height: 100%;}
+html { padding: 0px; margin: 0px;height: 100%;}
 body { margin: 0px; padding: 0px 50px 0px 50px; font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #003F87; height: 99%;}
 .main-body{min-height: 75%;}
 h1.title { font-size: 30px; padding-top: 30px;}
-.btn-1 { background-color: #003F87; color: #ffffff; font-weight: bold;}
+.nav-btn-1 { background-color: #003F87; color: #ffffff; font-weight: bold;}
+.nav-btn-1:hover { background-color: rgb(1, 49, 105);}
+.nav-btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
+.nav-btn-2:hover{ background-color: rgb(161, 13, 31);}
+.btn-1 { background-color: #003F87; color: #ffffff;}
 .btn-1:hover { background-color: rgb(1, 49, 105); }
-.btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
+.btn-2 { background-color: #CE1126; color: #ffffff;}
 .btn-2:hover{ background-color: rgb(161, 13, 31);}
+.btn-3 { background-color: #ff9c1a; color: #000000;}
+.btn-3:hover { background-color: rgb(236, 126, 0); }
 a.title { text-decoration: none; color: #515354;}
 a.title:hover { color: #000000;}
 a.title:active { color: #515354;}
