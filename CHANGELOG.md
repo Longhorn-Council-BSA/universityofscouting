@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.5 (2020-06-10)
 
+- further improve visual appearance
+- login with memberID and lastName
+
 ### 0.0.4 (2020-06-09)
 
 - BREAKING CHANGE: removed the TranscriptEntries models
