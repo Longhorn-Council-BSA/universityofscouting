@@ -24,10 +24,16 @@ async function getUserTranscript(memberID) {
     memberID: memberID,
   });
   response = transcript.map((entry) => {
+    var date = entry.date;
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    date = mm + '/' + dd + '/' + yyyy;
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
       title: entry.title,
+      date: date,
       credits: entry.credits,
       status: entry.status,
     };

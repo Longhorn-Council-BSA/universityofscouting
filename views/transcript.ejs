@@ -4,35 +4,34 @@
       <div class="col-12">
         <div class="row">
           <div class="col-3">
-            <p><strong>User: <%= user.username %></strong></p>
           </div>
           <div class="col-6 text-right">
             <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
-            <button onclick="printPDF()" class="btn btn-sm btn-2">Save PDF</button>
+            <button onclick="printPDF()" class="btn btn-sm btn-2">Print</button>
           </div>
           <div class="col-3"></div>
        </div>
         <div id="transcriptTableDiv">
-          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
+          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;max-width: 80%;">
             <thead class="thead-dark">
-              <th>Index</th>
+              <!-- <th>Index</th> -->
               <th>Member ID</th>
               <th>Course Date</th>
               <th>Course Title</th>
               <th>Credits</th>
               <th>Status</th>
-              <th class="noprint"></th>
+              <!-- <th class="noprint"></th> -->
             </thead>
             <tbody>
               <% for(var i=0; i<transcript.length; i++) { var index = i+1 %>
               <tr>
-                <td class="text-center"><%= index %></td>
+                <!-- <td class="text-center"><%= index %></td> -->
                 <td class="text-center"><%= transcript[i].memberID %></td>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
                 <td class="text-center"><%= transcript[i].credits %></td>
                 <td class="text-center"><%= transcript[i].status %></td>
-                <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit (<%= index %>)</button></td>
+                <!-- <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit (<%= index %>)</button></td> -->
               </tr>
               <% } %>
             </tbody>
