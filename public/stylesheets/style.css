@@ -26,3 +26,8 @@ table.transcript th{ text-align: center; white-space: nowrap;}
 table.transcript td{ vertical-align: middle;}
 #footer { background-image: url('http://localhost:3000/images/BSA_Footer.png'); background-position: left bottom; background-repeat: no-repeat; background-size: 100% 180px; height: 180px;}
 p.copyright { color: #ffffff; margin-top: 160px;font-size: 75%; width: fit-content;}
+@media print { 
+    body,.main-body, #footer,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
+    table.transcript tr th{ color: #ffffff !important;background-color: #000000 !important;}
+    .noprint{ display: none !important;}
+}

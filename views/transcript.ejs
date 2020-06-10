@@ -15,22 +15,24 @@
         <div id="transcriptTableDiv">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
             <thead class="thead-dark">
+              <th>Index</th>
               <th>Member ID</th>
               <th>Course Date</th>
               <th>Course Title</th>
               <th>Credits</th>
               <th>Status</th>
-              <th></th>
+              <th class="noprint"></th>
             </thead>
             <tbody>
-              <% for(var i=0; i<transcript.length; i++) { %>
+              <% for(var i=0; i<transcript.length; i++) { var index = i+1 %>
               <tr>
-                <td><%= transcript[i].memberID %></td>
+                <td class="text-center"><%= index %></td>
+                <td class="text-center"><%= transcript[i].memberID %></td>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
-                <td><%= transcript[i].credits %></td>
-                <td><%= transcript[i].status %></td>
-                <td><button class="btn btn-sm btn-warning" id="">Edit</button></td>
+                <td class="text-center"><%= transcript[i].credits %></td>
+                <td class="text-center"><%= transcript[i].status %></td>
+                <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit</button></td>
               </tr>
               <% } %>
             </tbody>
@@ -53,10 +55,12 @@
     style += "table {max-width: 80%; font: 10px Calibri; margin:0 auto; margin-top:50px; white-space: nowrap;}";
     style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
+    style += ".title{text-align:center;margin:0 auto;margin-top:50px;}"
+    style += "@media print { .noprint { display:none;}}"
     style += "</style>";
     // CREATE A WINDOW OBJECT.
     var win = window.open('', '', 'height=700,width=900, copyhistory=no');
-    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="backgroundImage">'+sTable+'</body></html>');
+    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="backgroundImage"><h1 class="title">University of Scouting Transcript</h1>'+sTable+'</body></html>');
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
     win.print();    // PRINT THE CONTENTS.
   }
