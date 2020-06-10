@@ -3,13 +3,14 @@
     <div class="row">
       <div class="col-12">
         <div class="row">
-          <div class="col-6">
+          <div class="col-3">
             <p><strong>User: <%= user.username %></strong></p>
           </div>
-          <div class="col-6">
+          <div class="col-6 text-right">
             <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
             <button onclick="printPDF()" class="btn btn-sm btn-2">Save PDF</button>
           </div>
+          <div class="col-3"></div>
        </div>
         <div id="transcriptTableDiv">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: fit-content;">
@@ -19,6 +20,7 @@
               <th>Course Title</th>
               <th>Credits</th>
               <th>Status</th>
+              <th></th>
             </thead>
             <tbody>
               <% for(var i=0; i<transcript.length; i++) { %>
