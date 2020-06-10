@@ -5,5 +5,24 @@
         <p><strong>User: <%= user.username %></strong></p>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <table id="profileTable" class="mx-auto table table-hover table-sm table-bordered transcript display" style="width: auto;">
+          <thead class="thead-dark">
+            <tr>
+              <th style="width: fit-content;">Member Id</th>
+              <td style="width: 300px;"><%= user.username %></td>
+            </tr>
+            <tr>
+              <th style="width: fit-content;">First Name</th>
+              <td style="width: 300px;">------2------</td>
+            </tr>
+            <tr>
+              <th style="width: fit-content;">Last Name</th>
+              <td style="width: 300px;">------3------</td>
+            </tr>
+        </table>
+      </div>
+    </div>
   </div>
 <%- include footer %>
