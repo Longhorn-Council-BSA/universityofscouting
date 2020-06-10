@@ -2,9 +2,13 @@
 <%- include header %>
 <div class="container main-body">
   <div class="row">
-    <div class="col-12" style="text-align: center;">
+    <div class="col-3">
+      <p><strong><%= user ? "User: "+user.username : "" %></strong></p>
+    </div>
+    <div class="col-6" style="text-align: center;">
       Welcome to the Home page of the University of Scouting!<br/>Please login to access additional features.
     </div>
+    <div class="col-3"></div>
   </div>
   <div class="row">
     <div class="col-3"></div>
