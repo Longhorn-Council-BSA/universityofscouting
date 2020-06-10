@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/login.js</title>
+    <title>JSDoc: Source: lib/deserializeuser.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/login.js</h1>
+    <h1 class="page-title">Source: lib/deserializeuser.js</h1>
 
     
 
@@ -27,46 +27,29 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * login router module
+ * deserialize user module
  *
- * This module logs in a user.
+ * This module converts data stored in the session cookie into user objects
  *
- * @module routes/login
+ * @module lib/serializeuser
  */
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
 
 /**
- * GET login page.
+ * deserialize a logged in user from session storage and reconstruct a user object.
  *
- * Display the login page with the "login" view.  If a user is currently logged in, redirect to "/".
+ * Since the user data is so small, the entire object was stored in the session cookie.
+ * Copy the whole object back into the user object.
  *
  * @private
- * @memberof module:routes/login
- * @param {Object}   req                request object
- * @param {Object}   req.user           the currently logged in user
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * @memberof module:lib/serializeuser
+ * @param {String}   data            the data stored in the session cookie
+ * @param {Function} done            the function to call upon completion
  */
-function routerGETLogin(req, res, next) {
-  if (req.user) {
-    res.redirect("/");
-  }
-  res.render("login", { title: "Login Page", user: req.user });
+function deserializeUser(data, done) {
+  done(null, data);
 }
 
-// register routes and export router
-router.post(
-  "/",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-router.get("/", routerGETLogin);
-module.exports = router;
+module.exports = deserializeUser;
 </code></pre>
         </article>
     </section>

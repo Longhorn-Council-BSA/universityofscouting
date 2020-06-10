@@ -42,7 +42,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "doc": "jsdoc -p -R README.jsdoc.md -d ./docs/ ./routes/ ./app.js",
+    "doc": "jsdoc -p -R README.jsdoc.md -d ./docs/ ./routes/ ./lib/ ./app.js",
     "start": "nodemon node ./bin/www",
     "test": "jshint . && npm audit"
   },

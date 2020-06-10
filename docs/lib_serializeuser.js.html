@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/login.js</title>
+    <title>JSDoc: Source: lib/serializeuser.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/login.js</h1>
+    <h1 class="page-title">Source: lib/serializeuser.js</h1>
 
     
 
@@ -27,46 +27,30 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * login router module
+ * serialize user module
  *
- * This module logs in a user.
+ * This module converts user objects into data to be stored in the session cookie
  *
- * @module routes/login
+ * @module lib/serializeuser
  */
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
 
 /**
- * GET login page.
+ * serialize a logged in user for storage in the session.
  *
- * Display the login page with the "login" view.  If a user is currently logged in, redirect to "/".
+ * User objects are very small, and secure cookies are used.  Serialize the
+ * entire user object, so that it does not need to be deserialized using
+ * the database later.
  *
  * @private
- * @memberof module:routes/login
- * @param {Object}   req                request object
- * @param {Object}   req.user           the currently logged in user
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * @memberof module:lib/serializeuser
+ * @param {Object}   user            user object
+ * @param {Function} done            the function to call upon completion
  */
-function routerGETLogin(req, res, next) {
-  if (req.user) {
-    res.redirect("/");
-  }
-  res.render("login", { title: "Login Page", user: req.user });
+function serializeUser(user, done) {
+  done(null, user);
 }
 
-// register routes and export router
-router.post(
-  "/",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-router.get("/", routerGETLogin);
-module.exports = router;
+module.exports = serializeUser;
 </code></pre>
         </article>
     </section>
