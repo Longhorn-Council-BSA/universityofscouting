@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.6 (2020-06-12)
 
+- improvements to the visual appearance of the app
+- export as CSV and print button
+
 ### 0.0.5 (2020-06-10)
 
 - further improve visual appearance
