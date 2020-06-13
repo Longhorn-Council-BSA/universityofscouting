@@ -9,12 +9,12 @@
     <body>
         <div class="container" id="header" style="padding-bottom: 10px;">
             <div class="row">
-                <div class="col-1 justify-content-start">
+                <div class="col-2 justify-content-start">
                     <a href="/">
                         <img class="Icon" id="Icon" src="images/LHC_UoS_Logo_drop_banner.png">
                     </a>
                 </div>
-                <div class="col-11">
+                <div class="col-8 text-center">
                     <a href="/" class="title"><h1 class="title">University of Scouting</a> ► <span id="titleURL"><%= title ? title : "" %></span></h1><br/>
                     <% if (!user) { %>
                     <a href="/login"><btn class="btn btn-sm nav-btn-1">Login</btn></a>
@@ -25,5 +25,6 @@
                     <a href="/logout"><btn class="btn btn-sm nav-btn-2">Logout</btn></a>
                     <% } %>
                 </div>
+                <div class="col-2"></div>
             </div>
         </div>
