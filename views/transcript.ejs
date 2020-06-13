@@ -83,16 +83,17 @@
     var sTable = document.getElementById('transcriptTableDiv').innerHTML;
     var icon = document.getElementById('Icon');
     var style = "<style>";
-    style += "body{ background-image: url('http://localhost:3000/images/LHC_UoS_Logo_Watermark.png'); background-position: center;background-repeat: no-repeat; background-size: 600px 800px;}"
     style += "table {max-width: 80%; font: 10px Calibri; margin:0 auto; margin-top:50px; white-space: nowrap;}";
     style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
     style += ".title{text-align:center; margin:0 auto; margin-top:50px;}"
     style += ".noprint { display:none;}"
+    style += '#watermark{ position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 100px; width: 95%; min-height: 70%;}'
     style += "</style>";
+    var image = '<img id="watermark" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 600px;"/>'
     // CREATE A WINDOW OBJECT.
     var win = window.open('', '', 'height=700,width=900, copyhistory=no');
-    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="transcriptTableDiv"><h1 class="title">University of Scouting Transcript</h1>'+sTable+'</body></html>');
+    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="transcriptTableDiv"><h1 class="title">University of Scouting Transcript</h1>'+image+sTable+'</body></html>');
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
     win.print();    // PRINT THE CONTENTS.
   }

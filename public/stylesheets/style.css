@@ -3,7 +3,7 @@ body { margin: 0px; padding: 0px 50px 0px 50px; font: 14px "Lucida Grande", Helv
 .main-body{ min-height: 50%;}
 h1.title { font-size: 30px; padding-top: 30px;}
 .nav-btn-1 { background-color: #003F87; color: #ffffff; font-weight: bold;}
-.nav-btn-1:hover { background-color: rgb(1, 49, 105);}
+.nav-btn-1:hover { background-color: rgb(0, 35, 75);}
 .nav-btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
 .nav-btn-2:hover{ background-color: rgb(161, 13, 31);}
 .btn-1 { background-color: #003F87; color: #ffffff;}
@@ -28,12 +28,15 @@ table.transcript td{ vertical-align: middle; padding: 8px;}
 #footer { background-image: url('http://localhost:3000/images/BSA_Footer.png'); background-position: left bottom; background-repeat: no-repeat; background-size: 100% 180px; height: 180px;}
 #POC { color: #ffffff;}
 p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
-div#watermark { background-image: url('http://localhost:3000/images/LHC_UoS_Logo_Watermark.png'); background-position: center;background-repeat: no-repeat; background-size: 600px 800px;}
+#watermark { position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
 @media print { 
-    body,.main-body,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
+    body,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
     #footer { display: none;}
     .title{ padding-left: 10px;}
-    table.transcript tr th{ color: #ffffff !important;background-color: #000000 !important;}
+    .container{ background-color: transparent !important;}
+    .transcript tr th{ color: #ffffff !important; background-color: #000000 !important;}
+    .transcript tr td{ columns: #ffffff !important; background-color: transparent !important;}
     .noprint{ display: none !important;}
     html{ height: auto !important;}
+    #watermark{ display: initial !important; position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
 }
