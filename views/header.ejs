@@ -11,16 +11,19 @@
             <div class="row">
                 <div class="col-2 justify-content-start">
                     <a href="/">
-                        <img class="Icon" id="Icon" src="images/LHC_UoS_Logo_drop_banner.png">
+                        <img class="Icon noprint" id="Icon" src="images/LHC_UoS_Logo_drop_banner.png">
                     </a>
                 </div>
                 <div class="col-8 text-center">
-                    <a href="/" class="title"><h1 class="title">University of Scouting</a><span id="arrow"> ► </span><span id="titleURL"><%= title ? title : "" %></span></h1><br/>
+                    <a href="/" class="title"><h1 class="title">University of Scouting</a>
+                        <span id="arrow" class="noprint"> ► </span>
+                        <span id="titleURL" class="noprint"><%= title ? title : "" %></span>
+                    </h1><br/>
                     <% if (!user) { %>
                     <% } else { %>
-                    <a href="/"><btn class="btn nav-btn-1">Home</btn></a>
-                    <a href="/profile"><btn class="btn nav-btn-1">Profile</btn></a>
-                    <a href="/transcript"><btn class="btn nav-btn-1">Transcript</btn></a>
+                    <a href="/"><btn class="btn nav-btn-1 noprint">Home</btn></a>
+                    <a href="/profile"><btn class="btn nav-btn-1 noprint">Profile</btn></a>
+                    <a href="/transcript"><btn class="btn nav-btn-1 noprint">Transcript</btn></a>
                     <% } %>
                 </div>
                 <div class="col-2" style="padding-top: 90px;">

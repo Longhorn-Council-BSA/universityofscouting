@@ -6,9 +6,9 @@
           <div class="col-1">
           </div>
           <div class="col-10 text-center">
-            <button onclick="downloadCSV()" class="btn btn-sm btn-3">Download CSV</button>
-            <button onclick="downloadPDF()" class="btn btn-sm btn-3">Download PDF</button>
-            <button onclick="print()" class="btn btn-sm btn-3">Print</button>
+            <button onclick="downloadCSV()" class="btn btn-sm btn-3 noprint">Download CSV</button>
+            <button onclick="downloadPDF()" class="btn btn-sm btn-3 noprint">Download PDF</button>
+            <button onclick="print()" class="btn btn-sm btn-3 noprint">Print</button>
           </div>
           <div class="col-1"></div>
        </div>
@@ -24,15 +24,13 @@
               <!-- <th class="noprint"></th> -->
             </thead>
             <tbody>
-              <% for(var i=0; i<transcript.length; i++) { var index = i+1 %>
+              <% for(var i=0; i<transcript.length; i++) {  %>
               <tr>
-                <!-- <td class="text-center"><%= index %></td> -->
                 <td><%= transcript[i].memberID %></td>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
                 <td><%= transcript[i].credits %></td>
                 <td><%= transcript[i].status %></td>
-                <!-- <td class="noprint text-center"><button class="btn btn-sm btn-warning" id="">Edit (<%= index %>)</button></td> -->
               </tr>
               <% } %>
             </tbody>
