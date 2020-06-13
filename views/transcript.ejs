@@ -3,16 +3,17 @@
     <div class="row">
       <div class="col-12">
         <div class="row">
-          <div class="col-3">
+          <div class="col-1">
           </div>
-          <div class="col-6 text-right">
-            <button onclick="printCSV()" class="btn btn-sm btn-2">Download CSV</button>
-            <button onclick="printPDF()" class="btn btn-sm btn-2">Print</button>
+          <div class="col-10 text-center">
+            <button onclick="downloadCSV()" class="btn btn-sm btn-3">Download CSV</button>
+            <button onclick="downloadPDF()" class="btn btn-sm btn-3">Download PDF</button>
+            <button onclick="print()" class="btn btn-sm btn-3">Print</button>
           </div>
-          <div class="col-3"></div>
+          <div class="col-1"></div>
        </div>
         <div id="transcriptTableDiv">
-          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript text-center" style="width: auto; white-space: nowrap;">
+          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript text-center">
             <thead class="thead-dark">
               <!-- <th>Index</th> -->
               <th>Member ID</th>
@@ -40,21 +41,45 @@
       </div>
     </div>
   </div>
+  <img id="watermark" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="display: none; height: 800px; width: 600px;"/>
 <%- include footer %>
-<iframe id="txtArea1" style="display:none"></iframe>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
-  function printCSV() {
+  
+  function downloadPDF() {
+    var numRows = document.getElementById("transcriptTable").rows.length;
+    var height = numRows * 0.28;
+    $('#watermark').css('display','initial');
+    html2canvas(document.getElementById('watermark'), { allowTaint: true }).then(
+      function(canvas) {
+        var imgData = canvas.toDataURL("image/png", 1.0);
+        pdf = new jsPDF({ orientation: 'portrait', unit: 'in'});-
+        pdf.addImage(imgData, 'JPG', 1.5, 1, 5, 8); //(imgData, image format, left margin, top margin, img width, img hight)
+        html2canvas(
+          document.getElementById('transcriptTable'), { allowTaint: true }).then(
+            function(canvas) {
+              var imgData = canvas.toDataURL("image/png", 1.0);
+              pdf.addImage(imgData, 'JPG', 1.5, 1.5, 5, height); //(imgData, image format, left margin, top margin, img width, img hight)
+              pdf.save();
+            }
+          );
+        }
+      );
+    $('#watermark').css('display','none');
+  }
+  
+  function downloadCSV() {
     document.querySelector(".buttons-csv").click()
   }
-  function printPDF1() {
+
+  function print() {
     var sTable = document.getElementById('transcriptTableDiv').innerHTML;
     var icon = document.getElementById('Icon');
     var style = "<style>";
@@ -62,21 +87,14 @@
     style += "table {max-width: 80%; font: 10px Calibri; margin:0 auto; margin-top:50px; white-space: nowrap;}";
     style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
     style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
-    style += ".title{text-align:center;margin:0 auto;margin-top:50px;}"
+    style += ".title{text-align:center; margin:0 auto; margin-top:50px;}"
     style += ".noprint { display:none;}"
     style += "</style>";
     // CREATE A WINDOW OBJECT.
     var win = window.open('', '', 'height=700,width=900, copyhistory=no');
-    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="backgroundImage"><h1 class="title">University of Scouting Transcript</h1>'+sTable+'</body></html>');
+    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="transcriptTableDiv"><h1 class="title">University of Scouting Transcript</h1>'+sTable+'</body></html>');
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
     win.print();    // PRINT THE CONTENTS.
-  }
-
-  function printPDF(){
-    var doc = new jsPDF({ orientation: 'portrait', unit: 'in'})
-    var table = document.getElementById('transcriptTableDiv').innerHTML;
-    doc.text(table, 1, 1)
-    doc.save('two-by-four.pdf')
   }
   
   $(document).ready(

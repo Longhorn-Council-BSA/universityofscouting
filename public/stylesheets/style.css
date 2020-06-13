@@ -22,13 +22,18 @@ div.dropdown { position: relative; display: inline-block;}
 img.Icon { width: 85px; height: 120px; margin-top: 0px; margin-bottom: 0px;}
 img.menuIcon { width: 35px; height: 40px; padding-top: 10px;}
 .container { background-color: #ffffff;}
-table.transcript { margin-top: 10px;}
-table.transcript th{ text-align: center; white-space: nowrap;}
-table.transcript td{ vertical-align: middle;}
+table.transcript { margin-top: 10px; padding: 4px; white-space: nowrap; width: 1%;}
+table.transcript th{ text-align: center; white-space: nowrap; padding: 8px;}
+table.transcript td{ vertical-align: middle; padding: 8px;}
 #footer { background-image: url('http://localhost:3000/images/BSA_Footer.png'); background-position: left bottom; background-repeat: no-repeat; background-size: 100% 180px; height: 180px;}
+#POC { color: #ffffff;}
 p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
+div#watermark { background-image: url('http://localhost:3000/images/LHC_UoS_Logo_Watermark.png'); background-position: center;background-repeat: no-repeat; background-size: 600px 800px;}
 @media print { 
-    body,.main-body, #footer,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
+    body,.main-body,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
+    #footer { display: none;}
+    .title{ padding-left: 10px;}
     table.transcript tr th{ color: #ffffff !important;background-color: #000000 !important;}
     .noprint{ display: none !important;}
+    html{ height: auto !important;}
 }
