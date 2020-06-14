@@ -13,44 +13,46 @@
           <div class="col-1"></div>
        </div>
         <div id="transcriptTableDiv">
-          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript text-center">
+          <% var i = 0, count = 0; %>
+          <% for(var T=0; T<99; T++) {  %>
+          <h1 class="title noDisplay">University of Scouting Transcript</h1>
+          <table id="transcriptTable" class="mx-auto table table-hover table-sm table-bordered transcript text-center" style="page-break-after: always;">
             <thead class="thead-dark">
-              <!-- <th>Index</th> -->
-              <th>Member ID</th>
               <th>Course Date</th>
               <th>Course Title</th>
               <th>Credits</th>
               <th>Status</th>
-              <!-- <th class="noprint"></th> -->
             </thead>
             <tbody>
-              <% for(var i=0; i<transcript.length; i++) {  %>
+              <% var count = 0; %>
+              <% for(var i=i; i<transcript.length; i++) {  %>
               <tr>
-                <td><%= transcript[i].memberID %></td>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
                 <td><%= transcript[i].credits %></td>
                 <td><%= transcript[i].status %></td>
               </tr>
-              <% } %>
+              <% count++; %>
+              <% if(count == 45){count = 0; break;} %>
+              <%  } %>
             </tbody>
           </table>
+          <% if(i == transcript.length){break;} %>
+          <% } %>
         </div>
       </div>
     </div>
   </div>
   <img id="watermark" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="display: none; height: 800px; width: 600px;"/>
+  <span style="display:none;" id="rowCount"><%= transcript.length+1 %></span>
+  <span style="display:none;" id="fname"><%= user.firstName %></span>
+  <span style="display:none;" id="lname"><%= user.lastName %></span>
+  <span style="display:none;" id="userID"><%= user.memberID %></span>
 <%- include footer %>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
-  
   function downloadPDF() {
     var numRows = document.getElementById("transcriptTable").rows.length;
     var height = numRows * 0.28;
@@ -79,26 +81,57 @@
 
   function print() {
     var sTable = document.getElementById('transcriptTableDiv').innerHTML;
+    var rowCount = document.getElementById('rowCount').innerHTML;
+    var fname = document.getElementById('fname').innerHTML;
+    var lname = document.getElementById('lname').innerHTML;
+    var userID = document.getElementById('userID').innerHTML;
     var icon = document.getElementById('Icon');
     var style = "<style>";
-    style += "table {max-width: 80%; font: 10px Calibri; margin:0 auto; margin-top:50px; white-space: nowrap;}";
-    style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-    style += "padding: 2px 3px;text-align: center;} td{ vertical-align: middle;}";
-    style += ".title{text-align:center; margin:0 auto; margin-top:50px;}"
-    style += ".noprint { display:none;}"
-    style += '#watermark{ position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 100px; width: 95%; min-height: 70%;}'
+    style += '#transcriptTableDiv { width: 8.5in; height: 11in;}';
+    style += "table { font: 10px Calibri; margin:0 auto; margin-top:30px; white-space: nowrap;}";
+    style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse; padding: 2px 3px;text-align: center;}";
+    style += "td { vertical-align: middle;}";
+    style += ".title{text-align:center; margin:0 auto; margin-top:20px;}";
+    style += ".noprint { display:none;}";
+    style += '#watermark1{ width: 100%; position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 100px;}';
+    style += '#watermark2{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 1200px;}';
+    style += '#watermark3{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 2280px;}';
     style += "</style>";
-    var image = '<img id="watermark" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 600px;"/>'
-    // CREATE A WINDOW OBJECT.
-    var win = window.open('', '', 'height=700,width=900, copyhistory=no');
-    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body id="transcriptTableDiv"><h1 class="title">University of Scouting Transcript</h1>'+image+sTable+'</body></html>');
+    var info='', image='', page2=false, page3=false, pageTotal = 1;
+    if(rowCount < 46){
+      pageTotal = 1;
+      page2 = false;
+      page3 = false;
+    }else if(rowCount < 91){
+      pageTotal = 2;
+      page2 = true;
+      page3 = false;
+    }else if(rowCount < 136){
+      pageTotal = 3;
+      page2 = true;
+      page3 = true;
+    }
+      image += '<img id="watermark1" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
+      info += '<div style="position: absolute; top: 0; right: 0; margin: 10in 1in 1in auto; width: 90%; text-align: right;">Page 1 of '+pageTotal+'</div>';
+    if(page2){
+      image += '<img id="watermark2" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
+      info += '<div style="position: absolute; top: 0; right: 0; margin: 21in 1in 1in auto !important; width: 90%; text-align: right;">Page 2 of '+pageTotal+'</div>';
+    }
+    if(page3){ 
+      image += '<img id="watermark3" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
+      info += '<div style="position: absolute; top: 0; right: 0; margin: 32.5in 1in 1in auto !important; width: 90%; text-align: right;">Page 3 of '+pageTotal+'</div>';
+    }
+    info += '<div style="width: 100%; text-align: center; margin-top: 65px; position: absolute; top: 0;">';
+    info += 'Member ID: '+userID+' | Name: '+fname+' '+lname+' | '+rowCount+' Records</div>';
+    var win = window.open('', '', 'height=700, width=900'); // CREATE A WINDOW OBJECT.
+    win.document.write('<html><head><title>Transcript</title>'+style+'</head><body><div id="transcriptTableDiv">'+info+image+sTable+'</div></body></html>');
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
     win.print();    // PRINT THE CONTENTS.
   }
   
   $(document).ready(
     function() {
-      $('#transcriptTable').DataTable( {dom: 'Bfrtip',buttons: ['csvHtml5']});
+      //$('#transcriptTable').DataTable( {buttons: ['csvHtml5']});
     }
   );
   

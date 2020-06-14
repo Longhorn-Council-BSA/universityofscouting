@@ -1,4 +1,4 @@
-html { padding: 0px; margin: 0px;height: 100%;}
+html { padding: 0px; margin: 0px; height: 100%;}
 body { margin: 0px; padding: 0px 50px 0px 50px; font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #003F87; height: 99%;}
 .main-body{ min-height: 50%;}
 h1.title { font-size: 30px; padding-top: 30px; font-family: Lucida Bright;}
@@ -29,6 +29,7 @@ table.transcript td{ vertical-align: middle; padding: 8px;}
 #POC { color: #ffffff;}
 p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
 #watermark { position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
+.noDisplay { display: none;}
 @media print { 
     body,#header { background-color: #ffffff; color: #000000;margin-top: 1in;}
     #footer { display: none;}
