@@ -41,3 +41,24 @@ p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
     html{ height: auto !important;}
     #watermark{ display: initial !important; position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
 }
+button.tip:hover {
+    cursor: help;
+    position: relative
+}
+button.tip span {
+    display: none;
+    color: #000000;
+    background-color: #D6CEBD;
+}
+button.tip:hover span {
+    border: 5px #CE1126 ridge;
+    border-radius: 10px;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    top: -27px;
+    left: 0px;
+    margin-left: 50px;
+    width: 250px;
+    position: absolute;
+}
