@@ -17,7 +17,7 @@
         <div class="col text-center noprint" style="font-weight: bold;margin-top: 10px;">
           Member ID: <span id="userID"><%= user.memberID %></span> | 
           <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span> | 
-          <span id="rowCount"><%= transcript.length+1 %></span> Records
+          <span id="rowCount"><%= transcript.length %></span> Records
         </div>
        <!-- Transcript table(s) every 45 records -->
         <div id="transcriptTableDiv">
@@ -114,12 +114,12 @@
       image += '<img id="watermark2" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
       info += '<div style="position: absolute; top: 0; right: 0; margin: 21in 1in 1in auto !important; width: 90%; text-align: right;">Page 2 of '+pageTotal+'</div>';
     }
-    if(page3){ 
+    if(page3){
       image += '<img id="watermark3" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
       info += '<div style="position: absolute; top: 0; right: 0; margin: 32.5in 1in 1in auto !important; width: 90%; text-align: right;">Page 3 of '+pageTotal+'</div>';
     }
     info += '<div style="width: 100%; text-align: center; margin-top: 65px; position: absolute; top: 0;">';
-    info += 'Member ID: '+userID+' | Name: '+fname+' '+lname+' | '+rowCount+' Records</div>';
+    info += '<strong>Member ID: '+userID+' | '+fname+' '+lname+' | '+rowCount+' Records</strong></div>';
     var win = window.open('', '', 'height=700, width=900'); // CREATE A WINDOW OBJECT.
     win.document.write('<html><head><title>Transcript</title>'+style+'</head><body><div id="transcriptTableDiv">'+info+image+sTable+'</div></body></html>');
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
