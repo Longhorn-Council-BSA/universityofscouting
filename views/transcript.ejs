@@ -8,8 +8,8 @@
             <!-- Transcript download/print options -->
             <button type="button" id="btnExportToCsv" class="btn btn-sm btn-3 noprint">Download CSV</button>
             <!-- <button onclick="downloadPDF()" class="btn btn-sm btn-3 noprint disabled" style="cursor: not-allowed;" disabled>Download PDF</button> -->
-            <button onclick="print()" class="btn btn-sm btn-3 noprint tip">
-              Print<span><strong>Tool-Tip:<br/></strong>Did you know you can print to PDF?</span></button>
+            <button onclick="print()" class="btn btn-sm btn-3 noprint tip">Print</button>
+            <span class="printTip" id="printTip"><strong>Tool-Tip:<br/></strong>To save your Transcript on your computer you can Print to PDF!<br/><br/><span class="ClickHere" onClick="howToPopup()">Click here for instructions!</span></a></span>
           </div>
           <div class="col-1"></div>
        </div>
@@ -75,7 +75,7 @@
 <%- include footer %>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-  //******Open print friendly window // Save as PDF******//  
+//******Open print friendly window // Save as PDF******//  
   function print() {
     var sTable = document.getElementById('transcriptTableDiv').innerHTML;
     var rowCount = document.getElementById('rowCount').innerHTML;
@@ -83,41 +83,27 @@
     var lname = document.getElementById('lname').innerHTML;
     var userID = document.getElementById('userID').innerHTML;
     var icon = document.getElementById('Icon');
-    var style = "<style>";
-    style += '#transcriptTableDiv { width: 8.5in; height: 11in;}';
-    style += "table { font: 10px Calibri; margin:0 auto; margin-top:30px; white-space: nowrap;}";
-    style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse; padding: 2px 3px;text-align: center;}";
-    style += "td { vertical-align: middle;}";
-    style += ".title{text-align:center; margin:0 auto; margin-top:20px;}";
-    style += ".noprint { display:none;}";
+    var info='', style='', image='', page2=false, page3=false, pageTotal=1;
+    style += "<style> #transcriptTableDiv { width: 8.5in; height: 11in;} table { font: 10px Calibri; margin:0 auto; margin-top:30px; white-space: nowrap;}";
+    style += "table, th, td {border: solid 1px #DDD; border-collapse: collapse; padding: 2px 3px;text-align: center;} td { vertical-align: middle;}";
+    style += ".title{text-align:center; margin:0 auto; margin-top:20px;} .noprint { display:none;}";
+    if(rowCount < 46){ pageTotal = 1; page2 = false; page3 = false;}
+    else if(rowCount < 91){ pageTotal = 2; page2 = true; page3 = false;}
+    else if(rowCount < 136){ pageTotal = 3; page2 = true; page3 = true;}
+    image += '<img id="watermark1" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
+    info += '<div style="position: absolute; top: 0; right: 0; margin: 10in 1in 1in auto; width: 90%; text-align: right;">Page 1 of '+pageTotal+'</div>';
     style += '#watermark1{ width: 100%; position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 100px;}';
-    style += '#watermark2{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 1200px;}';
-    style += '#watermark3{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 2280px;}';
-    style += "</style>";
-    var info='', image='', page2=false, page3=false, pageTotal = 1;
-    if(rowCount < 46){
-      pageTotal = 1;
-      page2 = false;
-      page3 = false;
-    }else if(rowCount < 91){
-      pageTotal = 2;
-      page2 = true;
-      page3 = false;
-    }else if(rowCount < 136){
-      pageTotal = 3;
-      page2 = true;
-      page3 = true;
-    }
-      image += '<img id="watermark1" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
-      info += '<div style="position: absolute; top: 0; right: 0; margin: 10in 1in 1in auto; width: 90%; text-align: right;">Page 1 of '+pageTotal+'</div>';
     if(page2){
       image += '<img id="watermark2" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
       info += '<div style="position: absolute; top: 0; right: 0; margin: 21in 1in 1in auto !important; width: 90%; text-align: right;">Page 2 of '+pageTotal+'</div>';
+      style += '#watermark2{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 1200px;}';
     }
     if(page3){
       image += '<img id="watermark3" src="http://localhost:3000/images/LHC_UoS_Logo_Watermark.png" style="height: 800px; width: 650px;"/>';
       info += '<div style="position: absolute; top: 0; right: 0; margin: 32.5in 1in 1in auto !important; width: 90%; text-align: right;">Page 3 of '+pageTotal+'</div>';
+      style += '#watermark3{ width: 100%;  position: absolute; top: 0; left: 0; z-index: -1; padding: 0px 1in 0px 1in; margin-top: 2280px;}';
     }
+    style += "</style>";
     info += '<div style="width: 100%; text-align: center; margin-top: 65px; position: absolute; top: 0;">';
     info += '<strong>Member ID: '+userID+' | '+fname+' '+lname+' | '+rowCount+' Records</strong></div>';
     var win = window.open('', '', 'height=700, width=900'); // CREATE A WINDOW OBJECT.
@@ -176,5 +162,48 @@
         parsedValue = /[",\n]/.test(parsedValue) ? `"${parsedValue}"` : parsedValue;
         return parsedValue;
     }
+}
+ $(document).ready(function(){
+  $("button.tip").mouseover(function(){
+    $(".printTip").css("display", "inline");
+  });
+  $("button.tip").mouseout(function(){
+    $(".printTip").css("display", "none");
+  });
+  $(".printTip").mouseover(function(){
+    $(".printTip").css("display", "inline");
+  });
+  $(".printTip").mouseout(function(){
+    $(".printTip").css("display", "none");
+  });
+});
+//*********HowTo popup********//
+function howToPopup(){
+  var style = '', html = '';
+  style += "<style>";
+  style += "#container { width:600px;margin:0 auto;padding-top: 10px; font-size: 90%;}";
+  style += "i { font-weight: bold;} h1 { text-align: center; text-decoration: underline;}";
+  style += "</style>";
+  html += "<h1>Print to PDF Guide</h1>";
+  html += "<h2><i>Chrome</i></h2>";
+  html += "<strong>Step 1:</strong> Press <i>Ctrl</i> + <i>P</i>. Alternatively, Click the three-dot icon in the top right corner and choose <i>Print</i>… in the drop-down menu.<br/>";
+  html += "<strong>Step 2:</strong> In the resulting pop-up window, click the down arrow to the right of Destination and select <i>Save as PDF</i> in the drop-down menu. You’ll see a preview generated in the left pane, as shown above.<br/>";
+  html += "<strong>Step 3:</strong> click the <i>Save</i> button and select a destination on your PC. Click a second <i>Save</i> button to complete.";
+  html += "<hr/><h2><i>Microsoft Edge</i></h2>";
+  html += "<strong>Step 1:</strong> press <i>Ctrl + P</i>. Alternatively, click the three-dot icon in the top right corner and choose Print in the drop-down menu.<br/>";
+  html += "<strong>Step 2:</strong> In the following pop-up window, click the down arrow displayed under Printer and select the <i>Microsoft Print to PDF</i> option.<br/>";
+  html += "<strong>Step 3:</strong> Click the <i>Print</i> button and select a destination on your PC. Click a second <i>Save</i> button to complete.<br/>";
+  html += "<strong>Note:</strong> Microsoft Edge has a Windows 10-themed sidebar that pops open when you choose to print. Older browsers, like Internet Explorer, will use a more traditional printer window. The options and steps should remain the same despite the “classic” appearance.";
+  html += "<hr/><h2><i>Safari</i></h2>";
+  html += "<strong>Step 1:</strong> With Safari active, click <i>File</i> on the menu bar and choose the <i>Export as PDF</i>… option on the drop-down menu.<br/>";
+  html += "<strong>Step 2:</strong> On the following pop-up window, enter a <i>filename</i>, select a <i>destination</i>, and click the <i>Save</i> button to complete.";
+  html += "<hr/><h2><i>FireFox</i></h2>";
+  html += "<strong>Note:</strong> Out of the four popular desktop browsers, Firefox is the only one that doesn’t include a built-in PDF printer. Instead, it relies on the <i>Microsoft Print to PDF</i> function in Windows 10.<br/>";
+  html += '<strong>Step 1:</strong> <i>Ctrl</i> + <i>P</i> to open the print menu.  Alternatively, click the “hamburger” icon <img src="https://image.flaticon.com/icons/svg/2099/2099153.svg" style="width:10px; height:10px;"/> located in the top right corner and select <i>Print</i>… in the drop-down menu. In the following window, click the <i>Print</i> button in the top left corner.<br/>';
+  html += "<strong>Step 2:</strong> Select <i>Microsoft Print to PDF</i> from the printer options and click the <i>Print</i> button when ready.<br/>";
+  html += "<strong>Step 3:</strong> Choose a <i>name</i> and <i>save location</i> and then click the <i>Save</i> button.";
+  var popup = window.open('', '', 'height=970, width=900');
+  popup.document.write('<html><head><title>Print to PDF Guide</title>'+style+'</head><body><div id="container">'+html+'</div></body></html>');
+  popup.document.close();
 }
 </script>
