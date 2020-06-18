@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.8 (2020-06-18)
 
+- update transcript page has been updated with additional profile information
+- added a how-to guide via popup from a tooltip
+- remove the Download PDF option
+- re-add Print to PDF option
+
 ### 0.0.7 (2020-06-13)
+
+- remove print PDF option
+- add download PDF option
+- improve formatting
 
 ### 0.0.6 (2020-06-12)
 
