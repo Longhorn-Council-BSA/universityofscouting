@@ -22,10 +22,10 @@ div.dropdown { position: relative; display: inline-block;}
 img.Icon { width: 100px; height: 120px; margin-top: 0px; margin-bottom: 0px;}
 img.menuIcon { width: 35px; height: 40px; padding-top: 10px;}
 .container { background-color: #ffffff;}
-table.transcript { margin-top: 10px; padding: 4px; white-space: nowrap; width: 1%;}
+table.transcript { margin-top: 10px; white-space: nowrap; width: 80%;}
 table.transcript th{ text-align: center; white-space: nowrap; padding: 8px;}
-table.transcript td{ vertical-align: middle; padding: 8px;}
-#footer { background-image: url('http://localhost:3000/images/BSA_Footer.png'); background-position: left bottom; background-repeat: no-repeat; background-size: 100% 180px; height: 180px;}
+table.transcript td{ vertical-align: middle; padding: 4px;}
+#footer { background-image: url('/images/BSA_Footer.png'); background-position: left bottom; background-repeat: no-repeat; background-size: 100% 180px; height: 180px;}
 #POC { color: #ffffff;}
 p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
 #watermark { position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
@@ -39,23 +39,13 @@ p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
     .transcript tr td{ columns: #ffffff !important; background-color: transparent !important;}
     .noprint{ display: none !important;}
     html{ height: auto !important;}
-    #watermark{ display: initial !important; position: absolute;top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
+    #watermark{ display: initial !important; position: absolute; top: 0; left: 0; z-index: -1; margin: 100px 1in 0px 1.3in; min-width: 9in; min-height: 70%;}
 }
-span.printTip {
-    display: none;
-    color: #000000;
-    background-color: #D6CEBD;
-    z-index: 100;
-    top: -30px;
-    left: 0px;
-    margin-left: 575px;
-    width: 250px;
-    border: 2px #000000 solid;
-    border-radius: 10px;
-    padding: 5px 20px 5px 5px;
-    position: absolute;
-    box-shadow: 5px 5px 8px black;
-}
-span.printTip:after { content: ''; position: absolute; left: 0; top: 50%; width: 0; height: 0; border: 25px solid transparent;	border-right-color: #000000; border-left: 0; margin-top: -25px; margin-left: -25px;}
-span.ClickHere{ cursor: pointer; color: blue; font-weight: bold; text-decoration: none;}
-span.ClickHere:hover{ text-decoration: underline;}
+.printTip { display: none; color: #000000; background-color: #D6CEBD; width: 250px; height: 100px; position: absolute; margin-left: 25px; margin-top: -35px;
+    border: 2px #000000 solid; border-radius: 10px; padding: 5px 20px 5px 5px; box-shadow: 5px 5px 8px black; z-index: 100;}
+
+.printTip:after { content: ''; position: absolute; top: 50%; width: 0; height: 0; border: 25px solid transparent; 
+    border-right-color: #000000; border-left: 0; margin-top: -25px; margin-left: -93.5%; z-index: 100;}
+
+.ClickHere{ cursor: pointer; color: blue; font-weight: bold; text-decoration: none;}
+.ClickHere:hover{ text-decoration: underline;}
