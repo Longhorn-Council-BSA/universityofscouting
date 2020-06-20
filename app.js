@@ -67,6 +67,7 @@ app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
 app.use("/logout", require("./routes/logout"));
 app.use("/profile", ensureLogin.ensureLoggedIn(), require("./routes/profile"));
+app.use("/schedule", ensureLogin.ensureLoggedIn(), require("./routes/schedule"));
 app.use("/transcript", ensureLogin.ensureLoggedIn(), require("./routes/transcript"));
 app.use("/api", ensureLogin.ensureLoggedIn(), require("./routes/api"));
 // Secondary/Sub pages

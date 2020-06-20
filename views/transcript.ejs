@@ -19,7 +19,7 @@
         <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span> | 
         <span id="rowCount"><%= transcript.length %></span> Records
         <div id="transcriptTableDiv" style="font-weight: normal;">
-          <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center">
+          <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
             <thead class="thead-dark">
               <th>Course Date</th>
               <th>Course Title</th>
@@ -122,3 +122,5 @@ function howToPopup(){
     }
 }
 </script>
+<!-- Enable table sorting feature -->
+<script src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>
