@@ -2,7 +2,26 @@
   <div class="container main-body">
     <div class="row">
       <div class="col">
-        
+        <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
+          <thead class="thead-dark">
+            <th>Course Date</th>
+            <th>Course Title</th>
+            <th>Course Instructor</th>
+            <th>Course Location</th>
+            <th>On-line Delivery</th>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<schedule.length; i++) {  %>
+            <tr>
+              <td><%= schedule[i].date %></td>
+              <td><%= schedule[i].course %></td>
+              <td><%= schedule[i].instructor %></td>
+              <td><%= schedule[i].location %></td>
+              <td><%= schedule[i].delivery %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
