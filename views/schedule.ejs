@@ -4,7 +4,7 @@
       <div class="col">
         <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
           <thead class="thead-dark">
-            <th>Course Date</th>
+            <th>Course Date & Time</th>
             <th>Course Title</th>
             <th>Course Instructor</th>
             <th>Course Location</th>
@@ -13,7 +13,7 @@
           <tbody>
             <% for(var i=0; i<schedule.length; i++) {  %>
             <tr>
-              <td><%= schedule[i].date %></td>
+              <td><%= schedule[i].date %> <%= schedule[i].time %></td>
               <td><%= schedule[i].course %></td>
               <td><%= schedule[i].instructor %></td>
               <td><%= schedule[i].location %></td>

@@ -3,14 +3,14 @@
  *
  * This module displays profile data.
  *
- * @module routes/profile
+ * @module routes/schedule
  */
 var express = require("express");
 var router = express.Router();
-var schedule = require("../models/schedules");
+var Schedules = require("../models/schedules");
 
 /**
- * Retrieve all transcript entries from MongoDB for a single user.
+ * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
  * @memberof module:routes/schedule
@@ -18,11 +18,12 @@ var schedule = require("../models/schedules");
  * @returns an object containing schedule entries
  */
 async function getUserSchedule(memberID) {
-  var schedule = await Registrations.find({
+  var schedule = await Schedules.find({
     memberID: memberID,
   });
   response = schedule.map((entry) => {
     var date = entry.date;
+    var time = entry.date.toLocaleTimeString();
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
@@ -30,8 +31,9 @@ async function getUserSchedule(memberID) {
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
+      time: time,
       date: date,
-      course: entry.class,
+      course: entry.course,
       instructor: entry.instructor,
       location: entry.location,
       delivery: entry.delivery,

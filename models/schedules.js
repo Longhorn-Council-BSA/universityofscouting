@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 require('mongoose-long')(mongoose);
 var SchemaTypes = mongoose.Schema.Types;
 
-schedule = mongoose.model('Schedules', new mongoose.Schema({
+Schedules = mongoose.model('Schedules', new mongoose.Schema({
     memberID: {
         type: SchemaTypes.Long,
         required: true
@@ -12,11 +12,7 @@ schedule = mongoose.model('Schedules', new mongoose.Schema({
         type: Date,
         required: true
     },
-    title: {
-        type: String,
-        required: true
-    },
-    class: {
+    course: {
         type: String,
         required: true
     },
@@ -34,4 +30,4 @@ schedule = mongoose.model('Schedules', new mongoose.Schema({
     }
 }));
 
-module.exports = schedule;
+module.exports = Schedules;
