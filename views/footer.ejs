@@ -1,4 +1,4 @@
-  <div class="container" id="footer">
+    <div class="container" id="footer">
       <div class="row" style="height: 100%;">
         <div class="col-2" style="height: 100%;">
           <p class="copyright" style="margin-top: 160px;">Copyright &copy; 2020</p>
@@ -19,17 +19,19 @@
       </div>
     </div>
   </body>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript">
-  document.onload = titleURL();
-  function titleURL(){
-    var pageTitle = document.getElementById("titleURL").innerHTML;
-    var url = "";
-    if(pageTitle == "Home"){document.getElementById("titleURL").style.display = 'none';document.getElementById("arrow").style.display = 'none';
-      }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>'; document.getElementById("inputPassword1").focus();
-      }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
-      }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
-      }else{url = "<ERROR>";}
-    document.getElementById("titleURL").innerHTML = url;
-  }
+    document.onload = titleURL();
+    function titleURL(){
+      var pageTitle = document.getElementById("titleURL").innerHTML;
+      var url = "";
+      if(pageTitle == "Home"){document.getElementById("titleURL").style.display = 'none';document.getElementById("arrow").style.display = 'none';
+        }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';document.getElementById("inputPassword1").focus();
+        }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
+        }else if(pageTitle == "Schedule Page"){url = '<a class="pageTitleURL title" href="/schedule">'+pageTitle+'</a>';
+        }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
+        }else{url = "ERROR";}
+      document.getElementById("titleURL").innerHTML = url;
+    }
   </script>
 </html>

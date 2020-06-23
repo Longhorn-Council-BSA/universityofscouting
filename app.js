@@ -67,8 +67,13 @@ app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
 app.use("/logout", require("./routes/logout"));
 app.use("/profile", ensureLogin.ensureLoggedIn(), require("./routes/profile"));
+app.use("/schedule", ensureLogin.ensureLoggedIn(), require("./routes/schedule"));
 app.use("/transcript", ensureLogin.ensureLoggedIn(), require("./routes/transcript"));
 app.use("/api", ensureLogin.ensureLoggedIn(), require("./routes/api"));
+// Secondary pages
+app.use("/howtoprinttopdf", ensureLogin.ensureLoggedIn(), require("./routes/howtoprinttopdf"));
+app.use("/transcriptPrint", ensureLogin.ensureLoggedIn(), require("./routes/transcriptPrint"));
+app.use("/testing", ensureLogin.ensureLoggedIn(), require("./routes/testing"));
 
 /**
  * catch and generate 404 errors.
