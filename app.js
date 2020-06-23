@@ -73,7 +73,6 @@ app.use("/api", ensureLogin.ensureLoggedIn(), require("./routes/api"));
 // Secondary pages
 app.use("/howtoprinttopdf", ensureLogin.ensureLoggedIn(), require("./routes/howtoprinttopdf"));
 app.use("/transcriptPrint", ensureLogin.ensureLoggedIn(), require("./routes/transcriptPrint"));
-app.use("/testing", ensureLogin.ensureLoggedIn(), require("./routes/testing"));
 
 /**
  * catch and generate 404 errors.
