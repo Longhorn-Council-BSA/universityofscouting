@@ -1,28 +1,78 @@
 <%- include header %>
+<% if(user.access == "1000"){ %>
+  <style>
+    .btn + .Show{display: inline-block !important;}
+    th.Show, td.Show{display: table-cell !important;}
+    tr.Show{display: table-row !important;}
+    .Show{display: initial !important;}
+  </style>
+<% } %>
   <div class="container main-body">
     <div class="row">
       <div class="col">
-        <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
+        <form id="searchIDform" class="noDisplay Show">
+          <div class="form-row">
+            <input type="number" class="form-control form-control-sm col-sm-2" style="margin: 0px 2px 0px auto;" id="searchInput" aria-describedby="Search" placeholder="Search Member ID" value="<%= user.memberID %>">
+            <button type="button" id="searchID" onclick="searchMemberID()" class="btn btn-sm btn-3" style="margin: 0px 4px 0px 2px;">Search</button>
+            <div class="loader"></div>
+          </div>
+          <br/>
+        </form>
+        <div class="text-center font-weight-bold">
+        </span>Member ID: <span id="userID"></span> | 
+        <span id="fname"></span> 
+        <span id="lname"></span> | 
+        <span id="rowCount"></span> Records</div>
+        <table id="transcriptTable" class="mx-auto table table-hover table-sm text-center sortable">
           <thead class="thead-dark">
             <th>Course Date & Time</th>
             <th>Course Title</th>
             <th>Course Instructor</th>
             <th>Course Location</th>
             <th>On-line Delivery</th>
+            <th class="noDisplay Show sorttable_nosort"></th>
           </thead>
-          <tbody>
-            <% for(var i=0; i<schedule.length; i++) {  %>
-            <tr>
-              <td><%= schedule[i].date %> <%= schedule[i].time %></td>
-              <td><%= schedule[i].course %></td>
-              <td><%= schedule[i].instructor %></td>
-              <td><%= schedule[i].location %></td>
-              <td><%= schedule[i].delivery %></td>
-            </tr>
-            <% } %>
+          <tbody id="scheduleTbody">
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  <script>
+    $("document").ready(function(){
+      $("#searchIDform").submit(function(event){
+        event.preventDefault();
+        $("#searchID").click();
+      });
+      searchMemberID();
+    });
+    
+    function searchMemberID(){
+      var ID = $("#searchInput").val();
+      if(ID != ""){
+        $(".loader").css("visibility","initial");
+        $.ajax({
+          dataType: "json",
+          url: "/api/schedules",
+          data: {memberID: $("#searchInput").val(), memberData: true},
+          success:  function(data){
+                      $("#scheduleTbody").html("");
+                      $("#rowCount").html(data.length);
+                      for(var i = 0; i < data.length; i++){
+                        $("#userID").html(data[i].memberID);
+                        $("#fname").html(data[i].firstName);
+                        $("#lname").html(data[i].lastName);
+                        $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td><td class="Show"><button class="btn btn-sm btn-1">Edit</button><button class="btn btn-sm btn-2 disabled">Del</button></td></tr>');
+                      }
+                      $(".loader").css("visibility","hidden");
+                    }
+        });
+        $("#searchInput").css("background-color", "white");
+        $("#searchInput").attr("placeholder", "Search Member ID");
+      }else{
+        $("#searchInput").css("background-color", "pink");
+        $("#searchInput").attr("placeholder", "Cannot Be Empty");
+      }
+    }
+  </script>
 <%- include footer %>
