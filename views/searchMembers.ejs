@@ -33,6 +33,16 @@
     </div>
   </div>
   <script>
+    //-----------------popups-------------------//
+    function popupSchedule(id){
+      var popup = window.open('/popupSchedule?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      popup.document.close();
+    }
+    //------------------------------------//
+    function popupTranscript(id){
+      var popup = window.open('/popupTranscript?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      popup.document.close();
+    }
     $("document").ready(function(){
       GETMemberID();
     });
@@ -48,7 +58,7 @@
             $("#MembersTbody").html("");
             $("#rowCount").html(data.length);
             for(var i = 0; i < data.length; i++){
-              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].council+'</td><td style="width:16%;"><button class="btn btn-sm btn-1">Schedule</button> <button class="btn btn-sm btn-1">Transcript</button></td></tr>');
+              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].council+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule('+data[i].memberID+')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript('+data[i].memberID+')">Transcript</button></td></tr>');
             }
           }
           $(".loader").css("visibility","hidden");
@@ -91,43 +101,5 @@
         if (id2.search(value) != 0) { $row.fadeOut();} else {$row.fadeIn();}
       });
     });
-    //------------------------------------//
-    // function searchMemberID(){
-    //   var ID = $("#searchInput").val();
-    //   if(ID != ""){
-    //     $(".loader").css("visibility","initial");
-    //     $.ajax({
-    //       dataType: "json",
-    //       url: "/api/members",
-    //       data: {memberID: $("#searchInput").val(), memberData: true},
-    //       success:  function(data){
-    //         if(data.length > 0){
-    //           $("#scheduleTbody").html("");
-    //           $("#rowCount").html(data.length);
-    //           for(var i = 0; i < data.length; i++){
-    //             $("#userID").html(data[i].memberID);
-    //             $("#fname").html(data[i].firstName);
-    //             $("#lname").html(data[i].lastName);
-    //             $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td><td class="ACL"><button class="btn btn-sm btn-1">Edit</button><button class="btn btn-sm btn-2 disabled">Del</button></td></tr>');
-    //           }
-    //           $(".loader").css("visibility","hidden");
-    //         }else{
-    //           $("#scheduleTbody").html("");
-    //           $("#userID").html("__________");
-    //           $("#fname").html("__________");
-    //           $("#lname").html("__________");
-    //           $("#rowCount").html(data.length);
-    //           $("#scheduleTbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;"><strong>'+data.length+' records returned for member ID '+ID+'</strong></h4></td></tr>');
-    //           $(".loader").css("visibility","hidden");
-    //         }
-    //       }
-    //     });
-    //     $("#searchInput").css("background-color", "white");
-    //     $("#searchInput").attr("placeholder", "Search Member ID");
-    //   }else{
-    //     $("#searchInput").css("background-color", "pink");
-    //     $("#searchInput").attr("placeholder", "Cannot Be Empty");
-    //   }
-    // }
   </script>
 <%- include footer %>

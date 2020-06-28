@@ -1,0 +1,107 @@
+<html>
+  <header>
+    <title>Member Schedule</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Enable jquery features -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <style>
+      .btn + .disabled { cursor: not-allowed;}
+      .header{margin-top: 20px;}
+      tr th, tr td{text-align: center;}
+      .loader {
+        border: 8px solid #a4a7a8;
+        border-radius: 50%;
+        border-top: 8px solid #CE1126;
+        width: 30px;
+        height: 30px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        margin: 0px auto 0px 0px;
+      }
+      .loader2 {
+        margin: 0px auto;
+        border: 18px solid #a4a7a8;
+        border-top: 18px solid #CE1126;
+        width: 120px;
+        height: 120px;
+      }
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </header>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="header text-center">
+            <h1>University of Scouting Transcript</h1>
+            <h4><span id="name"></span></h4>
+            Member ID: <span id="userID"></span> 
+            | <span id="rowCount"></span> Records
+          </div>
+          <table class="mx-auto table table-sm">
+            <thead>
+              <tr>
+                <th>Course Date</th>
+                <th>Course Title</th>
+                <th>Credits</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+          </table>
+          <div class="loader loader2"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $("document").ready(function(){
+      var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = window.location.search.substring(1), sURLVariables = sPageURL.split('&'), sParameterName, i;
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+          }
+        }
+      };
+      var id = getUrlParameter('memberID');
+      getSchedule(id);
+    });
+    function getSchedule(id){
+        $(".loader").css("visibility","initial");
+        $('#userID').html(id)
+        $.ajax({
+          dataType: "json",
+          url: "/api/transcripts",
+          data: {memberData: true, memberID: id},
+          success:  function(data){
+            if(data.length > 0){
+              $('#name').text(data[0].firstName+' '+data[0].lastName);
+              $("#tbody").html("");
+              $("#rowCount").html(data.length);
+              for(var i = 0; i < data.length; i++){
+                if(data[i].credits == undefined){data[i].credits = '-';}
+                $("#tbody").append("<tr><td>"+data[i].date+"</td><td>"+data[i].title+"</td><td>"+data[i].credits+"</td><td>"+data[i].status+'</td><td style="width:16%;"><button class="btn btn-sm btn-primary">Edit</button> <button class="btn btn-sm btn-danger">Del</button></td></tr>');
+              }
+              $(".loader").css("visibility","hidden");
+            }else{
+              $("#rowCount").html(data.length);
+              $("#tbody").append('<tr><td colspan="4"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+id+'</strong></h4></td></tr>');
+              $(".loader").css("visibility","hidden");
+            }
+          }
+        });
+      }
+  </script>
+</html>

@@ -107,20 +107,46 @@ async function routeGETApiMemberByID(req, res, next) {
  * Retrieve all transcript entries from MongoDB.
  * @private
  * @memberof module:routes/api
+ * @param {Object}    opt               additional options
+ * @param {Boolean}   opt.memberData    include member data in reponse (default: false)
+ * @param {Number}    opt.memberID      filter by member id* @memberof module:routes/api
  * @returns an object containing all transcript entries
  */
-async function getAllTranscripts() {
-  var transcript = await Registrations.find();
-  response = transcript.map(function (entry) {
+async function getAllTranscripts(opt = {}) {
+  var memberData = false;
+  if(opt.memberData){
+    memberData = true;
+  }
+  var members = {};
+  var transcript;
+  if(opt.memberID){
+    transcript = await Registrations.find({
+      memberID: opt.memberID
+    });
+  }else{ 
+    transcript = await Registrations.find();
+  }
+  response_promises = transcript.map( async function (entry) {
+    if(!members[entry.memberID]){
+      members[entry.memberID] = await getMemberByID(Number(entry.memberID));
+    }
+    var date = entry.date;
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    date = mm + '/' + dd + '/' + yyyy;
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
+      firstName: members[entry.memberID].firstName,
+      lastName: members[entry.memberID].lastName,
       title: entry.title,
+      date: date,
       credits: entry.credits,
       status: entry.status,
     };
   });
-  return response;
+  return Promise.all(response_promises);
 }
 
 /**
@@ -129,14 +155,20 @@ async function getAllTranscripts() {
  * Return all transcript entries in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.
  * @private
  * @memberof module:routes/api
- * @param {Object}   req                request object
- * @param {String}   req.query.return   when set to "csv", return CSV output
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * @param {Object}   req                  request object
+ * @param {String}   req.query.return     when set to "csv", return CSV output
+ * @param {String}   req.query.memberID   filter by this member ID
+ * @param {String}   req.query.memberData when set to "true" return memberData in the response
+ * @param {Object}   res                  response object
+ * @param {Function} next                 function call to next middleware
  */
 async function routeGETApiTranscripts(req, res, next) {
+  var memberData = false;
+  if(req.query.memberData == "true"){
+    memberData = true;
+  }
   try {
-    var transcript = await getAllTranscripts();
+    var transcript = await getAllTranscripts({memberData: memberData, memberID: Number(req.query.memberID)});
     if (req.query.return == "csv") {
       res.csv(transcript);
     } else {
@@ -150,7 +182,7 @@ async function routeGETApiTranscripts(req, res, next) {
 }
 
 /**
- * Retrieve all transcript entries from MongoDB.
+ * Retrieve all schedule entries from MongoDB.
  * @private
  * @memberof module:routes/api
  * @param {Object}    opt               additional options
