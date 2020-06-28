@@ -20,17 +20,19 @@
     </div>
   </body>
   <script type="text/javascript">
-    document.onload = titleURL();
-    function titleURL(){
-    var pageTitle = document.getElementById("titleURL").innerHTML;
-    var url = "";
-    if(pageTitle == "Home"){document.getElementById("titleURL").style.display = 'none';document.getElementById("arrow").style.display = 'none';
-      }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';document.getElementById("inputPassword1").focus();
-      }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
-      }else if(pageTitle == "Schedule Page"){url = '<a class="pageTitleURL title" href="/schedule">'+pageTitle+'</a>';
-      }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
-      }else{url = "ERROR";}
-      document.getElementById("titleURL").innerHTML = url;
-    }
+    $('document').ready(
+      function titleURL(){
+        var pageTitle = document.getElementById("titleURL").innerHTML;
+        var url = "";
+        if(pageTitle == "Home"){document.getElementById("titleURL").style.display = 'none';document.getElementById("arrow").style.display = 'none';
+          }else if(pageTitle == "Login"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';document.getElementById("inputPassword1").focus();
+          }else if(pageTitle == "Profile"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
+          }else if(pageTitle == "Schedule"){url = '<a class="pageTitleURL title" href="/schedule">'+pageTitle+'</a>';
+          }else if(pageTitle == "Transcript"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
+          }else if(pageTitle == "Administration"){url = '<a class="pageTitleURL title" href="/searchMembers">'+pageTitle+'</a>';
+          }else{url = "ERROR";}
+        document.getElementById("titleURL").innerHTML = url;
+      }
+    );
   </script>
 </html>

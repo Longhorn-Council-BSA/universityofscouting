@@ -1,40 +1,27 @@
 <%- include header %>
-<% if(user.access == "1000"){ %>
-  <style>
-    .btn + .Show{display: inline-block !important;}
-    th.Show, td.Show{display: table-cell !important;}
-    tr.Show{display: table-row !important;}
-    .Show{display: initial !important;}
-  </style>
-<% } %>
   <div class="container main-body">
     <div class="row">
       <div class="col">
-        <form id="searchIDform" class="noDisplay Show">
-          <div class="form-row">
-            <input type="number" class="form-control form-control-sm col-sm-2" style="margin: 0px 2px 0px auto;" id="searchInput" aria-describedby="Search" placeholder="Search Member ID" value="<%= user.memberID %>">
-            <button type="button" id="searchID" onclick="searchMemberID()" class="btn btn-sm btn-3" style="margin: 0px 4px 0px 2px;">Search</button>
-            <div class="loader"></div>
-          </div>
-          <br/>
-        </form>
         <div class="text-center font-weight-bold">
-        </span>Member ID: <span id="userID"></span> | 
-        <span id="fname"></span> 
-        <span id="lname"></span> | 
-        <span id="rowCount"></span> Records</div>
+          </span>Member ID: <span id="userID"></span> | 
+          <span id="fname"></span> 
+          <span id="lname"></span> | 
+          <span id="rowCount"></span> Records
+        </div><br/>
         <table id="transcriptTable" class="mx-auto table table-hover table-sm text-center sortable">
           <thead class="thead-dark">
-            <th>Course Date & Time</th>
-            <th>Course Title</th>
-            <th>Course Instructor</th>
-            <th>Course Location</th>
-            <th>On-line Delivery</th>
-            <th class="noDisplay Show sorttable_nosort"></th>
+            <tr>
+              <th>Course Date & Time</th>
+              <th>Course Title</th>
+              <th>Course Instructor</th>
+              <th>Course Location</th>
+              <th>On-line Delivery</th>
+            </tr>
           </thead>
           <tbody id="scheduleTbody">
           </tbody>
         </table>
+        <div class="loader loader2"></div>
       </div>
     </div>
   </div>
@@ -56,16 +43,26 @@
           url: "/api/schedules",
           data: {memberID: $("#searchInput").val(), memberData: true},
           success:  function(data){
-                      $("#scheduleTbody").html("");
-                      $("#rowCount").html(data.length);
-                      for(var i = 0; i < data.length; i++){
-                        $("#userID").html(data[i].memberID);
-                        $("#fname").html(data[i].firstName);
-                        $("#lname").html(data[i].lastName);
-                        $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td><td class="Show"><button class="btn btn-sm btn-1">Edit</button><button class="btn btn-sm btn-2 disabled">Del</button></td></tr>');
-                      }
-                      $(".loader").css("visibility","hidden");
-                    }
+            if(data.length > 0){
+              $("#scheduleTbody").html("");
+              $("#rowCount").html(data.length);
+              for(var i = 0; i < data.length; i++){
+                $("#userID").html(data[i].memberID);
+                $("#fname").html(data[i].firstName);
+                $("#lname").html(data[i].lastName);
+                $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td></tr>');
+              }
+              $(".loader").css("visibility","hidden");
+            }else{
+              $("#scheduleTbody").html("");
+              $("#userID").html("__________");
+              $("#fname").html("__________");
+              $("#lname").html("__________");
+              $("#rowCount").html(data.length);
+              $("#scheduleTbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;"><strong>'+data.length+' records returned for member ID '+ID+'</strong></h4></td></tr>');
+              $(".loader").css("visibility","hidden");
+            }
+          }
         });
         $("#searchInput").css("background-color", "white");
         $("#searchInput").attr("placeholder", "Search Member ID");
