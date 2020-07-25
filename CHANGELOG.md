@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.9 (2020-07-25)
+
 ### 0.0.8 (2020-06-18)
 
 - update transcript page has been updated with additional profile information
