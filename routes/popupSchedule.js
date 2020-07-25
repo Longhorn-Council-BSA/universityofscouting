@@ -1,30 +1,31 @@
-/**
- * transcript router module
- *
- * This module displays transcripts for logged in users
- *
- * @module routes/transcript
- */
 // jshint esversion: 8
 // async functions
+/**
+ * profile router module
+ *
+ * This module displays profile data.
+ *
+ * @module routes/schedule
+ */
 var express = require("express");
 var router = express.Router();
-var Registrations = require("../models/registrations");
+var Schedules = require("../models/schedules");
 
 /**
- * Retrieve all transcript entries from MongoDB for a single user.
+ * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/schedule
  * @param {String} memberId the memberID of the user to find records for
- * @returns an object containing transcript entries
+ * @returns an object containing schedule entries
  */
-async function getUserTranscript(memberID) {
-  var transcript = await Registrations.find({
+async function getUserSchedule(memberID) {
+  var schedule = await Schedules.find({
     memberID: memberID,
   });
-  response = transcript.map((entry) => {
+  response = schedule.map((entry) => {
     var date = entry.date;
+    var time = entry.date.toLocaleTimeString();
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
@@ -32,22 +33,24 @@ async function getUserTranscript(memberID) {
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
-      title: entry.title,
+      time: time,
       date: date,
-      credits: entry.credits,
-      status: entry.status,
+      course: entry.course,
+      instructor: entry.instructor,
+      location: entry.location,
+      delivery: entry.delivery,
     };
   });
   return response;
 }
 
 /**
- * GET and display all transcript entries for the logged in user.
+ * GET profile information
  *
- * Display all transcript entries for the logged in user using the "transcript" view.
+ * Display all known profile information.  At this time, that includes the username only.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/schedule
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
@@ -55,13 +58,13 @@ async function getUserTranscript(memberID) {
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-async function routerGETTranscipt(req, res, next) {
+async function routerGETSchedules(req, res, next) {
   try {
-    var transcript = await getUserTranscript(req.user.memberID);
-    res.render("transcript", {
-      transcript: transcript,
+    var schedule = await getUserSchedule(req.user.memberID);
+    res.render("popupSchedule", { 
+      schedule: schedule,
       user: req.user,
-      title: "Transcript",
+      title: "Member Popup Schedule",
     });
   } catch (err) {
     res.status(500).json({
@@ -71,5 +74,5 @@ async function routerGETTranscipt(req, res, next) {
 }
 
 // register routes and export router
-router.get("/", routerGETTranscipt);
+router.get("/", routerGETSchedules);
 module.exports = router;

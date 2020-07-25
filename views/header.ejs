@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= title ? title : "University of Scouting" %></title>
+        <title>University of Scouting</title>
         <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel='stylesheet' href='/stylesheets/style.css' />
+        <!-- Enable jquery features -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <% if(user){if(user.access == "1000"){ %>
+            <style>
+              .btn + .ACL{display: inline-block !important;}
+              th.ACL, td.ACL{display: table-cell !important;}
+              tr.ACL{display: table-row !important;}
+              a.ACL{display: initial !important;}
+            </style>
+        <% } }%>
     </head>
     <body>
         <div class="container" id="header" style="background-color: #E9E9E4;">
-            <div class="row" style="">
+            <div class="row">
                 <div class="col-2 justify-content-start">
                     <a href="/">
                         <img class="Icon noprint" id="Icon" src="images/LHC_UoS_Logo_Pocket_Design_v1.png">
@@ -19,22 +29,23 @@
                         <span id="arrow" class="noprint"> ► </span>
                         <span id="titleURL" class="noprint"><%= title ? title : "" %></span>
                     </h1><br/>
-                    <% if (!user) { %>
-                    <% } else { %>
-                    <a href="/"><btn class="btn nav-btn-1 noprint">Home</btn></a>
-                    <a href="/profile"><btn class="btn nav-btn-1 noprint">Profile</btn></a>
-                    <a href="/transcript"><btn class="btn nav-btn-1 noprint">Transcript</btn></a>
+                    <% if (user) { %>
+                        <a href="/"><btn class="btn nav-btn-1 noprint">Home</btn></a>
+                        <a href="/profile"><btn class="btn nav-btn-1 noprint">Profile</btn></a>
+                        <a href="/schedule"><btn class="btn nav-btn-1 noprint">Schedule</btn></a>
+                        <a href="/transcript"><btn class="btn nav-btn-1 noprint">Transcript</btn></a>
+                        <a href="/searchMembers" class="noDisplay ACL"><btn class="btn nav-btn-1 noprint">Administration</btn></a>
                     <% } %>
                 </div>
                 <div class="col-2" style="padding-top: 90px;">
-                    <% if (!user) { %>
-                    <a href="/login"><btn class="btn btn-sm nav-btn-1">Login</btn></a>
+                    <% if (user) { %>
+                        <a href="/logout"><btn class="btn btn-sm nav-btn-2 noprint">Logout</btn></a>
                     <% } else { %>
-                    <a href="/logout"><btn class="btn btn-sm nav-btn-2 noprint">Logout</btn></a>
+                        <a href="/login"><btn class="btn btn-sm nav-btn-1">Login</btn></a>
                     <% } %>
                 </div>
             </div>
             <div class="row">
-                <div class="col" style="height: 20px; background-image: linear-gradient(#E9E9E4, #ffffff);"></div>
+                <div class="col" style="height: 20px; background-image: linear-gradient(#E9E9E4, #ffffff);"> <!-- Gradient edge --> </div>
             </div>
         </div>

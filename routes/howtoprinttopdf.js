@@ -21,7 +21,7 @@ var router = express.Router();
  * @param {Function} next               function call to next middleware
  */
 function routerGETProfile(req, res, next) {
-  res.render("profile", { title: "Profile", user: req.user });
+  res.render("howtoprinttopdf", { title: "Print to PDF Guide", user: req.user });
 }
 
 // register routes and export router

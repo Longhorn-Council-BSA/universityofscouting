@@ -1,39 +1,35 @@
-/**
- * transcript router module
- *
- * This module displays transcripts for logged in users
- *
- * @module routes/transcript
- */
 // jshint esversion: 8
-// async functions
+/**
+ * profile router module
+ *
+ * This module displays profile data.
+ *
+ * @module routes/popupTranscript
+ */
 var express = require("express");
 var router = express.Router();
-var Registrations = require("../models/registrations");
+var Transcripts = require("../models/registrations");
 
 /**
  * Retrieve all transcript entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/popupTranscript
  * @param {String} memberId the memberID of the user to find records for
  * @returns an object containing transcript entries
  */
 async function getUserTranscript(memberID) {
-  var transcript = await Registrations.find({
-    memberID: memberID,
+  var transcript = await Transcripts.find({
+    memberID: memberID
   });
   response = transcript.map((entry) => {
-    var date = entry.date;
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
+      firstName: entry.firstName,
+      lastName: entry.lastName,
       title: entry.title,
-      date: date,
+      date: entry.date,
       credits: entry.credits,
       status: entry.status,
     };
@@ -42,12 +38,12 @@ async function getUserTranscript(memberID) {
 }
 
 /**
- * GET and display all transcript entries for the logged in user.
+ * GET profile information
  *
- * Display all transcript entries for the logged in user using the "transcript" view.
+ * Display all known profile information.  At this time, that includes the username only.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/popupTranscript
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
@@ -55,13 +51,13 @@ async function getUserTranscript(memberID) {
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-async function routerGETTranscipt(req, res, next) {
+async function routerGETTranscript(req, res, next) {
   try {
     var transcript = await getUserTranscript(req.user.memberID);
-    res.render("transcript", {
+    res.render("popupTranscript", { 
       transcript: transcript,
       user: req.user,
-      title: "Transcript",
+      title: "Member Popup Transcript",
     });
   } catch (err) {
     res.status(500).json({
@@ -71,5 +67,5 @@ async function routerGETTranscipt(req, res, next) {
 }
 
 // register routes and export router
-router.get("/", routerGETTranscipt);
+router.get("/", routerGETTranscript);
 module.exports = router;

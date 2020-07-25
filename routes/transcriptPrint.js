@@ -3,7 +3,7 @@
  *
  * This module displays transcripts for logged in users
  *
- * @module routes/transcript
+ * @module routes/transcriptPrint
  */
 // jshint esversion: 8
 // async functions
@@ -15,7 +15,7 @@ var Registrations = require("../models/registrations");
  * Retrieve all transcript entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/transcriptPrint
  * @param {String} memberId the memberID of the user to find records for
  * @returns an object containing transcript entries
  */
@@ -47,7 +47,7 @@ async function getUserTranscript(memberID) {
  * Display all transcript entries for the logged in user using the "transcript" view.
  *
  * @private
- * @memberof module:routes/transcript
+ * @memberof module:routes/transcriptPrint
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
@@ -58,10 +58,10 @@ async function getUserTranscript(memberID) {
 async function routerGETTranscipt(req, res, next) {
   try {
     var transcript = await getUserTranscript(req.user.memberID);
-    res.render("transcript", {
+    res.render("transcriptPrint", {
       transcript: transcript,
       user: req.user,
-      title: "Transcript",
+      title: "Print Transcript",
     });
   } catch (err) {
     res.status(500).json({

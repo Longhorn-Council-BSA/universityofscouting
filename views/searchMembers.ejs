@@ -1,0 +1,105 @@
+<%- include header %>
+  <div class="container main-body">
+    <div class="row">
+      <div class="col">
+        <table class="mx-auto table table-sm text-center" style="margin-bottom: 0px;">
+          <tr>
+            <td>
+              <input type="text" autocomplete="NOPE" class="form-control form-control-sm mx-auto text-center" id="searchMemberIDs" aria-describedby="Search" placeholder=" Filter by ID">
+            </td>
+            <td>
+              <input type="text" autocomplete="NOPE" class="form-control form-control-sm mx-auto text-center" id="searchMemberFNames" aria-describedby="Search" placeholder=" Filter by First Name">
+            </td>
+            <td>
+              <input type="text" autocomplete="NOPE" class="form-control form-control-sm mx-auto text-center" id="searchMemberLNames" aria-describedby="Search" placeholder=" Filter by Last Name">
+            </td>
+            <td>
+              <input type="text" autocomplete="NOPE" class="form-control form-control-sm mx-auto text-center" id="searchMemberCouncils" aria-describedby="Search" placeholder=" Filter by Council">
+            </td>
+            <td class="font-weight-bold align-middle"><span id="rowCount"></span> Members Found </td>
+          </tr>
+        </table>
+        <table id="Members" class="mx-auto table table-hover table-sm text-center sortable">
+          <thead class="thead-dark">
+            <tr>
+              <th>Member ID</th><th>First Name</th><th>Last Name</th><th>Council</th><th class="sorttable_nosort">Records</th>
+            </tr>
+          </thead>
+          <tbody id="MembersTbody">
+          </tbody>
+        </table>
+        <div class="loader loader2"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    //-----------------popups-------------------//
+    function popupSchedule(id){
+      var popup = window.open('/popupSchedule?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      popup.document.close();
+    }
+    //------------------------------------//
+    function popupTranscript(id){
+      var popup = window.open('/popupTranscript?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      popup.document.close();
+    }
+    $("document").ready(function(){
+      GETMemberID();
+    });
+    //------------------------------------//
+    function GETMemberID(){
+      $(".loader").css("visibility","initial");
+      $.ajax({
+        dataType: "json",
+        url: "/api/members",
+        data: {},
+        success:  function(data){
+          if(data.length > 0){
+            $("#MembersTbody").html("");
+            $("#rowCount").html(data.length);
+            for(var i = 0; i < data.length; i++){
+              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].council+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule('+data[i].memberID+')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript('+data[i].memberID+')">Transcript</button></td></tr>');
+            }
+          }
+          $(".loader").css("visibility","hidden");
+        }
+      });
+    }
+    //------------------Filter by member ID------------------//
+    $("#searchMemberIDs").on("keyup", function() {
+      var value = $(this).val();
+      $("#MembersTbody tr").each(function(index) {
+        $row = $(this);
+        var id2 = $row.find("td:first").text();
+        if (id2.search(value) != 0) { $row.fadeOut();} else {$row.fadeIn();}
+      });
+    });
+    //------------------Filter by member firstName------------------//
+    $("#searchMemberFNames").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#MembersTbody tr").each(function(index) {
+        $row = $(this);
+        var id2 = $row.find("td:first").next().text().toLowerCase();
+        if (id2.search(value) != 0) { $row.fadeOut();} else {$row.fadeIn();}
+      });
+    });
+    //------------------Filter by member lastName------------------//
+    $("#searchMemberLNames").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#MembersTbody tr").each(function(index) {
+        $row = $(this);
+        var id2 = $row.find("td:first").next().next().text().toLowerCase();
+        if (id2.search(value) != 0) { $row.fadeOut();} else {$row.fadeIn();}
+      });
+    });
+    //------------------Filter by member council------------------//
+    $("#searchMemberCouncils").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#MembersTbody tr").each(function(index) {
+        $row = $(this);
+        var id2 = $row.find("td:first").next().next().next().text().toLowerCase();
+        if (id2.search(value) != 0) { $row.fadeOut();} else {$row.fadeIn();}
+      });
+    });
+  </script>
+<%- include footer %>
