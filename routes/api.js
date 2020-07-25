@@ -134,7 +134,7 @@ async function getAllTranscripts(opt = {}) {
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
+    date = yyyy + '-' + mm + '-' + dd;
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
@@ -213,12 +213,13 @@ async function getSchedule(opt = {}) {
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
+    date = yyyy + '-' + mm + '-' + dd;
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
       firstName: members[entry.memberID].firstName,
       lastName: members[entry.memberID].lastName,
+      timestamp: entry.date,
       time: time,
       date: date,
       course: entry.course,

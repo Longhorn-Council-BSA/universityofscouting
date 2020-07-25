@@ -47,7 +47,6 @@ p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
 .printTip:after { content: ''; position: absolute; top: 50%; width: 0; height: 0; border: 25px solid transparent; border-right-color: #000000; border-left: 0; margin-top: -25px; margin-left: -93.5%; z-index: 100;}
 .ClickHere{ cursor: pointer; color: blue; font-weight: bold; text-decoration: none;}
 .ClickHere:hover{ text-decoration: underline;}
-table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { content: " \25B4\25BE";}
 #Members tr th, #Members tr td{ vertical-align: middle;}
 .loader {
   border: 8px solid #a4a7a8;

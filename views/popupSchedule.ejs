@@ -3,37 +3,17 @@
     <title>Member Schedule</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Enable jquery features -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
       .btn + .disabled { cursor: not-allowed;}
       .header{margin-top: 20px;}
-      tr th, tr td{text-align: center;}
-      .loader {
-        border: 8px solid #a4a7a8;
-        border-radius: 50%;
-        border-top: 8px solid #CE1126;
-        width: 30px;
-        height: 30px;
-        -webkit-animation: spin 2s linear infinite; /* Safari */
-        animation: spin 2s linear infinite;
-        margin: 0px auto 0px 0px;
-      }
-      .loader2 {
-        margin: 0px auto;
-        border: 18px solid #a4a7a8;
-        border-top: 18px solid #CE1126;
-        width: 120px;
-        height: 120px;
-      }
-      /* Safari */
-      @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
+      tr th, tr td, td input{text-align: center;}
+      td input{display: inline !important;}
+      .loader{border:8px solid #a4a7a8;border-radius:50%;border-top:8px solid #ce1126;width:30px;height:30px;-webkit-animation:spin 2s linear infinite;animation:spin 2s linear infinite;margin:0 auto 0 0}
+      .loader2{margin:0 auto;border:18px solid #a4a7a8;border-top:18px solid #ce1126;width:120px;height:120px}
+      @-webkit-keyframes spin{0%{-webkit-transform:rotate(0)}100%{-webkit-transform:rotate(360deg)}}
+      @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+      td button { width: 50px;}
     </style>
   </header>
   <body>
@@ -80,28 +60,69 @@
       getSchedule(id);
     });
     function getSchedule(id){
-        $(".loader").css("visibility","initial");
-        $('#userID').html(id)
-        $.ajax({
-          dataType: "json",
-          url: "/api/schedules",
-          data: {memberData: true, memberID: id},
-          success:  function(data){
-            if(data.length > 0){
-              $('#name').text(data[0].firstName+' '+data[0].lastName);
-              $("#tbody").html("");
-              $("#rowCount").html(data.length);
-              for(var i = 0; i < data.length; i++){
-                $("#tbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+'</td><td>'+data[i].delivery+'</td><td><button class="btn btn-sm btn-primary">Edit</button> <button class="btn btn-sm btn-danger">Del</button></td></tr>');
-              }
-              $(".loader").css("visibility","hidden");
-            }else{
-              $("#rowCount").html(data.length);
-              $("#tbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+id+'</strong></h4></td></tr>');
-              $(".loader").css("visibility","hidden");
+      $(".loader").css("visibility","initial");
+      $('#userID').html(id)
+      $.ajax({
+        dataType: "json",
+        url: "/api/schedules",
+        data: {memberData: true, memberID: id},
+        success:  function(data){
+          if(data.length > 0){
+            $('#name').text(data[0].firstName+' '+data[0].lastName);
+            $("#tbody").html("");
+            $("#rowCount").html(data.length);
+            for(var i = 0; i < data.length; i++){
+              var TIME = new Date(data[i].timestamp);
+              var HH = TIME.getHours();
+              if(HH<10){HH = '0'+HH;}
+              var mm = TIME.getMinutes();
+              if(mm<10){mm = '0'+mm;}
+              TIME = HH+":"+mm;
+              var todayTime = new Date(data[i].date);
+              var month = todayTime.getMonth() + 1;
+              var day = todayTime.getDate();
+              var year = todayTime.getFullYear();
+              var DATE = [month,day,year].join('/');
+              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'"  time-data="'+TIME+'">'+DATE+" "+TIME+'</td><td id="COURSE'+i+'">'+data[i].course+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].location+'</td><td id="DELIVERY'+i+'">'+data[i].delivery+'</td><td style="width:115px;"><button class="btn btn-sm btn-primary" id="editBtn'+i+'" onClick="editScheduleRecord('+i+')">Edit</button><button class="btn btn-sm btn-success" style="display:none;" id="saveBtn'+i+'" onClick="saveScheduleRecord('+i+')">Save</button><button class="btn btn-sm btn-danger disabled" id="delBtn'+i+'" onClick="delScheduleRecord('+i+')" disabled>Del</button></td></tr>');
             }
+            $(".loader").css("visibility","hidden");
+          }else{
+            $("#rowCount").html(data.length);
+            $("#tbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+id+'</strong></h4></td></tr>');
+            $(".loader").css("visibility","hidden");
           }
-        });
-      }
+        }
+      });
+    }
+    //--------------------------------------------------------------//
+    function  editScheduleRecord(i){
+      $('#DATE'+i).html('<input id="inputDate'+i+'" type="date" value="'+$('#DATE'+i).attr('date-data')+'"/><input id="inputTime'+i+'" type="time" value="'+$('#DATE'+i).attr('time-data')+'"/>');
+      $('#COURSE'+i).html('<input id="inputTitle'+i+'" type="text" value="'+$('#COURSE'+i).text()+'"/>');
+      $('#INSTRUCTOR'+i).html('<input id="inputInstructor'+i+'" type="text" value="'+$('#INSTRUCTOR'+i).text()+'"/>');
+      $('#LOCATION'+i).html('<input id="inputLocation'+i+'" type="text" value="'+$('#LOCATION'+i).text()+'"/>');
+      $('#DELIVERY'+i).html('<input id="inputDelivery'+i+'" type="text" value="'+$('#DELIVERY'+i).text()+'"/>');
+      $('#editBtn'+i).hide();
+      $('#saveBtn'+i).show();
+      $('#delBtn'+i).removeClass('disabled').attr('disabled', false);
+    }
+    //--------------------------------------------------------------//
+    function  saveScheduleRecord(i){
+      var date = $('#inputDate'+i).val();
+      var time = $('#inputTime'+i).val();
+      $('#DATE'+i).attr('date-data', date);
+      $('#DATE'+i).attr('time-data', time);
+      $('#DATE'+i).html(date+' '+time);
+      $('#COURSE'+i).html($('#inputTitle'+i).val());
+      $('#INSTRUCTOR'+i).html($('#inputInstructor'+i).val());
+      $('#LOCATION'+i).html($('#inputLocation'+i).val());
+      $('#DELIVERY'+i).html($('#inputDelivery'+i).val());
+      $('#editBtn'+i).show();
+      $('#saveBtn'+i).hide();
+      $('#delBtn'+i).addClass('disabled').attr('disabled', true);
+    }
+    //--------------------------------------------------------------//
+    function  delScheduleRecord(i){
+      $('#row'+i).toggle(function() {$(this).animate({ color: "#FF0000" }, 1000);});
+    }
   </script>
 </html>

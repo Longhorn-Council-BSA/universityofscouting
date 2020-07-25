@@ -6,9 +6,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel='stylesheet' href='/stylesheets/style.css' />
         <!-- Enable jquery features -->
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <!-- Enable table sorting feature -->
-        <script src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <% if(user){if(user.access == "1000"){ %>
             <style>
               .btn + .ACL{display: inline-block !important;}
@@ -48,6 +46,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col" style="height: 20px; background-image: linear-gradient(#E9E9E4, #ffffff);"></div>
+                <div class="col" style="height: 20px; background-image: linear-gradient(#E9E9E4, #ffffff);"> <!-- Gradient edge --> </div>
             </div>
         </div>
