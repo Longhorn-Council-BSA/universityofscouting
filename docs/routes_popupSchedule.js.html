@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/logout.js</title>
+    <title>JSDoc: Source: routes/popupSchedule.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/logout.js</h1>
+    <h1 class="page-title">Source: routes/popupSchedule.js</h1>
 
     
 
@@ -26,34 +26,83 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * logout router module
+            <pre class="prettyprint source linenums"><code>// jshint esversion: 8
+// async functions
+/**
+ * profile router module
  *
- * This module logs out a user.
+ * This module displays profile data.
  *
- * @module routes/logout
+ * @module routes/schedule
  */
 var express = require("express");
 var router = express.Router();
+var Schedules = require("../models/schedules");
 
 /**
- * GET logout page.
- *
- * Destroys the user object by calling req.logout().  This logs the user out.  Then redirect to "/".
+ * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/logout
+ * @memberof module:routes/schedule
+ * @param {String} memberId the memberID of the user to find records for
+ * @returns an object containing schedule entries
+ */
+async function getUserSchedule(memberID) {
+  var schedule = await Schedules.find({
+    memberID: memberID,
+  });
+  response = schedule.map((entry) => {
+    var date = entry.date;
+    var time = entry.date.toLocaleTimeString();
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    date = mm + '/' + dd + '/' + yyyy;
+    return {
+      _id: entry._id.toString(),
+      memberID: entry.memberID.toString(),
+      time: time,
+      date: date,
+      course: entry.course,
+      instructor: entry.instructor,
+      location: entry.location,
+      delivery: entry.delivery,
+    };
+  });
+  return response;
+}
+
+/**
+ * GET profile information
+ *
+ * Display all known profile information.  At this time, that includes the username only.
+ *
+ * @private
+ * @memberof module:routes/schedule
  * @param {Object}   req                request object
+ * @param {Object}   req.user           the currently logged in user
+ * @param {String}   req.user.memberID  the memberID of the logged in user
+ * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-function routerGETLogout(req, res, next) {
-  req.logout();
-  res.redirect("/");
+async function routerGETSchedules(req, res, next) {
+  try {
+    var schedule = await getUserSchedule(req.user.memberID);
+    res.render("popupSchedule", { 
+      schedule: schedule,
+      user: req.user,
+      title: "Member Popup Schedule",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
 }
 
 // register routes and export router
-router.get("/", routerGETLogout);
+router.get("/", routerGETSchedules);
 module.exports = router;
 </code></pre>
         </article>
