@@ -29,7 +29,6 @@
                         <a href="/" id="UoStitle">University of Scouting</a>
                     </div>
                     <br/>
-                    <% if (user) { %>
                     <table id="navBar" style="margin: 0 auto;">
                         <tr>
                             <td style="min-width: 80px;">
@@ -43,6 +42,7 @@
                                     </span>
                                 </a>
                             </td>
+                            <% if (user) { %>
                             <td style="min-width: 90px;">
                                 <a href="/profile" id="PROFILE">
                                     <span class="bracketL">
@@ -89,9 +89,9 @@
                                     </span>
                                 </a>
                             </td>
+                            <% } %>
                         </tr>
                     </table>
-                    <% } %>
                 </div>
                 <div class="col-2" style="padding-top: 90px;">
                     <% if (user) { %>
