@@ -29,9 +29,8 @@
                         <a href="/" id="UoStitle">University of Scouting</a>
                     </div>
                     <br/>
-                    <table id="navBar" style="margin: 0 auto;">
-                        <tr>
-                            <td style="min-width: 80px;">
+                    <div class="row" id="navBar" style="margin: 0 auto;">
+                            <div class="col text-center" style="min-width: 110px;">
                                 <a href="/" id="HOME">
                                     <span class="bracketL">
                                         [
@@ -41,9 +40,9 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
+                            </div>
                             <% if (user) { %>
-                            <td style="min-width: 90px;">
+                            <div class="col text-center" style="min-width: 110px;">
                                 <a href="/profile" id="PROFILE">
                                     <span class="bracketL">
                                         [
@@ -53,8 +52,8 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 100px;">
+                            </div>
+                            <div class="col text-center" style="min-width: 140px;">
                                 <a href="/schedule" id="SCHEDULE">
                                     <span class="bracketL">
                                         [
@@ -64,8 +63,8 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 110px;" id="TRANSCRIPT">
+                            </div>
+                            <div class="col text-center" style="min-width: 110px;" id="TRANSCRIPT">
                                 <a href="/transcript">
                                     <span class="bracketL">
                                         [
@@ -75,8 +74,8 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 150px;" id="ADMIN">
+                            </div>
+                            <div class="col text-center" style="min-width: 170px;" id="ADMIN">
                                 <a href="/searchMembers" class="noDisplay ACL">
                                     <span class="bracketL">
                                         [
@@ -88,10 +87,9 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
+                            </div>
                             <% } %>
-                        </tr>
-                    </table>
+                    </div>
                 </div>
                 <div class="col-2" style="padding-top: 90px;">
                     <% if (user) { %>
