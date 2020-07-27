@@ -84,7 +84,12 @@
               var day = todayTime .getDate();
               var year = todayTime .getFullYear();
               var DATE = month + "/" + day + "/" + year;
-              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'">'+DATE+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].status+'</td><td style="width:16%;"><button id="Edit'+i+'" class="btn btn-sm btn-primary" onClick="enableEdit('+i+')">Edit</button><button id="Save'+i+'" class="btn btn-sm btn-success" style="display:none;" onClick="saveTranscriptRecord('+i+')">Save</button><button id="Del'+i+'" class="btn btn-sm btn-danger disabled" onClick="deleteTranscriptRecord('+i+')" disabled>Del</button></td></tr>');
+              var confBtn = '<button class="btn btn-sm btn-warning" style="display:none;width:auto;" id="Conf'+i+'" onClick="confDelTranscriptRecord('+i+')">Conf</button>';
+              var delBtn = '<button class="btn btn-sm btn-danger disabled" id="Del'+i+'" onClick="delTranscriptRecord('+i+')" disabled>Del</button>';
+              var editBtn = '<button class="btn btn-sm btn-primary" id="Edit'+i+'" onClick="enableEdit('+i+')">Edit</button>';
+              var saveBtn = '<button class="btn btn-sm btn-success" style="display:none;" id="Save'+i+'" onClick="saveTranscriptRecord('+i+')">Save</button>';
+              var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="Undo'+i+'" onClick="backTranscriptRecord('+i+')">Back</button>';
+              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'">'+DATE+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].status+'</td><td style="width:16%;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
             }
             $(".loader").css("visibility","hidden");
           }else{
@@ -104,13 +109,15 @@
       $('#Edit'+i).css('display', 'none');
       $('#Save'+i).css('display', 'initial');
       $('#Del'+i).removeClass('disabled').attr("disabled", false);
+      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
     }
+    // -----------------------------------------------------------------------------------------//
     function saveTranscriptRecord(i){
       var date = $('#inputDate'+i).val();
       var todayTime = new Date(date);
-      var month = todayTime .getMonth() + 1;
-      var day = todayTime .getDate();
-      var year = todayTime .getFullYear();
+      var month = todayTime.getMonth() + 1;
+      var day = todayTime.getDate();
+      var year = todayTime.getFullYear();
       var DATE = month + "/" + day + "/" + year;
       $('#DATE'+i).html(DATE);
       $('#TITLE'+i).html($('#inputTitle'+i).val());
@@ -118,12 +125,31 @@
       if(CREDITS == ""){CREDITS = "-"}
       $('#CREDITS'+i).html(CREDITS);
       $('#STATUS'+i).html($('#inputStatus'+i).val());
-      $('#Edit'+i).css('display', 'initial');
-      $('#Save'+i).css('display', 'none');
-      $('#Del'+i).removeClass('disabled').attr("disabled", true);
+      $('#Edit'+i).show();
+      $('#Save'+i).hide();
+      $('#Del'+i).addClass('disabled').attr("disabled", true);
+      $('#row'+i).css('background-color', '#48ca53ea');
+      setTimeout(function(){$('#row'+i).css('background-color', '');}, 2000);
     }
-    function deleteTranscriptRecord(i){
-      $('#row'+i).toggle(function() {$(this).animate({ color: "#FF0000" }, 1000);});
+    // -----------------------------------------------------------------------------------------//
+    function delTranscriptRecord(i){
+      $('#row'+i).css('background-color', 'red');
+      $('#Conf'+i).show();
+      $('#Undo'+i).show();
+      $('#Del'+i).hide();
+      $('#Save'+i).hide();
+    }
+    // -----------------------------------------------------------------------------------------//
+    function confDelTranscriptRecord(i){
+      $('#row'+i).toggle(function(){$(this).animate({ color: "#FF0000" }, 1000);});
+    }
+    // -----------------------------------------------------------------------------------------//
+    function backTranscriptRecord(i){
+      $('#Conf'+i).hide();
+      $('#Undo'+i).hide();
+      $('#Save'+i).show();
+      $('#Del'+i).show();
+      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
     }
   </script>
 </html>

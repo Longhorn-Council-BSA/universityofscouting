@@ -83,7 +83,12 @@
               var day = todayTime.getDate();
               var year = todayTime.getFullYear();
               var DATE = [month,day,year].join('/');
-              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'"  time-data="'+TIME+'">'+DATE+" "+TIME+'</td><td id="COURSE'+i+'">'+data[i].course+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].location+'</td><td id="DELIVERY'+i+'">'+data[i].delivery+'</td><td style="width:115px;"><button class="btn btn-sm btn-primary" id="editBtn'+i+'" onClick="editScheduleRecord('+i+')">Edit</button><button class="btn btn-sm btn-success" style="display:none;" id="saveBtn'+i+'" onClick="saveScheduleRecord('+i+')">Save</button><button class="btn btn-sm btn-danger disabled" id="delBtn'+i+'" onClick="delScheduleRecord('+i+')" disabled>Del</button></td></tr>');
+              var confBtn = '<button class="btn btn-sm btn-warning" style="display:none;width:auto;" id="confBtn'+i+'" onClick="confDelScheduleRecord('+i+')">Conf</button>';
+              var delBtn = '<button class="btn btn-sm btn-danger disabled" id="delBtn'+i+'" onClick="delScheduleRecord('+i+')" disabled>Del</button>';
+              var editBtn = '<button class="btn btn-sm btn-primary" id="editBtn'+i+'" onClick="editScheduleRecord('+i+')">Edit</button>';
+              var saveBtn = '<button class="btn btn-sm btn-success" style="display:none;" id="saveBtn'+i+'" onClick="saveScheduleRecord('+i+')">Save</button>';
+              var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="undoBtn'+i+'" onClick="backScheduleRecord('+i+')">Back</button>';
+              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'"  time-data="'+TIME+'">'+DATE+" "+TIME+'</td><td id="COURSE'+i+'">'+data[i].course+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].location+'</td><td id="DELIVERY'+i+'">'+data[i].delivery+'</td><td style="width:115px;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
             }
             $(".loader").css("visibility","hidden");
           }else{
@@ -104,6 +109,7 @@
       $('#editBtn'+i).hide();
       $('#saveBtn'+i).show();
       $('#delBtn'+i).removeClass('disabled').attr('disabled', false);
+      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
     }
     //--------------------------------------------------------------//
     function  saveScheduleRecord(i){
@@ -119,10 +125,28 @@
       $('#editBtn'+i).show();
       $('#saveBtn'+i).hide();
       $('#delBtn'+i).addClass('disabled').attr('disabled', true);
+      $('#row'+i).css('background-color', '#48ca53ea');
+      setTimeout(function(){$('#row'+i).css('background-color', '');}, 2000);
     }
     //--------------------------------------------------------------//
     function  delScheduleRecord(i){
-      $('#row'+i).toggle(function() {$(this).animate({ color: "#FF0000" }, 1000);});
+      $('#row'+i).css('background-color', 'red');
+      $('#confBtn'+i).show();
+      $('#undoBtn'+i).show();
+      $('#delBtn'+i).hide();
+      $('#saveBtn'+i).hide();
+    }
+    //--------------------------------------------------------------//
+    function confDelScheduleRecord(i){
+      $('#row'+i).toggle(function(){$(this).animate({ color: "#FF0000" }, 1000);});
+    }
+    //--------------------------------------------------------------//
+    function backScheduleRecord(i){
+      $('#confBtn'+i).hide();
+      $('#undoBtn'+i).hide();
+      $('#saveBtn'+i).show();
+      $('#delBtn'+i).show();
+      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
     }
   </script>
 </html>

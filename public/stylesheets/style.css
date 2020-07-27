@@ -6,16 +6,22 @@ h1.title { font-size: 30px; padding-top: 30px; font-family: Lucida Bright;}
 .nav-btn-1:hover { background-color: rgb(0, 35, 75);}
 .nav-btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
 .nav-btn-2:hover{ background-color: rgb(161, 13, 31);}
-.btn-1 { background-color: #003F87; color: #ffffff;}
+.btn-1 { background-color: #0151ad; color: #ffffff;}
 .btn-1:hover { background-color: rgb(1, 49, 105); }
 .btn-2 { background-color: #CE1126; color: #ffffff;}
 .btn-2:hover{ background-color: rgb(161, 13, 31);}
 .btn-3 { background-color: #ff9c1a; color: #000000;}
 .btn-3:hover { background-color: rgb(236, 126, 0);}
-a.title { text-decoration: none; color: #515354;}
-a.title:hover { color: #000000;}
-a.title:active { color: #515354;}
-a.title:visited { color: #515354;}
+#navBar a{ text-decoration: none; color: rgb(1, 49, 105); font-weight: bold; font-size: large; font-family: "Times New Roman", Times, serif;}
+#navBar a:hover{ text-decoration: none; color: black;}
+#navBar tr td span.bracketL{ margin-right: -8px; transition: .4s; color: transparent;}
+#navBar tr td a:hover span.bracketL{ margin-right: 1px; color: black;}
+#navBar tr td span.bracketR{ margin-left: -8px; transition: .4s; color: transparent;}
+#navBar tr td a:hover span.bracketR{ margin-left: 1px; color: black;}
+.title {margin-top: 20px; font-family: "Times New Roman", Times, serif; font-weight: bold;}
+.title a { text-decoration: none; color: #515354; font-size: 30pt; transition: .4s;}
+#UoStitle:hover { color: rgb(1, 49, 105);}
+.pageTitle:hover { color: rgb(1, 49, 105);}
 a.pageTitleURL { text-decoration: none;}
 div.dropdown { position: relative; display: inline-block;}
 .dropbtn { background: transparent; border: transparent; margin-left: 9px;}
