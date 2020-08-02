@@ -41,7 +41,6 @@
       </div>
     </div>
   </div>
-<%- include footer %>
 <script>
 //******Open print friendly window // Print as PDF******//  
   function print() {
@@ -64,7 +63,7 @@ $(".printTip").mouseleave(function() {
 });
 //*********HowTo popup********//
 function howToPopup(){
-  var popup = window.open('/howtoprinttopdf', '', 'height=800, width=600');
+  var popup = window.open('/howtoprinttopdf', '', 'height=850, width=700');
   popup.document.close();
 }
 //******Download Transcript CSV file******//  
@@ -122,5 +121,4 @@ function howToPopup(){
     }
 }
 </script>
-<!-- Enable table sorting feature -->
-<script src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<%- include footer %>

@@ -18,20 +18,20 @@
         </div>
       </div>
     </div>
+    <span style="display:none;" id="TITLE"><%= title %></span>
   </body>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript">
-    document.onload = titleURL();
-    function titleURL(){
-      var pageTitle = document.getElementById("titleURL").innerHTML;
-      var url = "";
-      if(pageTitle == "Home"){document.getElementById("titleURL").style.display = 'none';document.getElementById("arrow").style.display = 'none';
-        }else if(pageTitle == "Login Page"){url = '<a class="pageTitleURL title" href="/login">'+pageTitle+'</a>';document.getElementById("inputPassword1").focus();
-        }else if(pageTitle == "Profile Page"){url = '<a class="pageTitleURL title" href="/profile">'+pageTitle+'</a>';
-        }else if(pageTitle == "Schedule Page"){url = '<a class="pageTitleURL title" href="/schedule">'+pageTitle+'</a>';
-        }else if(pageTitle == "Transcript Page"){url = '<a class="pageTitleURL title" href="/transcript">'+pageTitle+'</a>';
-        }else{url = "ERROR";}
-      document.getElementById("titleURL").innerHTML = url;
-    }
+    $('document').ready(
+      function titleURL(){
+        var pageTitle = $('#TITLE').text();
+        var url = "";
+        if(pageTitle == "Home"){$('#HOME span.bracketL').css({ marginRight : "1px", color : "black"});$('#HOME span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        else if(pageTitle == "Profile"){$('#PROFILE span.bracketL').css({ marginRight : "1px", color : "black"});$('#PROFILE span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        else if(pageTitle == "Schedule"){$('#SCHEDULE span.bracketL').css({ marginRight : "1px", color : "black"});$('#SCHEDULE span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        else if(pageTitle == "Transcript"){$('#TRANSCRIPT span.bracketL').css({ marginRight : "1px", color : "black"});$('#TRANSCRIPT span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        else if(pageTitle == "Administration"){$('#ADMIN span.bracketL').css({ marginRight : "1px", color : "black"});$('#ADMIN span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        else if(pageTitle == "Login"){document.getElementById("inputPassword1").focus();}
+      }
+    );
   </script>
 </html>

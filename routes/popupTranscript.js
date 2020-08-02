@@ -4,40 +4,34 @@
  *
  * This module displays profile data.
  *
- * @module routes/schedule
+ * @module routes/popupTranscript
  */
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/schedules");
+var Transcripts = require("../models/registrations");
 
 /**
- * Retrieve all schedules entries from MongoDB for a single user.
+ * Retrieve all transcript entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/popupTranscript
  * @param {String} memberId the memberID of the user to find records for
- * @returns an object containing schedule entries
+ * @returns an object containing transcript entries
  */
-async function getUserSchedule(memberID) {
-  var schedule = await Schedules.find({
-    memberID: memberID,
+async function getUserTranscript(memberID) {
+  var transcript = await Transcripts.find({
+    memberID: memberID
   });
-  response = schedule.map((entry) => {
-    var date = entry.date;
-    var time = entry.date.toLocaleTimeString();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
+  response = transcript.map((entry) => {
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
-      time: time,
-      date: date,
-      course: entry.course,
-      instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
+      firstName: entry.firstName,
+      lastName: entry.lastName,
+      title: entry.title,
+      date: entry.date,
+      credits: entry.credits,
+      status: entry.status,
     };
   });
   return response;
@@ -49,7 +43,7 @@ async function getUserSchedule(memberID) {
  * Display all known profile information.  At this time, that includes the username only.
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/popupTranscript
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
@@ -57,13 +51,13 @@ async function getUserSchedule(memberID) {
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-async function routerGETSchedules(req, res, next) {
+async function routerGETTranscript(req, res, next) {
   try {
-    var schedule = await getUserSchedule(req.user.memberID);
-    res.render("Schedule", { 
-      schedule: schedule,
+    var transcript = await getUserTranscript(req.user.memberID);
+    res.render("popupTranscript", { 
+      transcript: transcript,
       user: req.user,
-      title: "Schedule",
+      title: "Member Popup Transcript",
     });
   } catch (err) {
     res.status(500).json({
@@ -73,5 +67,5 @@ async function routerGETSchedules(req, res, next) {
 }
 
 // register routes and export router
-router.get("/", routerGETSchedules);
+router.get("/", routerGETTranscript);
 module.exports = router;

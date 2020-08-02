@@ -198,7 +198,7 @@ This module allows for programatic download of transcript data.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line21">line 21</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -244,7 +244,7 @@ This module allows for programatic download of transcript data.</div>
     
 
     
-    <h4 class="name" id=".getAllTranscripts"><span class="type-signature">(async, private, static) </span>getAllTranscripts<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getAllTranscripts"><span class="type-signature">(async, private, static) </span>getAllTranscripts<span class="signature">(opt)</span><span class="type-signature"></span></h4>
     
 
     
@@ -261,6 +261,127 @@ This module allows for programatic download of transcript data.</div>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">additional options
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">include member data in reponse (default: false)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">filter by member id* @memberof module:routes/api</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -296,7 +417,7 @@ This module allows for programatic download of transcript data.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line68">line 68</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -331,6 +452,606 @@ This module allows for programatic download of transcript data.</div>
 
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getMemberByID"><span class="type-signature">(async, private, static) </span>getMemberByID<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieve single member by ID from MongoDB.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the ID of the member to lookup</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an object containing one member
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getSchedule"><span class="type-signature">(async, private, static) </span>getSchedule<span class="signature">(opt)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieve all schedule entries from MongoDB.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">additional options
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">include member data in reponse (default: false)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">filter by member id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an object containing all transcript entries
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".routeGETApiMemberByID"><span class="type-signature">(async, private, static) </span>routeGETApiMemberByID<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GET one member.
+
+Return one member by ID
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params.id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the ID of the member to lookup</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">response object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function call to next middleware</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -540,7 +1261,287 @@ Return all members in either JSON or CSV format.  JSON is returned by default.  
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line47">line 47</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".routeGETApiSchedules"><span class="type-signature">(async, private, static) </span>routeGETApiSchedules<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GET all schedule entries.
+
+Return all schedule entries in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.  If ?memberdata=true then member profile info will be returned as a part of the response.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query.return</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">when set to "csv", return CSV output</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query.memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">filter by this member ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query.memberData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">when set to "true" return memberData in the response</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">response object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">function call to next middleware</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -684,6 +1685,52 @@ Return all transcript entries in either JSON or CSV format.  JSON is returned by
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>query.memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">filter by this member ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query.memberData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">when set to "true" return memberData in the response</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -774,7 +1821,7 @@ Return all transcript entries in either JSON or CSV format.  JSON is returned by
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line93">line 93</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -820,13 +1867,13 @@ Return all transcript entries in either JSON or CSV format.  JSON is returned by
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 18 2020 17:25:57 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Mon Jul 27 2020 20:41:51 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

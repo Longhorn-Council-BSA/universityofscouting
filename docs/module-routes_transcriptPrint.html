@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: routes/login</title>
+    <title>JSDoc: Module: routes/transcriptPrint</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: routes/login</h1>
+    <h1 class="page-title">Module: routes/transcriptPrint</h1>
 
     
 
@@ -38,9 +38,9 @@
     <div class="container-overview">
     
         
-            <div class="description">login router module
+            <div class="description">transcript router module
 
-This module logs in a user.</div>
+This module displays transcripts for logged in users</div>
         
 
         
@@ -89,7 +89,7 @@ This module logs in a user.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_login.js.html">routes/login.js</a>, <a href="routes_login.js.html#line1">line 1</a>
+        <a href="routes_transcriptPrint.js.html">routes/transcriptPrint.js</a>, <a href="routes_transcriptPrint.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -146,7 +146,7 @@ This module logs in a user.</div>
     
 
     
-    <h4 class="name" id=".routerGETLogin"><span class="type-signature">(private, static) </span>routerGETLogin<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".getUserTranscript"><span class="type-signature">(async, private, static) </span>getUserTranscript<span class="signature">(memberId)</span><span class="type-signature"></span></h4>
     
 
     
@@ -154,9 +154,156 @@ This module logs in a user.</div>
 
 
 <div class="description">
-    GET login page.
+    Retrieve all transcript entries from MongoDB for a single user.
+</div>
 
-Display the login page with the "login" view.  If a user is currently logged in, redirect to "/".
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the memberID of the user to find records for</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_transcriptPrint.js.html">routes/transcriptPrint.js</a>, <a href="routes_transcriptPrint.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an object containing transcript entries
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".routerGETTranscipt"><span class="type-signature">(async, private, static) </span>routerGETTranscipt<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    GET and display all transcript entries for the logged in user.
+
+Display all transcript entries for the logged in user using the "transcript" view.
 </div>
 
 
@@ -250,7 +397,79 @@ Display the login page with the "login" view.  If a user is currently logged in,
 
             
 
-            <td class="description last">the currently logged in user</td>
+            <td class="description last">the currently logged in user
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the memberID of the logged in user</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query.return</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">when set to "csv", return CSV output</td>
         </tr>
 
     
@@ -344,7 +563,7 @@ Display the login page with the "login" view.  If a user is currently logged in,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_login.js.html">routes/login.js</a>, <a href="routes_login.js.html#line24">line 24</a>
+        <a href="routes_transcriptPrint.js.html">routes/transcriptPrint.js</a>, <a href="routes_transcriptPrint.js.html#line58">line 58</a>
     </li></ul></dd>
     
 

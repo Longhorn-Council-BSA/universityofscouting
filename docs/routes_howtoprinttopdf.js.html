@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/index.js</title>
+    <title>JSDoc: Source: routes/howtoprinttopdf.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/index.js</h1>
+    <h1 class="page-title">Source: routes/howtoprinttopdf.js</h1>
 
     
 
@@ -27,33 +27,33 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * index router module
+ * profile router module
  *
- * This module displays the index page.
+ * This module displays profile data.
  *
- * @module routes/index
+ * @module routes/profile
  */
 var express = require("express");
 var router = express.Router();
 
 /**
- * GET index page.
+ * GET profile information
  *
- * Display the "index" view.
+ * Display all known profile information.  At this time, that includes the username only.
  *
  * @private
- * @memberof module:routes/index
+ * @memberof module:routes/profile
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-function routerGETIndex(req, res, next) {
-  res.render("index", { title: "Home", user: req.user });
+function routerGETProfile(req, res, next) {
+  res.render("howtoprinttopdf", { title: "Print to PDF Guide", user: req.user });
 }
 
 // register routes and export router
-router.get("/", routerGETIndex);
+router.get("/", routerGETProfile);
 module.exports = router;
 </code></pre>
         </article>

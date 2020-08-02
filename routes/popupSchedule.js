@@ -1,4 +1,5 @@
 // jshint esversion: 8
+// async functions
 /**
  * profile router module
  *
@@ -60,10 +61,10 @@ async function getUserSchedule(memberID) {
 async function routerGETSchedules(req, res, next) {
   try {
     var schedule = await getUserSchedule(req.user.memberID);
-    res.render("Schedule", { 
+    res.render("popupSchedule", { 
       schedule: schedule,
       user: req.user,
-      title: "Schedule",
+      title: "Member Popup Schedule",
     });
   } catch (err) {
     res.status(500).json({

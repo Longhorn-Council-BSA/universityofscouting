@@ -61,7 +61,7 @@ async function routerGETTranscipt(req, res, next) {
     res.render("transcript", {
       transcript: transcript,
       user: req.user,
-      title: "Transcript Page",
+      title: "Transcript",
     });
   } catch (err) {
     res.status(500).json({

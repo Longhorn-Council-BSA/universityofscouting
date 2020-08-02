@@ -2,29 +2,62 @@
   <div class="container main-body">
     <div class="row">
       <div class="col">
-        <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
+        <div class="text-center font-weight-bold">
+          </span>Member ID: <span id="userID"></span> | 
+          <span id="fname"></span> 
+          <span id="lname"></span> | 
+          <span id="rowCount"></span> Records
+        </div><br/>
+        <table id="transcriptTable" class="mx-auto table table-hover table-sm text-center sortable">
           <thead class="thead-dark">
-            <th>Course Date & Time</th>
-            <th>Course Title</th>
-            <th>Course Instructor</th>
-            <th>Course Location</th>
-            <th>On-line Delivery</th>
-          </thead>
-          <tbody>
-            <% for(var i=0; i<schedule.length; i++) {  %>
             <tr>
-              <td><%= schedule[i].date %> <%= schedule[i].time %></td>
-              <td><%= schedule[i].course %></td>
-              <td><%= schedule[i].instructor %></td>
-              <td><%= schedule[i].location %></td>
-              <td><%= schedule[i].delivery %></td>
+              <th>Course Date & Time</th>
+              <th>Course Title</th>
+              <th>Course Instructor</th>
+              <th>Course Location</th>
+              <th>On-line Delivery</th>
             </tr>
-            <% } %>
+          </thead>
+          <tbody id="scheduleTbody">
           </tbody>
         </table>
+        <div class="loader loader2"></div>
       </div>
     </div>
   </div>
+  <script>
+    $("document").ready(function(){
+      getSchedule();
+    });
+    function getSchedule(){
+      var ID = $("#searchInput").val();
+      $(".loader").css("visibility","initial");
+      $.ajax({
+        dataType: "json",
+        url: "/api/schedules",
+        data: {memberID: $("#searchInput").val(), memberData: true},
+        success:  function(data){
+          if(data.length > 0){
+            $("#scheduleTbody").html("");
+            $("#rowCount").html(data.length);
+            $("#userID").html(data[0].memberID);
+            $("#fname").html(data[0].firstName);
+            $("#lname").html(data[0].lastName);
+            for(var i = 0; i < data.length; i++){
+              $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td></tr>');
+            }
+            $(".loader").css("visibility","hidden");
+          }else{
+            $("#scheduleTbody").html("");
+            $("#userID").html("__________");
+            $("#fname").html("__________");
+            $("#lname").html("__________");
+            $("#rowCount").html(data.length);
+            $("#scheduleTbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;"><strong>'+data.length+' records returned for member ID '+ID+'</strong></h4></td></tr>');
+            $(".loader").css("visibility","hidden");
+          }
+        }
+      });
+    }
+  </script>
 <%- include footer %>
-<!-- Enable table sorting feature -->
-<script src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>

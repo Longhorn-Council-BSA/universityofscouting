@@ -8,36 +8,26 @@
  */
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/schedules");
+var members = require("../models/members");
 
 /**
  * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/members
  * @param {String} memberId the memberID of the user to find records for
  * @returns an object containing schedule entries
  */
-async function getUserSchedule(memberID) {
-  var schedule = await Schedules.find({
-    memberID: memberID,
-  });
-  response = schedule.map((entry) => {
-    var date = entry.date;
-    var time = entry.date.toLocaleTimeString();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
+async function getMembers() {
+  var member = await members.find();
+  response = member.map((entry) => {
     return {
       _id: entry._id.toString(),
       memberID: entry.memberID.toString(),
-      time: time,
-      date: date,
-      course: entry.course,
-      instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
+      firstName: entry.firstName,
+      lastName: entry.lastName,
+      council: entry.council,
+      access: entry.access
     };
   });
   return response;
@@ -49,7 +39,7 @@ async function getUserSchedule(memberID) {
  * Display all known profile information.  At this time, that includes the username only.
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/searchMembers
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
@@ -57,13 +47,13 @@ async function getUserSchedule(memberID) {
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
-async function routerGETSchedules(req, res, next) {
+async function routerGETMembers(req, res, next) {
   try {
-    var schedule = await getUserSchedule(req.user.memberID);
-    res.render("Schedule", { 
+    var schedule = await getMembers(req.user.memberID);
+    res.render("searchMembers", { 
       schedule: schedule,
       user: req.user,
-      title: "Schedule",
+      title: "Administration",
     });
   } catch (err) {
     res.status(500).json({
@@ -73,5 +63,5 @@ async function routerGETSchedules(req, res, next) {
 }
 
 // register routes and export router
-router.get("/", routerGETSchedules);
+router.get("/", routerGETMembers);
 module.exports = router;
