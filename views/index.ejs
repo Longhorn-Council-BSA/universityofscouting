@@ -1,22 +1,41 @@
 
 <%- include header %>
 <div class="container main-body">
+  <% if (!user) { %>
   <div class="row justify-content-center">
     <div class="col-6" style="text-align: center;">
-      <h5><% if (user) { %><br/><% } %>
-        Welcome to the University of Scouting<% if (!user) { %>!<br/>
-          <br/>Please login to access additional features.<% }else{ %>, <strong><%= user.firstName %></strong>!<% } %>
-      </h5>
+     <h5>Please login to access additional features.</h5>
+    </div>
+  </div>
+  <% } %>
+  <div class="row">
+    <div class="col-10 text-left" style="margin:0 auto;">
+      <h3>Our Mission</h3>
+      <p>
+        Longhorn Council University of Scouting is deeply committed to advancing educational excellence and preparing 
+        participants to become well rounded, knowledgeable, leaders in all aspects of Scouting.
+      </p>
+      <h3>Our Vision</h3>
+      <p>
+        To be the largest annual training event providing comprehensive top quality education to Scouters in and around the Longhorn 
+        Council to help deliver the Promise of Scouting. LHC University of Scouting will be a diverse and inclusive institution creating 
+        knowledge and innovations, while cultivating excellence in the next generation of Scouts and Scouters.
+      </p>
     </div>
   </div>
   <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-      
-    </div>
-    <div class="col-3">
-      
-    </div>
+    <div class="col-10 text-left" style="margin:0 auto;">
+      <h3>This Website</h3>
+      <p>
+        Using this website you can access current and past transcript/schedule data, and fill out your degree application form. You will also find links to University of Scouting registrations form and other important information downloads, such as course catalogs.
+      </p>
+      <p>
+        To fill out your new application form <a href="https://docs.google.com/forms/d/e/1FAIpQLScOlfRfJbfUbAfjwVHWp3ebtTPG0XsnCFQZb3DmOZftVSoYPw/viewform" target="_blank">CLICK HERE</a>.
+      </p>
+      <p>
+        For any additional questions contact University of Scouting Staff at <a href="mailto:universityofscouting@longhorn.org">universityofscouting@longhorn.org</a>.
+      </p>
+      </div>
   </div>
 </div>
 <%- include footer %>
