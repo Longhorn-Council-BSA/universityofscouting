@@ -1,19 +1,20 @@
 <%- include header %>
   <div class="container main-body">
-    <div class="row">
+    <div class="row" id="exportOptions">
       <div class="col"></div>
       <div class="col-5 text-center">
         <!-- Transcript download/print options -->
         <button type="button" id="btnExportToCsv" class="btn btn-sm btn-3 noprint">Download CSV</button>
         <!-- <button onclick="downloadPDF()" class="btn btn-sm btn-3 noprint disabled" style="cursor: not-allowed;" disabled>Download PDF</button> -->
         <button id="printBTN" onclick="print()" class="btn btn-sm btn-3 noprint">Print</button>
-        <span class="printTip" id="printTip"><strong>Tool-Tip:<br/></strong>To save your Transcript on your computer you can Print to PDF!<br/><br/><span class="ClickHere" onClick="howToPopup()">Click here for instructions!</span></a></span>
+        <span class="printTip" id="printTip"><strong>Tool-Tip:<br/></strong>To save your Transcript on your computer you can Print to PDF!<br/><span class="ClickHere" onClick="howToPopup()">Click here for instructions!</span></a></span>
       </div>
       <div class="col">
       </div>
     </div>
     <!-- Variables for print screen -->
     <div class="row">
+      <span id="browserInfo"></span>
       <div class="col text-center noprint" style="font-weight: bold; margin-top: 10px;">
         Member ID: <span id="userID"><%= user.memberID %></span> | 
         <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span> | 
@@ -72,7 +73,7 @@ function howToPopup(){
   var fname = document.getElementById('fname').innerHTML;
   var lname = document.getElementById('lname').innerHTML;
   var user = fname+" "+lname;
-  btnExportToCsv.addEventListener("click", () => {
+  btnExportToCsv.addEventListener("click", function() {
       const exporter = new TableCSVExporter(dataTable);
       const csvOutput = exporter.convertToCSV();
       const csvBlob = new Blob([csvOutput], { type: "text/csv" });
@@ -81,7 +82,7 @@ function howToPopup(){
       anchorElement.href = blobUrl;
       anchorElement.download = "University of Scouting Transcript - "+user+".csv";
       anchorElement.click();
-      setTimeout(() => {
+      setTimeout(function(){
           URL.revokeObjectURL(blobUrl);
       }, 500);
   });
