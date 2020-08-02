@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.15 (2020-08-02)
 
+- adds csv middleware back in
+
 ### 0.0.14 (2020-08-02)
+
+- copies email address to clipboard
+- fixes hover
 
 ### 0.0.13 (2020-08-02)
 
