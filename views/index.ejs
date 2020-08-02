@@ -33,9 +33,21 @@
         To fill out your new application form <a href="https://docs.google.com/forms/d/e/1FAIpQLScOlfRfJbfUbAfjwVHWp3ebtTPG0XsnCFQZb3DmOZftVSoYPw/viewform" target="_blank">CLICK HERE</a>.
       </p>
       <p>
-        For any additional questions contact University of Scouting Staff at <a href="mailto:universityofscouting@longhorn.org">universityofscouting@longhorn.org</a>.
+        For any additional questions contact University of Scouting Staff at 
+        <a class="tooltip-wrap" id="BSAurl" emailAddress="universityofscouting@longhorn.org">
+          universityofscouting@longhorn.org<span  class="tooltip-content" id="clickToCopy">Click to copy email address!</span></a>.
       </p>
-      </div>
+    </div>
   </div>
 </div>
+<script>
+  document.getElementById("BSAurl").addEventListener("click", function(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText(e.target.getAttribute('emailAddress')).then(() => { /* clipboard successfully set */ }, () => { /* clipboard write failed */ });
+    $('#clickToCopy').text('Email address copied!')
+    setTimeout(() => {
+      $('#clickToCopy').text('Click to copy email address!')
+    }, 3000);
+  });
+</script>
 <%- include footer %>
