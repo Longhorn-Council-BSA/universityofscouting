@@ -1,7 +1,6 @@
 <html>
   <header>
     <title>Print Transcript</title>
-    <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         .header { font-weight: bold; margin: 0.75in 0px -0.75in 0px;}
@@ -16,39 +15,90 @@
   <body>
     <div class="header text-center">
       Member ID: <span id="userID"><%= user.memberID %></span> 
-      | <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span> 
-      | <span id="rowCount"><%= transcript.length %></span> Records
+      | <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span>
+      | <span id="date1"></span>
     </div>
-    <% var i = 0, count = 0, pages = transcript.length/40 %>
+    <% var i = 0, count = 0, pages = 0; %>
     <% for(var T=0; T<99; T++) {  %>
-      <div class="page text-center">
-        <img src="images/LHC_UoS_Logo_Watermark.png" />
-        <h1>University of Scouting Transcript</h1>
-        <table class="mx-auto table table-sm">
-          <thead>
+    <div class="page text-center">
+      <img src="images/LHC_UoS_Logo_Watermark.png" />
+      <h1>University of Scouting Transcript</h1>
+      <table class="mx-auto table table-sm">
+        <thead>
+          <tr><th colspan="4">Course Type Records</th></tr>
+          <tr>
             <th>Course Date</th>
             <th>Course Title</th>
             <th>Credits</th>
             <th>Status</th>
-          </thead>
-          <tbody>
-            <% var count = 0; %>
-            <% for(var i=i; i<transcript.length; i++) {  %>
-            <tr>
-              <td><%= transcript[i].date %></td>
-              <td><%= transcript[i].title %></td>
-              <td><%= transcript[i].credits %></td>
-              <td><%= transcript[i].status %></td>
-            </tr>
-            <% count++; %>
-            <% if(count == 40){count = 0; break;} %>
-            <%  } %>
-          </tbody>
-        </table>
-        <br/><br/>
-        <div>Page <%= T+1 %> of <%= Math.round(pages+1) %></div>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          <% var count = 0; %>
+          <% for(var i=i; i<transcript.length; i++) {  %>
+          <% if(transcript[i].type == 1){ %>
+          <tr>
+            <td><%= transcript[i].date %></td>
+            <td><%= transcript[i].title %></td>
+            <td><%= transcript[i].credits %></td>
+            <td><%= transcript[i].status %></td>
+          </tr>
+          <% count++; %>
+          <% if(count == 40){pages++; count = 0; break;} %>
+          <%  }} %>
+        </tbody>
+      </table>
+      <br/><br/>
+      <div>Page <%= T+1 %> of <%= Math.round(pages+1) %></div>
+    </div>
     <% if(i == transcript.length){break;} %>
     <% } %>
+    <div class="header text-center">
+      Member ID: <span id="userID"><%= user.memberID %></span> 
+      | <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span>
+      | <span id="date2"></span>
+    </div>
+<!-- ---------------------------------------------------------------------------- -->
+    <% var i = 0, count = 0, pages = 0; %>
+    <% for(var T=0; T<99; T++) {  %>
+    <div class="page text-center">
+      <img src="images/LHC_UoS_Logo_Watermark.png" />
+      <h1>University of Scouting Transcript</h1>
+      <table class="mx-auto table table-sm">
+        <thead>
+          <tr><th colspan="4">Degree Type Records</th></tr>
+          <tr>
+            <th>Course Date</th>
+            <th>Course Title</th>
+            <th>Credits</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var count = 0; %>
+          <% for(var i=i; i<transcript.length; i++) {  %>
+          <% if(transcript[i].type == 2){ %>
+          <tr>
+            <td><%= transcript[i].date %></td>
+            <td><%= transcript[i].title %></td>
+            <td><%= transcript[i].credits %></td>
+            <td><%= transcript[i].status %></td>
+          </tr>
+          <% count++; %>
+          <% if(count == 40){pages++; count = 0; break;} %>
+          <%  }} %>
+        </tbody>
+      </table>
+      <br/><br/>
+      <div>Page <%= T+1 %> of <%= Math.round(pages+1) %></div>
+    </div>
+    <% if(i == transcript.length){break;} %>
+    <% } %>
+    <script> 
+      var dateObj = new Date(); 
+      var options = {year: "numeric", month: "long", day: "numeric" }; 
+      document.getElementById("date1").innerHTML = (dateObj.toLocaleDateString("en-US", options));
+      document.getElementById("date2").innerHTML = (dateObj.toLocaleDateString("en-US", options)); 
+    </script>     
   </body> 
 </html>

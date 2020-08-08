@@ -126,26 +126,28 @@ async function getAllTranscripts(opt = {}) {
   }else{ 
     transcript = await Registrations.find();
   }
-  response_promises = transcript.map( async function (entry) {
-    if(!members[entry.memberID]){
-      members[entry.memberID] = await getMemberByID(Number(entry.memberID));
+  response_promises = transcript.map(
+    async function (entry) {
+      if(!members[entry.memberID]){
+        members[entry.memberID] = await getMemberByID(Number(entry.memberID));
+      }
+      var date = entry.date;
+      var dd = String(date.getDate()).padStart(2, '0');
+      var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = date.getFullYear();
+      date = yyyy + '-' + mm + '-' + dd;
+      return {
+        _id: entry._id.toString(),
+        memberID: entry.memberID.toString(),
+        firstName: members[entry.memberID].firstName,
+        lastName: members[entry.memberID].lastName,
+        title: entry.title,
+        date: date,
+        credits: entry.credits,
+        status: entry.status,
+      };
     }
-    var date = entry.date;
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = yyyy + '-' + mm + '-' + dd;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: members[entry.memberID].firstName,
-      lastName: members[entry.memberID].lastName,
-      title: entry.title,
-      date: date,
-      credits: entry.credits,
-      status: entry.status,
-    };
-  });
+  );
   return Promise.all(response_promises);
 }
 
@@ -195,15 +197,13 @@ async function getSchedule(opt = {}) {
   if(opt.memberData){
     memberData = true;
   }
-  var members = {};
   var schedule;
   if(opt.memberID){
-      schedule = await Schedules.find({
-      memberID: opt.memberID
-    });
+      schedule = await Schedules.find({memberID: opt.memberID});
   }else{
-    schedule = await Schedules.find();
+     schedule = await Schedules.find();
   }
+  var members = {};
   response_promises = schedule.map( async function(entry) {
     if(!members[entry.memberID]){
       members[entry.memberID] = await getMemberByID(Number(entry.memberID));

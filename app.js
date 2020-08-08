@@ -76,6 +76,7 @@ app.use("/howtoprinttopdf", ensureLogin.ensureLoggedIn(), require("./routes/howt
 app.use("/transcriptPrint", ensureLogin.ensureLoggedIn(), require("./routes/transcriptPrint"));
 app.use("/popupSchedule", ensureLogin.ensureLoggedIn(), require("./routes/popupSchedule"));
 app.use("/popupTranscript", ensureLogin.ensureLoggedIn(), require("./routes/popupTranscript"));
+app.use("/schedulePrint", ensureLogin.ensureLoggedIn(), require("./routes/schedulePrint"));
 
 /**
  * catch and generate 404 errors.
