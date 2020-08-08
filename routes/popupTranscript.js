@@ -32,6 +32,7 @@ async function getUserTranscript(memberID) {
       date: entry.date,
       credits: entry.credits,
       status: entry.status,
+      type: entry.type
     };
   });
   return response;

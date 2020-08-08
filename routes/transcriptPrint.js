@@ -20,9 +20,7 @@ var Registrations = require("../models/registrations");
  * @returns an object containing transcript entries
  */
 async function getUserTranscript(memberID) {
-  var transcript = await Registrations.find({
-    memberID: memberID,
-  });
+  var transcript = await Registrations.find({memberID: memberID});
   response = transcript.map((entry) => {
     var date = entry.date;
     var dd = String(date.getDate()).padStart(2, '0');
@@ -36,6 +34,7 @@ async function getUserTranscript(memberID) {
       date: date,
       credits: entry.credits,
       status: entry.status,
+      type: entry.type
     };
   });
   return response;

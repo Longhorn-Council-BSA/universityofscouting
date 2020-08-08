@@ -24,6 +24,10 @@ Registrations = mongoose.model('Registrations', new mongoose.Schema({
         type: String,
         required: true,
         default: 'Unknown'
+    },
+    type: {
+        type: Number,
+        required: true
     }
 }));
 

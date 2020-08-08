@@ -34,8 +34,10 @@ async function getUserTranscript(memberID) {
       memberID: entry.memberID.toString(),
       title: entry.title,
       date: date,
+      council: entry.council,
       credits: entry.credits,
       status: entry.status,
+      type: entry.type
     };
   });
   return response;

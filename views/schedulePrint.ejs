@@ -1,0 +1,66 @@
+<html>
+  <header>
+    <title>Print Schedule</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .header { font-weight: bold; margin: 0.75in 0px -0.75in 0px;}
+        .page { height: auto; width: 900px; margin: 0 auto; margin-top: 10px; page-break-after: always !important;}
+        .page img { padding-top: 50px; height: 1300px; width: 900px; position: absolute; display: block; text-align: center; z-index: 1;}
+        .page h1 { margin-top: 0.75in; font-family: Lucida Bright;}
+        table { width: 700px;}
+        th { text-align: center; border-color: black !important; vertical-align: middle !important;}
+        tr td { white-space: nowrap; border-color: black !important; text-align: center; vertical-align: middle;}
+    </style>
+  </header>
+  <body>
+    <div class="header text-center">
+      ID: <span id="userID"><%= user.memberID %></span> 
+      | <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span>
+      | <span id="date1"></span>
+      | <span><%= schedule.length %> Records</span>
+    </div>
+    <% var i = 0, count = 0, pages = 0; %>
+    <% for(var T=0; T<99; T++) {  %>
+    <div class="page text-center">
+      <img src="images/LHC_UoS_Logo_Watermark.png" />
+      <h1>University of Scouting Schedule</h1>
+      <table class="mx-auto table table-sm">
+        <thead>
+          <tr>
+            <th>
+              Course Date/TIme<br/>
+              <span style="font-size: 8pt;">(mm/dd/yyyy)</span>
+            </th>
+            <th>Course Title</th>
+            <th>Course Instructor</th>
+            <th>Course Location</th>
+            <th>Delivery Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var count = 0; %>
+          <% for(var i=i; i<schedule.length; i++) {  %>
+          <tr>
+            <td><%= schedule[i].date %> <%= schedule[i].time %></td>
+            <td><%= schedule[i].course %></td>
+            <td><%= schedule[i].instructor %></td>
+            <td><%= schedule[i].location %></td>
+            <td><%= schedule[i].delivery %></td>
+          </tr>
+          <% count++; %>
+          <% if(count == 35){pages++; count = 0; break;} %>
+          <%  } %>
+        </tbody>
+      </table>
+      <br/><br/>
+      <div>Page <%= T+1 %> of <%= Math.round(pages+1) %></div>
+    </div>
+    <% if(i == schedule.length){break;} %>
+    <% } %>
+    <script> 
+      var dateObj = new Date(); 
+      var options = {year: "numeric", month: "long", day: "numeric" }; 
+      document.getElementById("date1").innerHTML = (dateObj.toLocaleDateString("en-US", options));
+    </script>     
+  </body> 
+</html>
