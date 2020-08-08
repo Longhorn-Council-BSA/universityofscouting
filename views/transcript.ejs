@@ -44,6 +44,7 @@
     </div>
     <hr style="width: 80%;">
     <div class="row">
+      <span id="browserInfo"></span>
       <div class="col text-center noprint" style="font-weight: bold; margin-top: 10px;">
         <p style="font:15pt arial;font-weight: bold;margin:0px;text-align: center;">Degree Records</p>
         <p style="margin:0px;">
@@ -110,7 +111,7 @@
   var fname = document.getElementById('fname').innerHTML;
   var lname = document.getElementById('lname').innerHTML;
   var user = fname+" "+lname;
-  btnExportToCsv.addEventListener("click", () => {
+  btnExportToCsv.addEventListener("click", function() {
       const exporter = new TableCSVExporter(dataTable);
       const csvOutput = exporter.convertToCSV();
       const csvBlob = new Blob([csvOutput], { type: "text/csv" });
@@ -119,7 +120,7 @@
       anchorElement.href = blobUrl;
       anchorElement.download = "University of Scouting Transcript - "+user+".csv";
       anchorElement.click();
-      setTimeout(() => {
+      setTimeout(function(){
           URL.revokeObjectURL(blobUrl);
       }, 500);
   });

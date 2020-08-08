@@ -5,19 +5,12 @@
         <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.14/es5-shim.min.js"></script>
         <!-- Enable jquery features -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <% if(user){if(user.access == "1000"){ %>
-            <style>
-              .btn + .ACL{display: inline-block !important;}
-              th.ACL, td.ACL{display: table-cell !important;}
-              tr.ACL{display: table-row !important;}
-              a.ACL{display: initial !important;}
-            </style>
-        <% } }%>
     </head>
     <body>
-        <div class="container" id="header" style="background-color: #d8d8ce;">
+        <div class="container" id="header" style="background-color: #D6CEBD;">
             <div class="row">
                 <div class="col-2 justify-content-start">
                     <a href="/">
@@ -29,9 +22,8 @@
                         <a href="/" id="UoStitle">University of Scouting</a>
                     </div>
                     <br/>
-                    <table id="navBar" style="margin: 0 auto;">
-                        <tr>
-                            <td style="min-width: 80px;">
+                    <div class="row" id="navBar" style="margin: 0 auto;">
+                            <div class="col text-center" style="min-width: 110px;">
                                 <a href="/" id="HOME">
                                     <span class="bracketL">
                                         [
@@ -41,9 +33,9 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
+                            </div>
                             <% if (user) { %>
-                            <td style="min-width: 90px;">
+                            <div class="col text-center" style="min-width: 110px;">
                                 <a href="/profile" id="PROFILE">
                                     <span class="bracketL">
                                         [
@@ -53,8 +45,8 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 100px;">
+                            </div>
+                            <div class="col text-center" style="min-width: 140px;">
                                 <a href="/schedule" id="SCHEDULE">
                                     <span class="bracketL">
                                         [
@@ -64,8 +56,8 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 110px;" id="TRANSCRIPT">
+                            </div>
+                            <div class="col text-center" style="min-width: 120px;" id="TRANSCRIPT">
                                 <a href="/transcript">
                                     <span class="bracketL">
                                         [
@@ -75,23 +67,24 @@
                                         ]
                                     </span>
                                 </a>
-                            </td>
-                            <td style="min-width: 150px;" id="ADMIN">
-                                <a href="/searchMembers" class="noDisplay ACL">
+                            </div>
+                            <% if(user){if(user.access == "1000"){ %>
+                            <div class="col text-center" style="min-width: 170px;" id="ADMIN">
+                                <a href="/searchMembers">
                                     <span class="bracketL">
                                         [
                                     </span>
                                     <span class="linkText">
-                                        Administration
+                                    Administration
                                     </span>
                                     <span class="bracketR">
                                         ]
                                     </span>
                                 </a>
-                            </td>
+                            </div>
+                            <% } }%>
                             <% } %>
-                        </tr>
-                    </table>
+                    </div>
                 </div>
                 <div class="col-2" style="padding-top: 90px;">
                     <% if (user) { %>
@@ -102,6 +95,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col" style="height: 20px; background-image: linear-gradient(#d8d8ce, #ffffff);"> <!-- Gradient edge --> </div>
+                <div class="col" style="height: 20px; background-image: linear-gradient(#D6CEBD, #ffffff);"> <!-- Gradient edge --> </div>
             </div>
         </div>

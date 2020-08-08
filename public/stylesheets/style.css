@@ -1,7 +1,9 @@
 html { padding: 0px; margin: 0px; height: 100%;}
-body { margin: 0px; padding: 0px 50px 0px 50px; font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; background-color: #003F87; height: 99%;}
+body { margin: 0px; padding: 0px 50px 0px 50px; font-size: 14px; font-family: sans-serif !important; background-color: #003F87; height: 99%;}
+h3 { font-family: adelle, serif !important;}
 .main-body{ min-height: 50%;padding-top: 10px;}
-h1.title { font-size: 30px; padding-top: 30px; font-family: Lucida Bright;}
+.main-body p{padding-left: 20px;}
+h1.title { font-size: 30px; padding-top: 30px; font-family: adelle, serif !important;}
 .nav-btn-1 { background-color: #003F87; color: #ffffff; font-weight: bold;}
 .nav-btn-1:hover { background-color: rgb(0, 35, 75);}
 .nav-btn-2 { background-color: #CE1126; color: #ffffff; font-weight: bold;}
@@ -12,12 +14,12 @@ h1.title { font-size: 30px; padding-top: 30px; font-family: Lucida Bright;}
 .btn-2:hover{ background-color: rgb(161, 13, 31);}
 .btn-3 { background-color: #ff9c1a; color: #000000;}
 .btn-3:hover { background-color: rgb(236, 126, 0);}
-#navBar a{ text-decoration: none; color: rgb(1, 49, 105); font-weight: bold; font-size: large; font-family: "Times New Roman", Times, serif;}
+#navBar a{ text-decoration: none; color: rgb(1, 49, 105); font-size: large;}
 #navBar a:hover{ text-decoration: none; color: black;}
-#navBar tr td span.bracketL{ margin-right: -8px; transition: .4s; color: transparent;}
-#navBar tr td a:hover span.bracketL{ margin-right: 1px; color: black;}
-#navBar tr td span.bracketR{ margin-left: -8px; transition: .4s; color: transparent;}
-#navBar tr td a:hover span.bracketR{ margin-left: 1px; color: black;}
+#navBar div span.bracketL{ margin-right: -8px; transition: .4s; color: transparent;}
+#navBar div a:hover span.bracketL{ margin-right: 1px; color: black;}
+#navBar div span.bracketR{ margin-left: -8px; transition: .4s; color: transparent;}
+#navBar div a:hover span.bracketR{ margin-left: 1px; color: black;}
 .title {margin-top: 20px; font-family: "Times New Roman", Times, serif; font-weight: bold;}
 .title a { text-decoration: none; color: #515354; font-size: 30pt; transition: .4s;}
 #UoStitle:hover { color: rgb(1, 49, 105);}
@@ -79,4 +81,31 @@ p.copyright { color: #ffffff; font-size: 75%; width: fit-content;}
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.tooltip-wrap {
+  position: relative;
+}
+.tooltip-wrap .tooltip-content {
+  display: none;
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  margin-left: -20px;
+  background-color: rgba(41, 41, 41, 0.699);
+  padding: 2px;
+  min-width: 240px;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: medium;
+  white-space: nowrap;
+  text-align: center;
+}
+.tooltip-wrap:hover .tooltip-content {
+  display: block;
+}
+#BSAurl:hover{
+  text-decoration: none;
 }

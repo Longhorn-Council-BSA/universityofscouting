@@ -5,33 +5,23 @@
         </div>
         <div class="col-7" style="height: 100%;"></div>
         <div class="col-3" style="height: 100%;">
-          <table class="table table-sm" id="POC" style="margin-top: 160px;">
-            <tr>
-              <th>Pri. POC</th>
-              <td>TBD</td>
-            </tr>
-            <tr>
-              <th>Alt. POC</th>
-              <td>TBD</td>
-            </tr>
-          </table>
         </div>
       </div>
     </div>
     <span style="display:none;" id="TITLE"><%= title %></span>
+    <script>
+      $('document').ready(
+        function titleURL(){
+          var pageTitle = $('#TITLE').text();
+          var url = "";
+          if(pageTitle == "Home"){$('#HOME span.bracketL').css({ marginRight : "1px", color : "black"});$('#HOME span.bracketR').css({ marginLeft : "1px", color : "black"});}
+          else if(pageTitle == "Profile"){$('#PROFILE span.bracketL').css({ marginRight : "1px", color : "black"});$('#PROFILE span.bracketR').css({ marginLeft : "1px", color : "black"});}
+          else if(pageTitle == "Schedule"){$('#SCHEDULE span.bracketL').css({ marginRight : "1px", color : "black"});$('#SCHEDULE span.bracketR').css({ marginLeft : "1px", color : "black"});}
+          else if(pageTitle == "Transcript"){$('#TRANSCRIPT span.bracketL').css({ marginRight : "1px", color : "black"});$('#TRANSCRIPT span.bracketR').css({ marginLeft : "1px", color : "black"});}
+          else if(pageTitle == "Administration"){$('#ADMIN span.bracketL').css({ marginRight : "1px", color : "black"});$('#ADMIN span.bracketR').css({ marginLeft : "1px", color : "black"});}
+          else if(pageTitle == "Login"){document.getElementById("inputPassword1").focus();$('#HOME span.bracketL').css({ marginRight : "1px", color : "black"});$('#HOME span.bracketR').css({ marginLeft : "1px", color : "black"});}
+        }
+      );
+    </script>
   </body>
-  <script type="text/javascript">
-    $('document').ready(
-      function titleURL(){
-        var pageTitle = $('#TITLE').text();
-        var url = "";
-        if(pageTitle == "Home"){$('#HOME span.bracketL').css({ marginRight : "1px", color : "black"});$('#HOME span.bracketR').css({ marginLeft : "1px", color : "black"});}
-        else if(pageTitle == "Profile"){$('#PROFILE span.bracketL').css({ marginRight : "1px", color : "black"});$('#PROFILE span.bracketR').css({ marginLeft : "1px", color : "black"});}
-        else if(pageTitle == "Schedule"){$('#SCHEDULE span.bracketL').css({ marginRight : "1px", color : "black"});$('#SCHEDULE span.bracketR').css({ marginLeft : "1px", color : "black"});}
-        else if(pageTitle == "Transcript"){$('#TRANSCRIPT span.bracketL').css({ marginRight : "1px", color : "black"});$('#TRANSCRIPT span.bracketR').css({ marginLeft : "1px", color : "black"});}
-        else if(pageTitle == "Administration"){$('#ADMIN span.bracketL').css({ marginRight : "1px", color : "black"});$('#ADMIN span.bracketR').css({ marginLeft : "1px", color : "black"});}
-        else if(pageTitle == "Login"){document.getElementById("inputPassword1").focus();}
-      }
-    );
-  </script>
 </html>
