@@ -610,6 +610,153 @@ This module allows for programatic download of transcript data.</div>
     
 
     
+    <h4 class="name" id=".getMemberByID"><span class="type-signature">(async, private, static) </span>getMemberByID<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieve single member by ID from MongoDB.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the ID of the member to lookup</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_schedulePrint.js.html">routes/schedulePrint.js</a>, <a href="routes_schedulePrint.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an object containing one member
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".getSchedule"><span class="type-signature">(async, private, static) </span>getSchedule<span class="signature">(opt)</span><span class="type-signature"></span></h4>
     
 
@@ -783,7 +930,7 @@ This module allows for programatic download of transcript data.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line193">line 193</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -813,6 +960,153 @@ This module allows for programatic download of transcript data.</div>
         
 <div class="param-desc">
     an object containing all transcript entries
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getUserSchedule"><span class="type-signature">(async, private, static) </span>getUserSchedule<span class="signature">(memberID)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retrieve a schedule from MongoDB.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">filter by member id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_schedulePrint.js.html">routes/schedulePrint.js</a>, <a href="routes_schedulePrint.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    an object containing schedule entries
 </div>
 
 
@@ -1821,7 +2115,7 @@ Return all transcript entries in either JSON or CSV format.  JSON is returned by
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line165">line 165</a>
+        <a href="routes_api.js.html">routes/api.js</a>, <a href="routes_api.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -1867,13 +2161,13 @@ Return all transcript entries in either JSON or CSV format.  JSON is returned by
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Aug 08 2020 13:37:55 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Aug 08 2020 13:41:11 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
