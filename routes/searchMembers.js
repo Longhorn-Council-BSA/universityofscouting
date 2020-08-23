@@ -20,15 +20,8 @@ var members = require("../models/members");
  */
 async function getMembers() {
   var member = await members.find();
-  response = member.map((entry) => {
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: entry.firstName,
-      lastName: entry.lastName,
-      council: entry.council,
-      access: entry.access
-    };
+  response = member.map((member) => {
+    return member.exportObject();
   });
   return response;
 }

@@ -20,15 +20,8 @@ var Registrations = require("../models/registrations");
  */
 async function getAllMembers() {
   var members = await Members.find();
-  response = members.map(function (entry) {
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: entry.firstName,
-      lastName: entry.lastName,
-      council: entry.council,
-      access: entry.access
-    };
+  response = members.map(function (member) {
+    return member.exportObject();
   });
   return response;
 }
@@ -70,14 +63,7 @@ async function getMemberByID(id) {
   var member = await Members.findOne({
     memberID: id
   });
-  return {
-    _id: member._id.toString(),
-    memberID: member.memberID.toString(),
-    firstName: member.firstName,
-    lastName: member.lastName,
-    council: member.council,
-    access: member.access
-  };
+  return member.exportObject();
 }
 
 /**

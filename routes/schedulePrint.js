@@ -65,14 +65,7 @@ async function getMemberByID(id) {
   var member = await Members.findOne({
     memberID: id
   });
-  return {
-    _id: member._id.toString(),
-    memberID: member.memberID.toString(),
-    firstName: member.firstName,
-    lastName: member.lastName,
-    council: member.council,
-    access: member.access
-  };
+  return member.exportObject();
 }
 
 async function routerGETSchedule(req, res, next) {
