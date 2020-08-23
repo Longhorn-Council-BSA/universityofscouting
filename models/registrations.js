@@ -8,8 +8,17 @@ Registrations = mongoose.model('Registrations', new mongoose.Schema({
         type: SchemaTypes.Long,
         required: true
     },
+    councilID: {
+        type: Number,
+        default: 662,
+        required: true
+    },
     date: {
         type: Date,
+        required: true
+    },
+    type: {
+        type: Number,
         required: true
     },
     title: {
@@ -20,14 +29,22 @@ Registrations = mongoose.model('Registrations', new mongoose.Schema({
         type: Number,
         required: false
     },
-    status: {
+    instructor: {
         type: String,
-        required: true,
-        default: 'Unknown'
-    },
-    type: {
-        type: Number,
         required: true
+    },
+    physical: {
+        type: String,
+        required: true
+    },
+    online: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: Number,
+        required: true,
+        default: 1
     }
 }));
 
