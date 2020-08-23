@@ -8,6 +8,11 @@ Members = mongoose.model('Members', new mongoose.Schema({
         type: SchemaTypes.Long,
         required: true
     },
+    councilID: {
+        type: Number,
+        default: 662,
+        required: true
+    },
     firstName: {
         type: String,
         required: false
@@ -15,10 +20,6 @@ Members = mongoose.model('Members', new mongoose.Schema({
     lastName: {
         type: String,
         required: true
-    },
-    council: {
-        type: String,
-        required: false
     },
     access: {
         type: Number,
