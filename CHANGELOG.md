@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.17 (2020-08-08)
 
+- created a print window for the schedule page
+- adjusted the transcript print page
+- corrected a filtering issue where the git request would return all schedule records instead of just the logged in member's records
+
 ### 0.0.16 (2020-08-08)
+
+- header, footer, and index page cleanup
 
 ### 0.0.15 (2020-08-02)
 
