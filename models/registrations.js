@@ -48,4 +48,6 @@ Registrations = mongoose.model('Registrations', new mongoose.Schema({
     }
 }));
 
+Registrations.index({ memberID: 1, councilID: 1 });
+
 module.exports = Registrations;
