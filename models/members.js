@@ -43,7 +43,7 @@ MembersSchema.virtual('councilName').get(function() {
 });
 
 MembersSchema.methods.checkCapabilities = function(cap) {
-
+    return this.access >= capabilities[cap];
 }
 
 MembersSchema.index({ memberID: 1, councilID: 1 });
