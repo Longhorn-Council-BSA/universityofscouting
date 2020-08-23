@@ -11,7 +11,6 @@ MembersSchema = new mongoose.Schema({
   },
   councilID: {
     type: Number,
-    default: 662,
     required: true,
   },
   firstName: {

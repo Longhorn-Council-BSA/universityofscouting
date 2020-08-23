@@ -11,7 +11,6 @@ RegistrationsSchema = new mongoose.Schema({
     },
     councilID: {
         type: Number,
-        default: 662,
         required: true
     },
     date: {
