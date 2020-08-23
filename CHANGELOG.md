@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.18 (2020-08-23)
 
+- renamed print function to avoid conflict with browser built-in
+
 ### 0.0.17 (2020-08-08)
 
 - created a print window for the schedule page
