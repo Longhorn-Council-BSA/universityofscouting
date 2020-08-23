@@ -4,7 +4,7 @@
  *
  * This module displays profile data.
  *
- * @module routes/schedule
+ * @module routes/searchMembers
  */
 var express = require("express");
 var router = express.Router();
@@ -14,7 +14,7 @@ var members = require("../models/members");
  * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/members
+ * @memberof module:routes/searchMembers
  * @param {String} memberId the memberID of the user to find records for
  * @returns an object containing schedule entries
  */

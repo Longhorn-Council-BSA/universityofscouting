@@ -5,17 +5,17 @@
  *
  * This module displays profile data.
  *
- * @module routes/schedule
+ * @module routes/popupSchedule
  */
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/schedules");
+var Schedules = require("../models/registrations");
 
 /**
  * Retrieve all schedules entries from MongoDB for a single user.
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/popupSchedule
  * @param {String} memberId the memberID of the user to find records for
  * @returns an object containing schedule entries
  */

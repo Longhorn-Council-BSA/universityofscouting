@@ -1,7 +1,7 @@
 /**
  * transcript router module
  *
- * This module displays transcripts for logged in users
+ * This module displays transcripts for logged in users in a print window
  *
  * @module routes/transcriptPrint
  */

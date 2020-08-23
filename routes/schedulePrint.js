@@ -1,7 +1,7 @@
 /**
  * schedule router module
  *
- * This module displays schedules for logged in users
+ * This module displays schedules for logged in users in a print window
  *
  * @module routes/schedulePrint
  */
@@ -9,12 +9,12 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/schedules");
+var Schedules = require("../models/registrations");
 
 /**
  * Retrieve a schedule from MongoDB.
  * @private
- * @memberof module:routes/api
+ * @memberof module:routes/schedulePrint
  * @param {Number}    memberID      filter by member id
  * @returns an object containing schedule entries
  */

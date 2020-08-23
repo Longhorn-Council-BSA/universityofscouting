@@ -8,7 +8,7 @@
  */
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/schedules");
+var Schedules = require("../models/registrations");
 
 /**
  * Retrieve all schedules entries from MongoDB for a single user.
@@ -34,10 +34,10 @@ async function getUserSchedule(memberID) {
       memberID: entry.memberID.toString(),
       time: time,
       date: date,
-      course: entry.course,
+      course: entry.title,
       instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
+      location: entry.physical,
+      delivery: entry.online,
     };
   });
   return response;

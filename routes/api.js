@@ -11,7 +11,6 @@ var express = require("express");
 var router = express.Router();
 var Members = require("../models/members");
 var Registrations = require("../models/registrations");
-var Schedules = require("../models/schedules");
 
 /**
  * Retrieve all members from MongoDB.
@@ -199,9 +198,9 @@ async function getSchedule(opt = {}) {
   }
   var schedule;
   if(opt.memberID){
-      schedule = await Schedules.find({memberID: opt.memberID});
+      schedule = await Registrations.find({memberID: opt.memberID});
   }else{
-     schedule = await Schedules.find();
+     schedule = await Registrations.find();
   }
   var members = {};
   response_promises = schedule.map( async function(entry) {
