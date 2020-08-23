@@ -1,9 +1,10 @@
 // jshint.unstable bigint: true
 var mongoose = require('mongoose');
 require('mongoose-long')(mongoose);
+var councils = require('../data/councils');
 var SchemaTypes = mongoose.Schema.Types;
 
-Registrations = mongoose.model('Registrations', new mongoose.Schema({
+RegistrationsSchema = new mongoose.Schema({
     memberID: {
         type: SchemaTypes.Long,
         required: true
@@ -46,8 +47,12 @@ Registrations = mongoose.model('Registrations', new mongoose.Schema({
         required: true,
         default: 1
     }
-}));
+});
 
-Registrations.index({ memberID: 1, councilID: 1 });
+RegistrationsSchema.virtual('councilName').get(function() {
+    return councils[this.councilID];
+});
 
-module.exports = Registrations;
+RegistrationsSchema.index({ memberID: 1, councilID: 1 });
+
+module.exports = mongoose.model('Registrations', RegistrationsSchema);
