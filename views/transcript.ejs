@@ -5,13 +5,12 @@
         <!-- Transcript download/print options -->
         <button type="button" id="btnExportToCsv" class="btn btn-sm btn-3 noprint">Download CSV</button>
         <!-- <button onclick="downloadPDF()" class="btn btn-sm btn-3 noprint disabled" style="cursor: not-allowed;" disabled>Download PDF</button> -->
-        <button id="printBTN" onclick="print()" class="btn btn-sm btn-3 noprint">Print</button>
+        <button id="printBTN" onclick="printTranscript()" class="btn btn-sm btn-3 noprint">Print</button>
         <span class="printTip" id="printTip"><strong>Tool-Tip: </strong><br/>To save your Transcript on your computer you can Print to PDF!<br/><span class="ClickHere" onClick="howToPopup()">Click here for instructions!</span></span>
       </div>
     </div>
     <div class="row">
       <div class="col text-center noprint" style="font-weight: bold; margin-top: 10px;">
-        <p style="font:15pt arial;font-weight: bold;margin:0px;text-align: center;">Course Records</p>
         <p style="margin:0px;">
           ID: <span id="userID"><%= user.memberID %> | </span>
           <span id="fname"><%= user.firstName %></span>
@@ -19,6 +18,7 @@
         </p>
         <div id="transcriptTableDiv" style="font-weight: normal;">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
+            <% if(transcript.length > 0){ %>
             <thead class="thead-dark">
               <tr>
                 <th>Course Date</th>
@@ -28,8 +28,13 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td colspan="4" style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Course Records ~</td>
+              </tr>
+              <% var count = 0; %>
               <% for(var i=0; i<transcript.length; i++) {  %>
               <% if(transcript[i].type == 1){ %>
+              <% count++; %>
               <tr>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
@@ -37,34 +42,18 @@
                 <td><%= transcript[i].status %></td>
               </tr>
               <% }} %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <hr style="width: 80%;">
-    <div class="row">
-      <span id="browserInfo"></span>
-      <div class="col text-center noprint" style="font-weight: bold; margin-top: 10px;">
-        <p style="font:15pt arial;font-weight: bold;margin:0px;text-align: center;">Degree Records</p>
-        <p style="margin:0px;">
-          ID: <span id="userID"><%= user.memberID %> | </span>
-          <span id="fname"><%= user.firstName %></span>
-          <span id="lname"><%= user.lastName %></span>
-        </p>
-        <div id="transcriptTableDiv" style="font-weight: normal;">
-          <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
-            <thead class="thead-dark">
+              <% if(count == 0){ %>
               <tr>
-                <th>Course Date</th>
-                <th>Course Title</th>
-                <th>Credits</th>
-                <th>Status</th>
+                <td colspan="4"><%= count %> Course Records Found</td>
               </tr>
-            </thead>
-            <tbody>
+              <% } %>
+              <tr>
+                <td colspan="4"style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Degree Records ~</td>
+              </tr>
+              <% count = 0; %>
               <% for(var i=0; i<transcript.length; i++) {  %>
               <% if(transcript[i].type == 2){ %>
+              <% count++; %>
               <tr>
                 <td><%= transcript[i].date %></td>
                 <td><%= transcript[i].title %></td>
@@ -72,6 +61,17 @@
                 <td><%= transcript[i].status %></td>
               </tr>
               <% }} %>
+              <% if(count == 0){ %>
+              <tr>
+                <td colspan="4"><%= count %> Course Records Found</td>
+              </tr>
+              <% } %>
+              <% }else{ %>
+              <tbody>
+              <tr>
+                <td colspan="4"><%= transcript.length %> Records Found</td>
+              </tr>
+              <% } %>
             </tbody>
           </table>
         </div>
@@ -80,7 +80,7 @@
   </div>
 <script>
 //******Open print friendly window // Print as PDF******//  
-  function print() {
+  function printTranscript() {
     var win = window.open('/transcriptPrint', '', 'height=800, width=1000'); 
     win.document.close(); 
     win.print(); 
