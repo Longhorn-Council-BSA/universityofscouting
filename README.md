@@ -12,7 +12,7 @@ hosting service.  Also, create a SESSION_SECRET containing a random string.
 
 # Documentation
 
-View the [generated documentation](https://ckxng.github.io/universityofscouting/docs/).
+View the [generated documentation](https://longhorn-council-bsa.github.io/universityofscouting/docs/).
 
 # Author
 - [Cameron King](https://cameronking.me)
