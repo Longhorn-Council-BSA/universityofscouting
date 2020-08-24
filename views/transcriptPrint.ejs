@@ -38,7 +38,7 @@
           <% for(var i=i; i<transcript.length; i++) {  %>
           <% if(transcript[i].type == 1){ %>
           <tr>
-            <td><%= transcript[i].date %></td>
+            <td><%= transcript[i].dateMDYHM %></td>
             <td><%= transcript[i].title %></td>
             <td><%= transcript[i].credits %></td>
             <td><%= transcript[i].status %></td>
@@ -79,7 +79,7 @@
           <% for(var i=i; i<transcript.length; i++) {  %>
           <% if(transcript[i].type == 2){ %>
           <tr>
-            <td><%= transcript[i].date %></td>
+            <td><%= transcript[i].dateMDYHM %></td>
             <td><%= transcript[i].title %></td>
             <td><%= transcript[i].credits %></td>
             <td><%= transcript[i].status %></td>

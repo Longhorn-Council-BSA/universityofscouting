@@ -15,7 +15,7 @@
   <body>
     <div class="header text-center">
       ID: <span id="userID"><%= user.memberID %></span> 
-      | <span id="fname"><%= user.firstName %></span> <span id="lname"><%= user.lastName %></span>
+      | <span id="fname"><%= user.fullNameFL %></span>
       | <span id="date1"></span>
       | <span><%= schedule.length %> Records</span>
     </div>
@@ -41,11 +41,11 @@
           <% var count = 0; %>
           <% for(var i=i; i<schedule.length; i++) {  %>
           <tr>
-            <td><%= schedule[i].date %> <%= schedule[i].time %></td>
-            <td><%= schedule[i].course %></td>
+            <td><%= schedule[i].dateMDYHM %></td>
+            <td><%= schedule[i].title %></td>
             <td><%= schedule[i].instructor %></td>
-            <td><%= schedule[i].location %></td>
-            <td><%= schedule[i].delivery %></td>
+            <td><%= schedule[i].physical %></td>
+            <td><%= schedule[i].online %></td>
           </tr>
           <% count++; %>
           <% if(count == 35){pages++; count = 0; break;} %>

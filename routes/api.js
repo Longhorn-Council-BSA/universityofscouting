@@ -143,5 +143,5 @@ async function routeGETApiRegistrations(req, res, next) {
 // register routes and export router
 router.get("/members", routeGETApiMembers);
 router.get("/members/:id", routeGETApiMemberByID);
-router.get("/transcripts", routeGETApiRegistrations);
+router.get("/registrations", routeGETApiRegistrations);
 module.exports = router;
