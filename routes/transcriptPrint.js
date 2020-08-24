@@ -20,22 +20,9 @@ var Registrations = require("../models/registrations");
  * @returns an object containing transcript entries
  */
 async function getUserTranscript(memberID) {
-  var transcript = await Registrations.find({memberID: memberID});
-  response = transcript.map((entry) => {
-    var date = entry.date;
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      title: entry.title,
-      date: date,
-      credits: entry.credits,
-      status: entry.status,
-      type: entry.type
-    };
+  var registrations = await Registrations.find({memberID: memberID});
+  response = registrations.map((registration) => {
+    return registration.exportObject();
   });
   return response;
 }
@@ -56,9 +43,9 @@ async function getUserTranscript(memberID) {
  */
 async function routerGETTranscipt(req, res, next) {
   try {
-    var transcript = await getUserTranscript(req.user.memberID);
+    var registrations = await getUserTranscript(req.user.memberID);
     res.render("transcriptPrint", {
-      transcript: transcript,
+      transcript: registrations,
       user: req.user,
       title: "Print Transcript",
     });

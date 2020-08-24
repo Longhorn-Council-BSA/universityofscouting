@@ -19,21 +19,11 @@ var Transcripts = require("../models/registrations");
  * @returns an object containing transcript entries
  */
 async function getUserTranscript(memberID) {
-  var transcript = await Transcripts.find({
+  var registrations = await Transcripts.find({
     memberID: memberID
   });
-  response = transcript.map((entry) => {
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: entry.firstName,
-      lastName: entry.lastName,
-      title: entry.title,
-      date: entry.date,
-      credits: entry.credits,
-      status: entry.status,
-      type: entry.type
-    };
+  response = registrations.map((registration) => {
+    return registration.exportObject();
   });
   return response;
 }
@@ -54,9 +44,9 @@ async function getUserTranscript(memberID) {
  */
 async function routerGETTranscript(req, res, next) {
   try {
-    var transcript = await getUserTranscript(req.user.memberID);
+    var registrations = await getUserTranscript(req.user.memberID);
     res.render("popupTranscript", { 
-      transcript: transcript,
+      transcript: registrations,
       user: req.user,
       title: "Member Popup Transcript",
     });

@@ -8,10 +8,10 @@
  */
 var express = require("express");
 var router = express.Router();
-var members = require("../models/members");
+var Members = require("../models/members");
 
 /**
- * Retrieve all schedules entries from MongoDB for a single user.
+ * Retrieve all member entries from MongoDB.
  *
  * @private
  * @memberof module:routes/searchMembers
@@ -19,8 +19,8 @@ var members = require("../models/members");
  * @returns an object containing schedule entries
  */
 async function getMembers() {
-  var member = await members.find();
-  response = member.map((member) => {
+  var members = await Members.find();
+  response = members.map((member) => {
     return member.exportObject();
   });
   return response;
@@ -29,22 +29,20 @@ async function getMembers() {
 /**
  * GET profile information
  *
- * Display all known profile information.  At this time, that includes the username only.
+ * Display all known registration information.
  *
  * @private
  * @memberof module:routes/searchMembers
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
- * @param {String}   req.user.memberID  the memberID of the logged in user
- * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
 async function routerGETMembers(req, res, next) {
   try {
-    var schedule = await getMembers(req.user.memberID);
+    var members = await getMembers();
     res.render("searchMembers", { 
-      schedule: schedule,
+      members: members,
       user: req.user,
       title: "Administration",
     });

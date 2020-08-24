@@ -20,59 +20,23 @@ var Schedules = require("../models/registrations");
  */
 
 async function getUserSchedule(memberID) {
-  var members = {};
-  var schedule;
+  var registrations;
   if(memberID){
-      schedule = await Schedules.find({memberID: memberID});
+    registrations = await Schedules.find({memberID: memberID});
   }else{
-    schedule = await Schedules.find();
+    registrations = await Schedules.find();
   }
-  response_promises = schedule.map( async function(entry) {
-    if(!members[entry.memberID]){
-      members[entry.memberID] = await getMemberByID(Number(entry.memberID));
-    }
-    var date = entry.date;
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = dd+'/'+mm+'/'+yyyy;
-    var time = entry.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: members[entry.memberID].firstName,
-      lastName: members[entry.memberID].lastName,
-      timestamp: entry.date,
-      time: time,
-      date: date,
-      course: entry.course,
-      instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
-    };
+  response_promises = registrations.map( async function(registration) {
+    return registration.exportObject();
   });
   return Promise.all(response_promises);
 }
 
-/**
- * Retrieve single member by ID from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Number}   id                 the ID of the member to lookup
- * @returns an object containing one member
- */
-async function getMemberByID(id) {
-  var member = await Members.findOne({
-    memberID: id
-  });
-  return member.exportObject();
-}
-
 async function routerGETSchedule(req, res, next) {
   try {
-    var schedule = await getUserSchedule(req.user.memberID);
+    var registrations = await getUserSchedule(req.user.memberID);
     res.render("schedulePrint", {
-      schedule: schedule,
+      schedule: registrations,
       user: req.user,
       title: "Print Schedule",
     });

@@ -59,9 +59,9 @@ MembersSchema.virtual("councilName").get(function () {
  */
 MembersSchema.methods.exportObject = function () {
   return {
-    _id: this._id.toString(),
-    memberID: this.memberID.toString(),
-    councilID: this.councilID.toString(),
+    _id: this._id.toString(), //Long Number
+    memberID: this.memberID.toString(), //Long Number
+    councilID: this.councilID,
     firstName: this.firstName,
     lastName: this.lastName,
     access: this.access,

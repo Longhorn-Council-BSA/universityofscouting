@@ -19,26 +19,11 @@ var Schedules = require("../models/registrations");
  * @returns an object containing schedule entries
  */
 async function getUserSchedule(memberID) {
-  var schedule = await Schedules.find({
+  var registrations = await Schedules.find({
     memberID: memberID,
   });
-  response = schedule.map((entry) => {
-    var date = entry.date;
-    var time = entry.date.toLocaleTimeString();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      time: time,
-      date: date,
-      course: entry.title,
-      instructor: entry.instructor,
-      location: entry.physical,
-      delivery: entry.online,
-    };
+  response = registrations.map((registration) => {
+    return registration.exportObject();
   });
   return response;
 }
@@ -59,9 +44,9 @@ async function getUserSchedule(memberID) {
  */
 async function routerGETSchedules(req, res, next) {
   try {
-    var schedule = await getUserSchedule(req.user.memberID);
+    var registrations = await getUserSchedule(req.user.memberID);
     res.render("Schedule", { 
-      schedule: schedule,
+      schedule: registrations,
       user: req.user,
       title: "Schedule",
     });

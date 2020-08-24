@@ -9,7 +9,7 @@
  */
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/registrations");
+var Registrations = require("../models/registrations");
 
 /**
  * Retrieve all schedules entries from MongoDB for a single user.
@@ -20,26 +20,11 @@ var Schedules = require("../models/registrations");
  * @returns an object containing schedule entries
  */
 async function getUserSchedule(memberID) {
-  var schedule = await Schedules.find({
+  var registrations = await Registrations.find({
     memberID: memberID,
   });
-  response = schedule.map((entry) => {
-    var date = entry.date;
-    var time = entry.date.toLocaleTimeString();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      time: time,
-      date: date,
-      course: entry.course,
-      instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
-    };
+  response = registrations.map((registration) => {
+    return registration.exportObject();
   });
   return response;
 }
@@ -60,9 +45,9 @@ async function getUserSchedule(memberID) {
  */
 async function routerGETSchedules(req, res, next) {
   try {
-    var schedule = await getUserSchedule(req.user.memberID);
+    var registrations = await getUserSchedule(req.user.memberID);
     res.render("popupSchedule", { 
-      schedule: schedule,
+      schedule: registrations,
       user: req.user,
       title: "Member Popup Schedule",
     });
