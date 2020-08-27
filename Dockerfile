@@ -1,4 +1,4 @@
-FROM node:12.16.3-alpine3.9
+FROM node:12-alpine
 ENV PATH=/home/node/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 WORKDIR /home/node
 COPY . .
