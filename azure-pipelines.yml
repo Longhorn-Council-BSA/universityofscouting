@@ -11,6 +11,8 @@ trigger:
     include:
       - v*
 
+pr: none
+
 pool:
   vmImage: 'ubuntu-latest'
 
