@@ -1,6 +1,5 @@
 ![Node.js CI](https://github.com/Longhorn-Council-BSA/universityofscouting/workflows/Node.js%20CI/badge.svg) ![Standard Version and JSDoc](https://github.com/Longhorn-Council-BSA/universityofscouting/workflows/Standard%20Version%20and%20JSDoc/badge.svg) [![Build Status](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_apis/build/status/Longhorn-Council-BSA.universityofscouting?branchName=master)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_build/latest?definitionId=1&branchName=master)  
-Test: [![Test Deploy Status](https://vsrm.dev.azure.com/662-universityofscouting/_apis/public/Release/badge/c878a486-da40-4801-b5e1-96d05d11a52c/1/1)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_release?_a=releases&view=mine&definitionId=1)  
-Prod: [![Test Deploy Status](https://vsrm.dev.azure.com/662-universityofscouting/_apis/public/Release/badge/c878a486-da40-4801-b5e1-96d05d11a52c/1/2)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_release?_a=releases&view=mine&definitionId=1)
+Test: [![Test Deploy Status](https://vsrm.dev.azure.com/662-universityofscouting/_apis/public/Release/badge/c878a486-da40-4801-b5e1-96d05d11a52c/1/3)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_release?_a=releases&view=mine&definitionId=1)
 
 # University of Scouting
 A transcript and schedule reporting tool.
