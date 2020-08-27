@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.19](https://github.com/ckxng/universityofscouting/compare/v0.0.18...v0.0.19) (2020-08-27)
+
+
+### Features
+
+* adds docker container support ([1adab92](https://github.com/ckxng/universityofscouting/commit/1adab92cce815758f7c088295bbe49aff77a368d))
+
 ### 0.0.18 (2020-08-23)
 
 - renamed print function to avoid conflict with browser built-in
