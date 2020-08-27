@@ -2,6 +2,8 @@
 # or code directly pushed to master), analyze the gitlog according to
 # https://www.conventionalcommits.org/en/v1.0.0/ and bump the package.json
 # file accordingly.
+#
+# This also notifies Azure of a new version, so the build pipeline will run.
 # 
 # This behavior can be prevented by including "[skip ci]"
 # in the commit log message of the merge.
@@ -41,3 +43,14 @@ jobs:
         run: docker run -v $(pwd):/repo ckxng/standardversion
       - name: Push repo
         run: git push --follow-tags origin master
+
+  deploy-using-azure-pipelines:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Trigger an Azure Pipeline to deploy the app'
+      uses: Azure/pipelines@releases/v1
+      with:
+        azure-devops-project-url: 'https://dev.azure.com/662-universityofscouting/University%20of%20Scouting'
+        azure-pipeline-name: 'Longhorn-Council-BSA.universityofscouting' 
+        azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
