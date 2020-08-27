@@ -8,7 +8,7 @@
 # This behavior can be prevented by including "[skip ci]"
 # in the commit log message of the merge.
 # 
-name: Standard Version and JSDoc
+name: Publish
 
 on:
   push:
