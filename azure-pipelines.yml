@@ -33,4 +33,5 @@ steps:
     Dockerfile: '**/Dockerfile'
     tags: |
       $(Build.BuildId)
+      stable
       latest
