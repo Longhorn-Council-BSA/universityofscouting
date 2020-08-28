@@ -1,3 +1,7 @@
+![Node.js CI](https://github.com/Longhorn-Council-BSA/universityofscouting/workflows/Node.js%20CI/badge.svg) ![Standard Version and JSDoc](https://github.com/Longhorn-Council-BSA/universityofscouting/workflows/Standard%20Version%20and%20JSDoc/badge.svg)  
+Test Deployment: [![Build Status](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_apis/build/status/Longhorn-Council-BSA.universityofscouting%20(1)?branchName=master)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_build/latest?definitionId=2&branchName=master)  
+Prod Deployment: [![Build Status](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_apis/build/status/Longhorn-Council-BSA.universityofscouting?branchName=master)](https://dev.azure.com/662-universityofscouting/University%20of%20Scouting/_build/latest?definitionId=1&branchName=master)
+
 # University of Scouting
 A transcript and schedule reporting tool.
 
@@ -12,7 +16,7 @@ hosting service.  Also, create a SESSION_SECRET containing a random string.
 
 # Documentation
 
-View the [generated documentation](https://ckxng.github.io/universityofscouting/docs/).
+View the [generated documentation](https://longhorn-council-bsa.github.io/universityofscouting/docs/).
 
 # Author
 - [Cameron King](https://cameronking.me)
