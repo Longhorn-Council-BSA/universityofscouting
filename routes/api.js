@@ -11,20 +11,8 @@ var express = require("express");
 var router = express.Router();
 var Members = require("../models/members");
 var Registrations = require("../models/registrations");
-
-/**
- * Retrieve all members from MongoDB.
- * @private
- * @memberof module:routes/api
- * @returns an object containing all members
- */
-async function getAllMembers() {
-  var members = await Members.find();
-  response = members.map(function (member) {
-    return member.exportObject();
-  });
-  return response;
-}
+var modelhelper = require("../lib/modelhelper");
+var cap = require("../lib/capabilities");
 
 /**
  * GET all members.
@@ -38,32 +26,24 @@ async function getAllMembers() {
  * @param {Function} next               function call to next middleware
  */
 async function routeGETApiMembers(req, res, next) {
+  if(!cap.check(req.user, 'api')) {
+    res.status(401).json({
+      message: 'You do not have permission to access this API'
+    })
+    return;
+  }
+
   try {
-    var members = await getAllMembers();
     if (req.query.return == "csv") {
-      res.csv(members);
+      res.csv(await modelhelper.getMember());
     } else {
-      res.json(members);
+      res.json(await modelhelper.getMember());
     }
   } catch (err) {
     res.status(500).json({
       message: err.message,
     });
   }
-}
-
-/**
- * Retrieve single member by ID from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Number}   id                 the ID of the member to lookup
- * @returns an object containing one member
- */
-async function getMemberByID(id) {
-  var member = await Members.findOne({
-    memberID: id
-  });
-  return member.exportObject();
 }
 
 /**
@@ -78,9 +58,15 @@ async function getMemberByID(id) {
  * @param {Function} next               function call to next middleware
  */
 async function routeGETApiMemberByID(req, res, next) {
+  if(!cap.check(req.user, 'api')) {
+    res.status(401).json({
+      message: 'You do not have permission to access this API'
+    })
+    return;
+  }
+  
   try {
-    var member = await getMemberByID(Number(req.params.id));
-    res.json(member);
+    res.json(await modelhelper.getMember({_id: Number(req.params.id)}));
   } catch (err) {
     res.status(500).json({
       message: err.message,
