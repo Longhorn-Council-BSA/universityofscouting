@@ -51,10 +51,29 @@ MembersSchema.virtual("councilName").get(function () {
 });
 
 /**
+ * Provides a friendly name (accessName) for access
+ */
+MembersSchema.virtual("accessName").get(function () {
+  switch (this.access) {
+    case 0:
+      return "Expelled";
+    case 1:
+      return "Student";
+    case 10:
+      return "Faculty";
+    case 100:
+      return "Administration";
+    case 1000:
+      return "Developer";
+  }
+  return "Unknown";
+});
+
+/**
  * export members data as an easy to use JS object
- * 
- * This object is not a full model and is effectively read-only.  But it is 
- * easier to serialize into something that can be stored into a session or 
+ *
+ * This object is not a full model and is effectively read-only.  But it is
+ * easier to serialize into something that can be stored into a session or
  * manipulated in EJS templates.
  */
 MembersSchema.methods.exportObject = function () {
@@ -67,15 +86,11 @@ MembersSchema.methods.exportObject = function () {
     access: this.access,
     fullNameFL: this.fullNameFL,
     fullNameLF: this.fullNameLF,
-    councilName: this.councilName
+    councilName: this.councilName,
   };
 };
 
-/**
- * adds index for memberID+councilID
- *
- * Records are typically looked up by memberID and councilID.
- */
+// adds index for memberID+councilID
 MembersSchema.index({ memberID: 1, councilID: 1 });
 
 module.exports = mongoose.model("Members", MembersSchema);
