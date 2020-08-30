@@ -125,12 +125,14 @@ RegistrationsSchema.methods.exportObject = function () {
     dateMDY: this.dateMDY,
     dateMDYHM: this.dateMDYHM,
     type: this.type,
+    typeName: this.typeName,
     title: this.title,
     credits: this.credits,
     instructor: this.instructor,
     physical: this.physical,
     online: this.online,
     status: this.status,
+    statusName: this.statusName
   };
 };
 

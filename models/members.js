@@ -84,6 +84,7 @@ MembersSchema.methods.exportObject = function () {
     firstName: this.firstName,
     lastName: this.lastName,
     access: this.access,
+    accessName: this.accessName,
     fullNameFL: this.fullNameFL,
     fullNameLF: this.fullNameLF,
     councilName: this.councilName,
