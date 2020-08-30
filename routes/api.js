@@ -9,7 +9,6 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Members = require("../models/members");
 var Registrations = require("../models/registrations");
 var modelhelper = require("../lib/modelhelper");
 var cap = require("../lib/capabilities");
@@ -64,7 +63,7 @@ async function routeGETApiMemberByID(req, res, next) {
     })
     return;
   }
-  
+
   try {
     res.json(await modelhelper.getMember({_id: Number(req.params.id)}));
   } catch (err) {
