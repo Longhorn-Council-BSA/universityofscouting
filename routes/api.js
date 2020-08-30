@@ -65,7 +65,7 @@ async function routeGETApiMemberByID(req, res, next) {
   }
 
   try {
-    res.json(await modelhelper.getMember({_id: Number(req.params.id)}));
+    res.json(await modelhelper.getMember({_id: req.params.id}));
   } catch (err) {
     res.status(500).json({
       message: err.message,
