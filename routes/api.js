@@ -9,7 +9,6 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Registrations = require("../models/registrations");
 var modelhelper = require("../lib/modelhelper");
 var cap = require("../lib/capabilities");
 

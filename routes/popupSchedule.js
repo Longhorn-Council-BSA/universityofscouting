@@ -9,25 +9,7 @@
  */
 var express = require("express");
 var router = express.Router();
-var Registrations = require("../models/registrations");
-
-/**
- * Retrieve all schedules entries from MongoDB for a single user.
- *
- * @private
- * @memberof module:routes/popupSchedule
- * @param {String} memberId the memberID of the user to find records for
- * @returns an object containing schedule entries
- */
-async function getUserSchedule(memberID) {
-  var registrations = await Registrations.find({
-    memberID: memberID,
-  });
-  response = registrations.map((registration) => {
-    return registration.exportObject();
-  });
-  return response;
-}
+var modelhelper = require("../lib/modelhelper");
 
 /**
  * GET profile information
@@ -45,9 +27,11 @@ async function getUserSchedule(memberID) {
  */
 async function routerGETSchedules(req, res, next) {
   try {
-    var registrations = await getUserSchedule(req.user.memberID);
     res.render("popupSchedule", { 
-      schedule: registrations,
+      schedule: await modelhelper.getRegistration({
+        memberID: req.user.memberID,
+        councilID: req.user.councilID
+      }),
       user: req.user,
       title: "Member Popup Schedule",
     });
