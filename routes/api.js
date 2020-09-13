@@ -11,63 +11,53 @@ var express = require("express");
 var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
 var cap = require("../lib/capabilities");
+var log = require("../lib/log");
 
 /**
  * GET all members.
  *
- * Return all members in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.
+ * Return all members in either JSON or CSV format.  JSON is returned by default.
+ * If ?return=csv is provided in the query, a CSV will be provided.
+ *
+ * If the calling route provides req._id, then limit responses to just that
+ * member, by _id.
+ *
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                request object
  * @param {Object}   req.user           user object to check against 'api' capability
+ * @param {String}   req.params.id      limit to responses to a single member by _id
  * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
 async function routeGETApiMembers(req, res, next) {
-  if(!cap.check(req.user, 'api')) {
+  log("routeGETApiMembers()");
+  if (!cap.check(req.user, "api")) {
+    log("routeGETApiMembers: denied: " + req.user.access);
     res.status(401).json({
-      message: 'You do not have permission to access this API'
-    })
+      message: "You do not have permission to access this API",
+    });
     return;
+  }
+
+  // query by _id if provided
+  var q = {};
+  if ("id" in req.params) {
+    log("routeGETApiMembers: id: " + req.params.id);
+    q._id = req.params.id;
   }
 
   try {
     if (req.query.return == "csv") {
-      res.csv(await modelhelper.getMember());
+      log("routeGETApiMembers: return csv");
+      res.csv(await modelhelper.getMember(q));
     } else {
-      res.json(await modelhelper.getMember());
+      log("routeGETApiMembers: return");
+      res.json(await modelhelper.getMember(q));
     }
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
-
-/**
- * GET one member.
- *
- * Return one member by ID
- * @private
- * @memberof module:routes/api
- * @param {Object}   req                request object
- * @param {Object}   req.user           user object to check against 'api' capability
- * @param {String}   req.params.id      the ID of the member to lookup
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
- */
-async function routeGETApiMemberByID(req, res, next) {
-  if(!cap.check(req.user, 'api')) {
-    res.status(401).json({
-      message: 'You do not have permission to access this API'
-    })
-    return;
-  }
-
-  try {
-    res.json(await modelhelper.getMember({_id: req.params.id}));
-  } catch (err) {
+    log("routeGETApiMembers: error");
     res.status(500).json({
       message: err.message,
     });
@@ -77,7 +67,7 @@ async function routeGETApiMemberByID(req, res, next) {
 /**
  * GET all registration entries.
  *
- * Return all registration entries in either JSON or CSV format.  JSON is returned by default.  
+ * Return all registration entries in either JSON or CSV format.  JSON is returned by default.
  * If ?return=csv is provided in the query, a CSV will be provided.
  * @private
  * @memberof module:routes/api
@@ -88,20 +78,37 @@ async function routeGETApiMemberByID(req, res, next) {
  * @param {Function} next                 function call to next middleware
  */
 async function routeGETApiRegistrations(req, res, next) {
-  if(!cap.check(req.user, 'api')) {
+  log("routeGETApiRegistrations()");
+  if (!cap.check(req.user, "api")) {
+    log("routeGETApiRegistrations: denied: " + req.user.access);
     res.status(401).json({
-      message: 'You do not have permission to access this API'
-    })
+      message: "You do not have permission to access this API",
+    });
     return;
+  }
+
+  // query by _id if provided
+  var q = {};
+  if ("id" in req.params) {
+    log("routeGETApiRegistrations: id: " + req.params.id);
+    q._id = req.params.id;
+
+    // query by member_id if provided
+  } else if ("memberid" in req.params) {
+    log("routeGETApiRegistrations: memberid: " + req.params.memberid);
+    q.member_id = req.params.memberid;
   }
 
   try {
     if (req.query.return == "csv") {
-      res.csv(await modelhelper.getRegistration());
+      log("routeGETApiRegistrations: return csv");
+      res.csv(await modelhelper.getRegistration(q));
     } else {
-      res.json(await modelhelper.getRegistration());
+      log("routeGETApiRegistrations: return");
+      res.json(await modelhelper.getRegistration(q));
     }
   } catch (err) {
+    log("routeGETApiRegistrations: error");
     res.status(500).json({
       message: err.message,
     });
@@ -110,6 +117,8 @@ async function routeGETApiRegistrations(req, res, next) {
 
 // register routes and export router
 router.get("/members", routeGETApiMembers);
-router.get("/members/:id", routeGETApiMemberByID);
+router.get("/members/:memberid/registrations", routeGETApiRegistrations);
+router.get("/members/:id", routeGETApiMembers);
 router.get("/registrations", routeGETApiRegistrations);
+router.get("/registrations/:id", routeGETApiRegistrations);
 module.exports = router;
