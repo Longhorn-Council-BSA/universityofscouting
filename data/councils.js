@@ -2,6 +2,7 @@
  * static council data module
  *
  * This module contains a static mapping of BSA councilID and council name.
+ * Last updated: 2020
  *
  * @module data/councils
  */
