@@ -1,6 +1,6 @@
 // jshint esversion: 8
 /**
- * profile router module
+ * member search router module
  *
  * This module displays profile data.
  *
@@ -8,26 +8,10 @@
  */
 var express = require("express");
 var router = express.Router();
-var Members = require("../models/members");
+var modelhelper = require("../lib/modelhelper");
 
 /**
- * Retrieve all member entries from MongoDB.
- *
- * @private
- * @memberof module:routes/searchMembers
- * @param {String} memberId the memberID of the user to find records for
- * @returns an object containing schedule entries
- */
-async function getMembers() {
-  var members = await Members.find();
-  response = members.map((member) => {
-    return member.exportObject();
-  });
-  return response;
-}
-
-/**
- * GET profile information
+ * GET member information
  *
  * Display all known registration information.
  *
@@ -40,9 +24,8 @@ async function getMembers() {
  */
 async function routerGETMembers(req, res, next) {
   try {
-    var members = await getMembers();
     res.render("searchMembers", { 
-      members: members,
+      members: modelhelper.getMember(),
       user: req.user,
       title: "Administration",
     });

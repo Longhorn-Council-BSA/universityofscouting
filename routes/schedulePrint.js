@@ -9,34 +9,27 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Schedules = require("../models/registrations");
+var modelhelper = require("../lib/modelhelper");
 
 /**
- * Retrieve a schedule from MongoDB.
+ * GET schedule print page
+ *
  * @private
  * @memberof module:routes/schedulePrint
- * @param {Number}    memberID      filter by member id
- * @returns an object containing schedule entries
+ * @param {Object}   req                request object
+ * @param {Object}   req.user           the currently logged in user
+ * @param {String}   req.user.memberID  the memberID of the logged in user
+ * @param {String}   req.user.councilID the councilID of the logged in user
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
  */
-
-async function getUserSchedule(memberID) {
-  var registrations;
-  if(memberID){
-    registrations = await Schedules.find({memberID: memberID});
-  }else{
-    registrations = await Schedules.find();
-  }
-  response_promises = registrations.map( async function(registration) {
-    return registration.exportObject();
-  });
-  return Promise.all(response_promises);
-}
-
 async function routerGETSchedule(req, res, next) {
   try {
-    var registrations = await getUserSchedule(req.user.memberID);
     res.render("schedulePrint", {
-      schedule: registrations,
+      schedule: await modelhelper.getRegistration({
+        memberID: req.user.memberID,
+        councilID: req.user.councilID
+      }),
       user: req.user,
       title: "Print Schedule",
     });

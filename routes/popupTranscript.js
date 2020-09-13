@@ -1,8 +1,6 @@
 // jshint esversion: 8
 /**
- * profile router module
- *
- * This module displays profile data.
+ * transcript popup router module
  *
  * @module routes/popupTranscript
  */
@@ -11,9 +9,7 @@ var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
 
 /**
- * GET profile information
- *
- * Display all known profile information.  At this time, that includes the username only.
+ * GET transcript popup page
  *
  * @private
  * @memberof module:routes/popupTranscript
@@ -21,7 +17,6 @@ var modelhelper = require("../lib/modelhelper");
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
  * @param {String}   req.user.councilID the councilID of the logged in user
- * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */

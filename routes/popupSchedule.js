@@ -1,9 +1,7 @@
 // jshint esversion: 8
 // async functions
 /**
- * profile router module
- *
- * This module displays profile data.
+ * schedule popup router module
  *
  * @module routes/popupSchedule
  */
@@ -12,17 +10,14 @@ var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
 
 /**
- * GET profile information
- *
- * Display all known profile information.  At this time, that includes the username only.
+ * GET schedule popup page
  *
  * @private
- * @memberof module:routes/schedule
+ * @memberof module:routes/popupSchedule
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
  * @param {String}   req.user.councilID the councilID of the logged in user
- * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */

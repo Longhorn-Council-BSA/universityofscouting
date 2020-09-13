@@ -1,5 +1,5 @@
 /**
- * profile router module
+ * how to print to pdf router module
  *
  * This module displays profile data.
  *
