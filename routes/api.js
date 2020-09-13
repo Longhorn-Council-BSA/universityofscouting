@@ -20,6 +20,7 @@ var cap = require("../lib/capabilities");
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                request object
+ * @param {Object}   req.user           user object to check against 'api' capability
  * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
@@ -52,6 +53,7 @@ async function routeGETApiMembers(req, res, next) {
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                request object
+ * @param {Object}   req.user           user object to check against 'api' capability
  * @param {String}   req.params.id      the ID of the member to lookup
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
@@ -74,49 +76,31 @@ async function routeGETApiMemberByID(req, res, next) {
 }
 
 /**
- * Retrieve all registration entries from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Object}    opt               additional options
- * @param {Number}    opt.memberID      filter by member id
- * @memberof module:routes/api
- * @returns an object containing all transcript entries
- */
-async function getAllRegistrations(opt = {}) {
-  var registrations;
-  if(opt.memberID){
-    registrations = await Registrations.find({
-      memberID: opt.memberID
-    });
-  } else { 
-    registrations = await Registrations.find();
-  }
-  response_promises = registrations.map(async function (registration) {
-      return registration.exportObject();
-    }
-  );
-  return Promise.all(response_promises);
-}
-
-/**
  * GET all registration entries.
  *
- * Return all registration entries in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.
+ * Return all registration entries in either JSON or CSV format.  JSON is returned by default.  
+ * If ?return=csv is provided in the query, a CSV will be provided.
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                  request object
+ * @param {Object}   req.user             user object to check against 'api' capability
  * @param {String}   req.query.return     when set to "csv", return CSV output
- * @param {String}   req.query.memberID   filter by this member ID
  * @param {Object}   res                  response object
  * @param {Function} next                 function call to next middleware
  */
 async function routeGETApiRegistrations(req, res, next) {
+  if(!cap.check(req.user, 'api')) {
+    res.status(401).json({
+      message: 'You do not have permission to access this API'
+    })
+    return;
+  }
+
   try {
-    var registration = await getAllRegistrations({memberID: Number(req.query.memberID)});
     if (req.query.return == "csv") {
-      res.csv(registration);
+      res.csv(await modelhelper.getRegistration());
     } else {
-      res.json(registration);
+      res.json(await modelhelper.getRegistration());
     }
   } catch (err) {
     res.status(500).json({
