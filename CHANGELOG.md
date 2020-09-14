@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.20](https://github.com/ckxng/universityofscouting/compare/v0.0.19...v0.0.20) (2020-09-14)
+
+
+### Features
+
+* add capabilities ([9ee4ac8](https://github.com/ckxng/universityofscouting/commit/9ee4ac8fa41036eff348814be18ef23a356aef0a))
+* adds capabilities check to function ([0175c13](https://github.com/ckxng/universityofscouting/commit/0175c134ca7e68202ed64d23ca0bcc83df038fa1))
+* adds council and role to profile output ([55601e8](https://github.com/ckxng/universityofscouting/commit/55601e835f9c5b93baa012fc1f4723fc8cdb4402))
+* adds data/council module ([79ac29b](https://github.com/ckxng/universityofscouting/commit/79ac29b216ebcd795789d16e0a53e84d222271d3))
+* adds index to members, registrations ([edfbfb4](https://github.com/ckxng/universityofscouting/commit/edfbfb4156c4e6c3a237b565f6a6cc4a3989363d))
+* adds member modelhelper and api permissions ([2e298de](https://github.com/ckxng/universityofscouting/commit/2e298de58562296655ed8f9d254a360a90b7272b))
+* adds virtuals and capabilities to models ([01cae7a](https://github.com/ckxng/universityofscouting/commit/01cae7af2639169e396112b6dbd34e4b07a52fab))
+* filters by earliest date ([5155439](https://github.com/ckxng/universityofscouting/commit/5155439cbf7cce3d926e63694a6ec135d00d84a1))
+
+
+### Bug Fixes
+
+* adds logging and corrects modelhelper logic ([20097c9](https://github.com/ckxng/universityofscouting/commit/20097c9317bb741d3a44ee654d6f97d735df9e2e))
+* adds missing ; ([6f0ed60](https://github.com/ckxng/universityofscouting/commit/6f0ed608c972c94831e0d2b11cdb26ff00a859a5))
+* adds new virtuals to exportObject ([9401336](https://github.com/ckxng/universityofscouting/commit/94013365a97444991e3fda9018f56a03f9ce429d))
+* adds user data api for popups ([7bf2678](https://github.com/ckxng/universityofscouting/commit/7bf2678e78e383e9a215ca847fcd2b7cf21eb5e1))
+* changes Module to module ([97d2bcb](https://github.com/ckxng/universityofscouting/commit/97d2bcb0134fb3fa8afa77068e796baa4cb0a172))
+* hides non-functional edit buttons ([4f31463](https://github.com/ckxng/universityofscouting/commit/4f3146336267be77a83da4c0d7eb8cbb5d1e1649))
+* member api fixes ([a9bffbe](https://github.com/ckxng/universityofscouting/commit/a9bffbec99af1b4fde066eb61beeed3c659f3b46))
+* updates serialization of members into user data ([838fac4](https://github.com/ckxng/universityofscouting/commit/838fac47619c1d17300a945beb1501adb21f5009))
+* upgrades bl CVE-2020-8244 ([87f56c7](https://github.com/ckxng/universityofscouting/commit/87f56c766dd05aeae505968b626dbe168a2d6b79))
+
 ### [0.0.19](https://github.com/ckxng/universityofscouting/compare/v0.0.18...v0.0.19) (2020-08-27)
 
 
