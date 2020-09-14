@@ -11,8 +11,12 @@ Create a `.env` file containing a DATABASE_URL environment variable.  This is
 a MongoDB connection string, such as you might get from mongodb.com's MongoDB
 hosting service.  Also, create a SESSION_SECRET containing a random string.
 
+If DEBUG=console, then extra debugging data will be provided on the console.
+Do not enable DEBUG for production deployments.
+
     DATABASE_URL=mongodb+srv://<username>:<password>@<host>/<dbname>?retryWrites=true&w=majority
     SESSION_SECRET=abc123
+    DEBUG=console
 
 # Documentation
 

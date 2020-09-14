@@ -35,12 +35,12 @@
   <script>
     //-----------------popups-------------------//
     function popupSchedule(id){
-      var popup = window.open('/popupSchedule?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      var popup = window.open('/popupSchedule?id='+id, '', 'height=900, width=1200');
       popup.document.close();
     }
     //------------------------------------//
     function popupTranscript(id){
-      var popup = window.open('/popupTranscript?memberData=true&memberID='+id, '', 'height=900, width=1200');
+      var popup = window.open('/popupTranscript?id='+id, '', 'height=900, width=1200');
       popup.document.close();
     }
     $("document").ready(function(){
@@ -58,7 +58,7 @@
             $("#MembersTbody").html("");
             $("#rowCount").html(data.length);
             for(var i = 0; i < data.length; i++){
-              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].council+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule('+data[i].memberID+')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript('+data[i].memberID+')">Transcript</button></td></tr>');
+              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].councilName+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button></td></tr>');
             }
           }
           $(".loader").css("visibility","hidden");

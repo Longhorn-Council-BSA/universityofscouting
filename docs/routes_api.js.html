@@ -37,51 +37,65 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Members = require("../models/members");
-var Registrations = require("../models/registrations");
-var Schedules = require("../models/schedules");
-
-/**
- * Retrieve all members from MongoDB.
- * @private
- * @memberof module:routes/api
- * @returns an object containing all members
- */
-async function getAllMembers() {
-  var members = await Members.find();
-  response = members.map(function (entry) {
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: entry.firstName,
-      lastName: entry.lastName,
-      council: entry.council,
-      access: entry.access
-    };
-  });
-  return response;
-}
+var modelhelper = require("../lib/modelhelper");
+var cap = require("../lib/capabilities");
+var log = require("../lib/log");
 
 /**
  * GET all members.
  *
- * Return all members in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.
+ * Return all members in either JSON or CSV format.  JSON is returned by default.
+ * If ?return=csv is provided in the query, a CSV will be provided.
+ *
+ * If the calling route provides req._id, then limit responses to just that
+ * member, by _id.
+ *
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                request object
+ * @param {Object}   req.user           user object to check against 'api' capability
+ * @param {String}   req.params.id      limit to responses to a single member by _id
  * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
 async function routeGETApiMembers(req, res, next) {
+  log("routeGETApiMembers()");
+  if (!cap.check(req.user, "api")) {
+    log("routeGETApiMembers: denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+    return;
+  }
+
+  // query by _id if provided
+  var q = {};
+  if ("id" in req.params) {
+    log("routeGETApiMembers: id: " + req.params.id);
+    q._id = req.params.id;
+  }
+
+  //if no id filtering queries were provided and
+  //if apiList access is not allowed, deny
+  if(!('_id' in q) &amp;&amp; !cap.check(req.user, "apiList")) {
+    log("routeGETApiMembers: list denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+    return;
+  }
+
   try {
-    var members = await getAllMembers();
     if (req.query.return == "csv") {
-      res.csv(members);
+      log("routeGETApiMembers: return csv");
+      res.csv(await modelhelper.getMember(q));
     } else {
-      res.json(members);
+      log("routeGETApiMembers: return");
+      res.json(await modelhelper.getMember(q));
     }
   } catch (err) {
+    log("routeGETApiMembers: error");
     res.status(500).json({
       message: err.message,
     });
@@ -89,202 +103,68 @@ async function routeGETApiMembers(req, res, next) {
 }
 
 /**
- * Retrieve single member by ID from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Number}   id                 the ID of the member to lookup
- * @returns an object containing one member
- */
-async function getMemberByID(id) {
-  var member = await Members.findOne({
-    memberID: id
-  });
-  return {
-    _id: member._id.toString(),
-    memberID: member.memberID.toString(),
-    firstName: member.firstName,
-    lastName: member.lastName,
-    council: member.council,
-    access: member.access
-  };
-}
-
-/**
- * GET one member.
+ * GET all registration entries.
  *
- * Return one member by ID
- * @private
- * @memberof module:routes/api
- * @param {Object}   req                request object
- * @param {String}   req.params.id      the ID of the member to lookup
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
- */
-async function routeGETApiMemberByID(req, res, next) {
-  try {
-    var member = await getMemberByID(Number(req.params.id));
-    res.json(member);
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
-
-/**
- * Retrieve all transcript entries from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Object}    opt               additional options
- * @param {Boolean}   opt.memberData    include member data in reponse (default: false)
- * @param {Number}    opt.memberID      filter by member id* @memberof module:routes/api
- * @returns an object containing all transcript entries
- */
-async function getAllTranscripts(opt = {}) {
-  var memberData = false;
-  if(opt.memberData){
-    memberData = true;
-  }
-  var members = {};
-  var transcript;
-  if(opt.memberID){
-    transcript = await Registrations.find({
-      memberID: opt.memberID
-    });
-  }else{ 
-    transcript = await Registrations.find();
-  }
-  response_promises = transcript.map(
-    async function (entry) {
-      if(!members[entry.memberID]){
-        members[entry.memberID] = await getMemberByID(Number(entry.memberID));
-      }
-      var date = entry.date;
-      var dd = String(date.getDate()).padStart(2, '0');
-      var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = date.getFullYear();
-      date = yyyy + '-' + mm + '-' + dd;
-      return {
-        _id: entry._id.toString(),
-        memberID: entry.memberID.toString(),
-        firstName: members[entry.memberID].firstName,
-        lastName: members[entry.memberID].lastName,
-        title: entry.title,
-        date: date,
-        credits: entry.credits,
-        status: entry.status,
-      };
-    }
-  );
-  return Promise.all(response_promises);
-}
-
-/**
- * GET all transcript entries.
- *
- * Return all transcript entries in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.
+ * Return all registration entries in either JSON or CSV format.  JSON is returned by default.
+ * If ?return=csv is provided in the query, a CSV will be provided.
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                  request object
+ * @param {Object}   req.user             user object to check against 'api' capability
+ * @param {Date}     req.query.earliest   filters so that no objects are returned older than this time
  * @param {String}   req.query.return     when set to "csv", return CSV output
- * @param {String}   req.query.memberID   filter by this member ID
- * @param {String}   req.query.memberData when set to "true" return memberData in the response
  * @param {Object}   res                  response object
  * @param {Function} next                 function call to next middleware
  */
-async function routeGETApiTranscripts(req, res, next) {
-  var memberData = false;
-  if(req.query.memberData == "true"){
-    memberData = true;
-  }
-  try {
-    var transcript = await getAllTranscripts({memberData: memberData, memberID: Number(req.query.memberID)});
-    if (req.query.return == "csv") {
-      res.csv(transcript);
-    } else {
-      res.json(transcript);
-    }
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
+async function routeGETApiRegistrations(req, res, next) {
+  log("routeGETApiRegistrations()");
+  //if api access is not allowed, deny
+  if (!cap.check(req.user, "api")) {
+    log("routeGETApiRegistrations: denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
     });
+    return;
   }
-}
 
-/**
- * Retrieve all schedule entries from MongoDB.
- * @private
- * @memberof module:routes/api
- * @param {Object}    opt               additional options
- * @param {Boolean}   opt.memberData    include member data in reponse (default: false)
- * @param {Number}    opt.memberID      filter by member id
- * @returns an object containing all transcript entries
- */
-async function getSchedule(opt = {}) {
-  var memberData = false;
-  if(opt.memberData){
-    memberData = true;
-  }
-  var schedule;
-  if(opt.memberID){
-      schedule = await Schedules.find({memberID: opt.memberID});
-  }else{
-     schedule = await Schedules.find();
-  }
-  var members = {};
-  response_promises = schedule.map( async function(entry) {
-    if(!members[entry.memberID]){
-      members[entry.memberID] = await getMemberByID(Number(entry.memberID));
-    }
-    var date = entry.date;
-    var time = entry.date.toLocaleTimeString();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = yyyy + '-' + mm + '-' + dd;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      firstName: members[entry.memberID].firstName,
-      lastName: members[entry.memberID].lastName,
-      timestamp: entry.date,
-      time: time,
-      date: date,
-      course: entry.course,
-      instructor: entry.instructor,
-      location: entry.location,
-      delivery: entry.delivery,
-    };
-  });
-  return Promise.all(response_promises);
-}
+  // query by _id if provided
+  var q = {};
+  if ("id" in req.params) {
+    log("routeGETApiRegistrations: id: " + req.params.id);
+    q._id = req.params.id;
 
-/**
- * GET all schedule entries.
- *
- * Return all schedule entries in either JSON or CSV format.  JSON is returned by default.  If ?return=csv is provided in the query, a CSV will be provided.  If ?memberdata=true then member profile info will be returned as a part of the response.
- * @private
- * @memberof module:routes/api
- * @param {Object}   req                  request object
- * @param {String}   req.query.return     when set to "csv", return CSV output
- * @param {String}   req.query.memberID   filter by this member ID
- * @param {String}   req.query.memberData when set to "true" return memberData in the response
- * @param {Object}   res                  response object
- * @param {Function} next                 function call to next middleware
- */
-async function routeGETApiSchedules(req, res, next) {
-  var memberData = false;
-  if(req.query.memberData == "true"){
-    memberData = true;
+    // query by member_id if provided
+  } else if ("memberid" in req.params) {
+    log("routeGETApiRegistrations: memberid: " + req.params.memberid);
+    q.member_id = req.params.memberid;
   }
+
+  // query by earliest if provided
+  if ("earliest" in req.query) {
+    log("routeGETApiRegistrations: earliest: " + req.query.earliest);
+    q.earliest = req.query.earliest;
+  }
+
+  //if no member or id filtering queries were provided and
+  //if apiList access is not allowed, deny
+  if(!('_id' in q || 'member_id' in q) &amp;&amp; !cap.check(req.user, "apiList")) {
+    log("routeGETApiRegistrations: list denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+    return;
+  }
+
   try {
-    var schedule = await getSchedule({memberData: memberData, memberID: Number(req.query.memberID)});
     if (req.query.return == "csv") {
-      res.csv(schedule);
+      log("routeGETApiRegistrations: return csv");
+      res.csv(await modelhelper.getRegistration(q));
     } else {
-      res.json(schedule);
+      log("routeGETApiRegistrations: return");
+      res.json(await modelhelper.getRegistration(q));
     }
   } catch (err) {
+    log("routeGETApiRegistrations: error");
     res.status(500).json({
       message: err.message,
     });
@@ -293,10 +173,12 @@ async function routeGETApiSchedules(req, res, next) {
 
 // register routes and export router
 router.get("/members", routeGETApiMembers);
-router.get("/members/:id", routeGETApiMemberByID);
-router.get("/transcripts", routeGETApiTranscripts);
-router.get("/schedules", routeGETApiSchedules);
-module.exports = router;</code></pre>
+router.get("/members/:memberid/registrations", routeGETApiRegistrations);
+router.get("/members/:id", routeGETApiMembers);
+router.get("/registrations", routeGETApiRegistrations);
+router.get("/registrations/:id", routeGETApiRegistrations);
+module.exports = router;
+</code></pre>
         </article>
     </section>
 
@@ -306,13 +188,13 @@ module.exports = router;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_capabilities.html">lib/capabilities</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_log.html">lib/log</a></li><li><a href="module-lib_modelhelper.html">lib/modelhelper</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_howtoprinttopdf.html">routes/howtoprinttopdf</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupSchedule.html">routes/popupSchedule</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_searchMembers.html">routes/searchMembers</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Aug 27 2020 07:37:34 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Mon Sep 14 2020 02:31:06 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -65,15 +65,15 @@
       $(".loader").css("visibility","initial");
       $.ajax({
         dataType: "json",
-        url: "/api/schedules",
-        data: {memberData: true, memberID: ID},
+        url: "/api/members/<%= user._id %>/registrations",
+        data: {},
         success:  function(data){
           if(data.length > 0){
             $("#scheduleTbody").html("");
             $("#rowCount").html(data.length);
             for(var i = 0; i < data.length; i++){
               if(data[i].memberID == ID){
-                $("#scheduleTbody").append("<tr><td>"+data[i].date+" "+data[i].time+"</td><td>"+data[i].course+"</td><td>"+data[i].instructor+"</td><td>"+data[i].location+"</td><td>"+data[i].delivery+'</td></tr>');
+                $("#scheduleTbody").append("<tr><td>"+data[i].dateMDYHM+"</td><td>"+data[i].title+"</td><td>"+data[i].instructor+"</td><td>"+data[i].physical+"</td><td>"+data[i].online+'</td></tr>');
               }
             }
             $(".loader").css("visibility","hidden");

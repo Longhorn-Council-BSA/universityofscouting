@@ -1,24 +1,20 @@
 /**
- * profile router module
+ * how to print to pdf router module
  *
  * This module displays profile data.
  *
- * @module routes/profile
+ * @module routes/howtoprinttopdf
  */
 var express = require("express");
 var router = express.Router();
 
 /**
- * GET profile information
+ * GET how to print to pdf
  *
- * Display all known profile information.  At this time, that includes the username only.
+ * Display documentation on how to print to pdf on different browsers
  *
  * @private
- * @memberof module:routes/profile
- * @param {Object}   req                request object
- * @param {Object}   req.user           the currently logged in user
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * @memberof module:routes/howtoprinttopdf
  */
 function routerGETProfile(req, res, next) {
   res.render("howtoprinttopdf", { title: "Print to PDF Guide", user: req.user });

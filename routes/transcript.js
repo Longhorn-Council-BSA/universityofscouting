@@ -9,39 +9,7 @@
 // async functions
 var express = require("express");
 var router = express.Router();
-var Registrations = require("../models/registrations");
-
-/**
- * Retrieve all transcript entries from MongoDB for a single user.
- *
- * @private
- * @memberof module:routes/transcript
- * @param {String} memberId the memberID of the user to find records for
- * @returns an object containing transcript entries
- */
-async function getUserTranscript(memberID) {
-  var transcript = await Registrations.find({
-    memberID: memberID,
-  });
-  response = transcript.map((entry) => {
-    var date = entry.date;
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    date = mm + '/' + dd + '/' + yyyy;
-    return {
-      _id: entry._id.toString(),
-      memberID: entry.memberID.toString(),
-      title: entry.title,
-      date: date,
-      council: entry.council,
-      credits: entry.credits,
-      status: entry.status,
-      type: entry.type
-    };
-  });
-  return response;
-}
+var modelhelper = require("../lib/modelhelper");
 
 /**
  * GET and display all transcript entries for the logged in user.
@@ -53,15 +21,18 @@ async function getUserTranscript(memberID) {
  * @param {Object}   req                request object
  * @param {Object}   req.user           the currently logged in user
  * @param {String}   req.user.memberID  the memberID of the logged in user
+ * @param {String}   req.user.councilID the councilID of the logged in user
  * @param {String}   req.query.return   when set to "csv", return CSV output
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
 async function routerGETTranscipt(req, res, next) {
   try {
-    var transcript = await getUserTranscript(req.user.memberID);
     res.render("transcript", {
-      transcript: transcript,
+      transcript: await modelhelper.getRegistration({
+        memberID: req.user.memberID,
+        councilID: req.user.councilID
+      }),
       user: req.user,
       title: "Transcript",
     });
