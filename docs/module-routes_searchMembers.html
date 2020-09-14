@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: routes/transcriptPrint</title>
+    <title>JSDoc: Module: routes/searchMembers</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: routes/transcriptPrint</h1>
+    <h1 class="page-title">Module: routes/searchMembers</h1>
 
     
 
@@ -38,9 +38,9 @@
     <div class="container-overview">
     
         
-            <div class="description">transcript print router module
+            <div class="description">member search router module
 
-This module displays transcripts for logged in users in a print window</div>
+This module displays profile data.</div>
         
 
         
@@ -89,7 +89,7 @@ This module displays transcripts for logged in users in a print window</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_transcriptPrint.js.html">routes/transcriptPrint.js</a>, <a href="routes_transcriptPrint.js.html#line1">line 1</a>
+        <a href="routes_searchMembers.js.html">routes/searchMembers.js</a>, <a href="routes_searchMembers.js.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -146,7 +146,7 @@ This module displays transcripts for logged in users in a print window</div>
     
 
     
-    <h4 class="name" id=".routerGETTranscipt"><span class="type-signature">(async, private, static) </span>routerGETTranscipt<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".routerGETMembers"><span class="type-signature">(async, private, static) </span>routerGETMembers<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -154,9 +154,9 @@ This module displays transcripts for logged in users in a print window</div>
 
 
 <div class="description">
-    GET and display all transcript entries for the logged in user.
+    GET member information
 
-Display all transcript entries for the logged in user using the "transcript" view.
+Display all known registration information.
 </div>
 
 
@@ -250,102 +250,7 @@ Display all transcript entries for the logged in user using the "transcript" vie
 
             
 
-            <td class="description last">the currently logged in user
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>memberID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the memberID of the logged in user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>councilID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the councilID of the logged in user</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>query.return</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">when set to "csv", return CSV output</td>
+            <td class="description last">the currently logged in user</td>
         </tr>
 
     
@@ -439,7 +344,7 @@ Display all transcript entries for the logged in user using the "transcript" vie
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_transcriptPrint.js.html">routes/transcriptPrint.js</a>, <a href="routes_transcriptPrint.js.html#line29">line 29</a>
+        <a href="routes_searchMembers.js.html">routes/searchMembers.js</a>, <a href="routes_searchMembers.js.html#line25">line 25</a>
     </li></ul></dd>
     
 

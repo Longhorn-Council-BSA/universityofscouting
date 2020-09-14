@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/popupTranscript.js</title>
+    <title>JSDoc: Source: lib/capabilities.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/popupTranscript.js</h1>
+    <h1 class="page-title">Source: lib/capabilities.js</h1>
 
     
 
@@ -26,43 +26,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// jshint esversion: 8
-/**
- * transcript popup router module
+            <pre class="prettyprint source linenums"><code>/**
+ * capabilities module
  *
- * @module routes/popupTranscript
+ * This module checks the capabilities of a user
+ *
+ * @module lib/capabilities
  */
-var express = require("express");
-var router = express.Router();
+var dataCapabilities = require('../data/capabilities');
 
 /**
- * GET transcript popup page
- *
- * @private
- * @memberof module:routes/popupTranscript
- * @param {Object}   req                request object
- * @param {Object}   req.user           the currently logged in user
- * @param {String}   req.user.memberID  the memberID of the logged in user
- * @param {String}   req.user.councilID the councilID of the logged in user
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * Checks capabilities of a user.
+ * 
+ * All users have an access property, which is a Number.  When a string
+ * is passed in to cap, that string will be compared against the 
+ * data/capabilities object to translate that string into a number.  The 
+ * number of the user access and the number of the capabilities are compared.
+ * If the user's access meets or exceeds the cooresponding capability number,
+ * true is returned.  Else, false is returned. 
+ * 
+ * @param {Object} user user object
+ * @param {Number} user.access level of user access
+ * @param {String} cap capability name
+ * @returns  true if the user's access meets the capability level, else false
  */
-async function routerGETTranscript(req, res, next) {
-  try {
-    res.render("popupTranscript", {
-      user: req.user,
-      title: "Member Popup Transcript",
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
-
-// register routes and export router
-router.get("/", routerGETTranscript);
-module.exports = router;
+module.exports.check = function(user, cap) {
+    if(cap in dataCapabilities) {
+        return user.access >= dataCapabilities[cap];
+    }
+    return false;    
+};
 </code></pre>
         </article>
     </section>

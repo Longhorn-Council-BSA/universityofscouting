@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/popupTranscript.js</title>
+    <title>JSDoc: Source: lib/log.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/popupTranscript.js</h1>
+    <h1 class="page-title">Source: lib/log.js</h1>
 
     
 
@@ -26,43 +26,24 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// jshint esversion: 8
-/**
- * transcript popup router module
+            <pre class="prettyprint source linenums"><code>/**
+ * log module
  *
- * @module routes/popupTranscript
- */
-var express = require("express");
-var router = express.Router();
-
-/**
- * GET transcript popup page
+ * This module performs debug logging
  *
- * @private
- * @memberof module:routes/popupTranscript
- * @param {Object}   req                request object
- * @param {Object}   req.user           the currently logged in user
- * @param {String}   req.user.memberID  the memberID of the logged in user
- * @param {String}   req.user.councilID the councilID of the logged in user
- * @param {Object}   res                response object
- * @param {Function} next               function call to next middleware
+ * @module lib/log
  */
-async function routerGETTranscript(req, res, next) {
-  try {
-    res.render("popupTranscript", {
-      user: req.user,
-      title: "Member Popup Transcript",
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
 
-// register routes and export router
-router.get("/", routerGETTranscript);
-module.exports = router;
+ /**
+ * Log a message
+ * 
+ * @param {String} message the message to log to the console
+ */
+module.exports = function(message) {
+    if('DEBUG' in process.env &amp;&amp; process.env.DEBUG == 'console') {
+        console.log(message);
+    }
+};
 </code></pre>
         </article>
     </section>
