@@ -15,6 +15,11 @@ module.exports = {
     //view own profile
     //print own registration & schedule
 
+    api: 1,
+    //administration
+    //the following capabilities are included in 'api':
+    //use /api routes
+    
     viewOther: 10,
     //faculty
     //the following capabilities are included in 'viewOther':
@@ -28,9 +33,10 @@ module.exports = {
     //the following capabilities are included in 'viewOther':
     //change any registration record status
 
-    api: 100,
-    //administration
-    //the following capabilities are included in 'api':
+    apiList: 10,
+    //faculty
+    //must be assigned to 'api' or higher
+    //the following capabilities are included in 'apiList':
     //export all members with api
     //export all registrations with api
 

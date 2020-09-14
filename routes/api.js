@@ -48,6 +48,16 @@ async function routeGETApiMembers(req, res, next) {
     q._id = req.params.id;
   }
 
+  //if no id filtering queries were provided and
+  //if apiList access is not allowed, deny
+  if(!('_id' in q) && !cap.check(req.user, "apiList")) {
+    log("routeGETApiMembers: list denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+    return;
+  }
+
   try {
     if (req.query.return == "csv") {
       log("routeGETApiMembers: return csv");
@@ -80,6 +90,7 @@ async function routeGETApiMembers(req, res, next) {
  */
 async function routeGETApiRegistrations(req, res, next) {
   log("routeGETApiRegistrations()");
+  //if api access is not allowed, deny
   if (!cap.check(req.user, "api")) {
     log("routeGETApiRegistrations: denied: " + req.user.access);
     res.status(401).json({
@@ -101,9 +112,19 @@ async function routeGETApiRegistrations(req, res, next) {
   }
 
   // query by earliest if provided
-  if("earliest" in req.query) {
-    log("routeGETApiRegistrations: earliest: "+req.query.earliest);
+  if ("earliest" in req.query) {
+    log("routeGETApiRegistrations: earliest: " + req.query.earliest);
     q.earliest = req.query.earliest;
+  }
+
+  //if no member or id filtering queries were provided and
+  //if apiList access is not allowed, deny
+  if(!('_id' in q || 'member_id' in q) && !cap.check(req.user, "apiList")) {
+    log("routeGETApiRegistrations: list denied: " + req.user.access);
+    res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+    return;
   }
 
   try {
