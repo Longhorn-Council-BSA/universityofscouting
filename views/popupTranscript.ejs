@@ -35,7 +35,7 @@
                 <th>Course Title</th>
                 <th>Credits</th>
                 <th>Status</th>
-                <!--<th></th>-->
+                <!--<th>Options</th>-->
               </tr>
             </thead>
             <tbody id="tbody">
@@ -106,6 +106,16 @@
           });
         }
       });
+      // $.ajax({
+      //   dataType: "json",
+      //   url: "/api/members/"+dataID,
+      //   success:  function(data){
+      //     $('#name').text(data.fullNameFL);
+      //   },
+      //   error: function(err){
+      //     console.log(err);
+      //   }
+      // });
     }
     // -----------------------------------------------------------------------------------------//
     function enableEdit(i){

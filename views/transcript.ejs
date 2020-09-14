@@ -14,7 +14,8 @@
         <p style="margin:0px;">
           ID: <span id="userID"><%= user.memberID %> | </span>
           <span id="fname"><%= user.firstName %></span>
-          <span id="lname"><%= user.lastName %></span>
+          <span id="lname"><%= user.lastName %> | </span>
+          <span><%= transcript.length %> Record<% if(transcript.length>1){%>s<%}%></span>
         </p>
         <div id="transcriptTableDiv" style="font-weight: normal;">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
@@ -24,43 +25,22 @@
                 <th>Course Date</th>
                 <th>Course Title</th>
                 <th>Credits</th>
+                <th>Type</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colspan="4" style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Course Records ~</td>
-              </tr>
               <% var count = 0; %>
               <% for(var i=0; i<transcript.length; i++) {  %>
-              <% if(transcript[i].type == 1){ %>
               <% count++; %>
               <tr>
                 <td><%= transcript[i].dateMDYHM %></td>
                 <td><%= transcript[i].title %></td>
                 <td><%= transcript[i].credits %></td>
-                <td><%= transcript[i].status %></td>
-              </tr>
-              <% }} %>
-              <% if(count == 0){ %>
-              <tr>
-                <td colspan="4"><%= count %> Course Records Found</td>
+                <td><%= transcript[i].typeName %></td>
+                <td><%= transcript[i].statusName %></td>
               </tr>
               <% } %>
-              <tr>
-                <td colspan="4"style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Degree Records ~</td>
-              </tr>
-              <% count = 0; %>
-              <% for(var i=0; i<transcript.length; i++) {  %>
-              <% if(transcript[i].type == 2){ %>
-              <% count++; %>
-              <tr>
-                <td><%= transcript[i].dateMDYHM %></td>
-                <td><%= transcript[i].title %></td>
-                <td><%= transcript[i].credits %></td>
-                <td><%= transcript[i].status %></td>
-              </tr>
-              <% }} %>
               <% if(count == 0){ %>
               <tr>
                 <td colspan="4"><%= count %> Course Records Found</td>

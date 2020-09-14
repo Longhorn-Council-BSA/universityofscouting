@@ -118,7 +118,7 @@ RegistrationsSchema.virtual("statusName").get(function () {
  */
 RegistrationsSchema.methods.exportObject = function () {
   return {
-    _id: this._id.toString(), //Long Number
+    _id: this._id.toString(), //String (Hex number)
     memberID: this.memberID.toString(), //Long Number
     councilID: this.councilID,
     date: this.date.toISOString(), //Date Object
