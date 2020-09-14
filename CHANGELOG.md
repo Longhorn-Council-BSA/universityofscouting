@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.0.0) (2020-09-14)
+
+* First major release
+* The application is now ready for beta users
+
+This version of the application meets all of the design requirements for a production rollout:
+
+### Iteration 1 Deliverables
+* Complete - A registered member can login to the site using information which he/she already knows
+* Complete - A registered member can view available transcript data on a desktop or mobile device
+* Complete - A registered member can print past transcript data in a format resembling that of a university transcript
+
+### Iteration 2 Deliverables
+* Skipped. MongoDB.com and Compass will be used to manage data in the immediate term.
+
+### Iteration 3 Deliverables
+* Complete - A registered user can view courses they are signed up for
+* Complete - A registered user can see times, physical, and online meeting places for courses they are signed up for
+
 ### [0.0.23](https://github.com/ckxng/universityofscouting/compare/v0.0.22...v0.0.23) (2020-09-14)
 
 
