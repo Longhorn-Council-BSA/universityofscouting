@@ -24,7 +24,7 @@ var modelhelper = require("../lib/modelhelper");
  */
 async function routerGETSchedules(req, res, next) {
   try {
-    res.render("Schedule", { 
+    res.render("schedule", { 
       schedule: await modelhelper.getRegistration({
         memberID: req.user.memberID,
         councilID: req.user.councilID
