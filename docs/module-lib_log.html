@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/deserializeuser.js</title>
+    <title>JSDoc: Module: lib/log</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,42 +17,273 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/deserializeuser.js</h1>
+    <h1 class="page-title">Module: lib/log</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * deserialize user module
- *
- * This module converts data stored in the session cookie into user objects
- *
- * @module lib/deserializeuser
- */
+        
+            
+        
+            
+        
+    
+</header>
 
-/**
- * deserialize a logged in user from session storage and reconstruct a user object.
- *
- * Since the user data is so small, the entire object was stored in the session cookie.
- * Copy the whole object back into the user object.
- *
- * @private
- * @memberof module:lib/deserializeuser
- * @param {String}   data            the data stored in the session cookie
- * @param {Function} done            the function to call upon completion
- */
-function deserializeUser(data, done) {
-  done(null, data);
-}
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">log module
 
-module.exports = deserializeUser;
-</code></pre>
-        </article>
-    </section>
+This module performs debug logging</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_log.js.html">lib/log.js</a>, <a href="lib_log.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="module:lib/log"><span class="type-signature"></span>(require("lib/log"))<span class="signature">(message)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Log a message
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the message to log to the console</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_log.js.html">lib/log.js</a>, <a href="lib_log.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

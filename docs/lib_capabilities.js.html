@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/deserializeuser.js</title>
+    <title>JSDoc: Source: lib/capabilities.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/deserializeuser.js</h1>
+    <h1 class="page-title">Source: lib/capabilities.js</h1>
 
     
 
@@ -27,29 +27,35 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * deserialize user module
+ * capabilities module
  *
- * This module converts data stored in the session cookie into user objects
+ * This module checks the capabilities of a user
  *
- * @module lib/deserializeuser
+ * @module lib/capabilities
  */
+var dataCapabilities = require('../data/capabilities');
 
 /**
- * deserialize a logged in user from session storage and reconstruct a user object.
- *
- * Since the user data is so small, the entire object was stored in the session cookie.
- * Copy the whole object back into the user object.
- *
- * @private
- * @memberof module:lib/deserializeuser
- * @param {String}   data            the data stored in the session cookie
- * @param {Function} done            the function to call upon completion
+ * Checks capabilities of a user.
+ * 
+ * All users have an access property, which is a Number.  When a string
+ * is passed in to cap, that string will be compared against the 
+ * data/capabilities object to translate that string into a number.  The 
+ * number of the user access and the number of the capabilities are compared.
+ * If the user's access meets or exceeds the cooresponding capability number,
+ * true is returned.  Else, false is returned. 
+ * 
+ * @param {Object} user user object
+ * @param {Number} user.access level of user access
+ * @param {String} cap capability name
+ * @returns  true if the user's access meets the capability level, else false
  */
-function deserializeUser(data, done) {
-  done(null, data);
-}
-
-module.exports = deserializeUser;
+module.exports.check = function(user, cap) {
+    if(cap in dataCapabilities) {
+        return user.access >= dataCapabilities[cap];
+    }
+    return false;    
+};
 </code></pre>
         </article>
     </section>

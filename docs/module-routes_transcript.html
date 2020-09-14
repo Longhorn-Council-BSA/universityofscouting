@@ -146,153 +146,6 @@ This module displays transcripts for logged in users</div>
     
 
     
-    <h4 class="name" id=".getUserTranscript"><span class="type-signature">(async, private, static) </span>getUserTranscript<span class="signature">(memberId)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Retrieve all transcript entries from MongoDB for a single user.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>memberId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the memberID of the user to find records for</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_transcript.js.html">routes/transcript.js</a>, <a href="routes_transcript.js.html#line22">line 22</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    an object containing transcript entries
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id=".routerGETTranscipt"><span class="type-signature">(async, private, static) </span>routerGETTranscipt<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
@@ -443,6 +296,29 @@ Display all transcript entries for the logged in user using the "transcript" vie
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>councilID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the councilID of the logged in user</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -563,7 +439,7 @@ Display all transcript entries for the logged in user using the "transcript" vie
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_transcript.js.html">routes/transcript.js</a>, <a href="routes_transcript.js.html#line60">line 60</a>
+        <a href="routes_transcript.js.html">routes/transcript.js</a>, <a href="routes_transcript.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -609,13 +485,13 @@ Display all transcript entries for the logged in user using the "transcript" vie
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_capabilities.html">lib/capabilities</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_log.html">lib/log</a></li><li><a href="module-lib_modelhelper.html">lib/modelhelper</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_howtoprinttopdf.html">routes/howtoprinttopdf</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupSchedule.html">routes/popupSchedule</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_searchMembers.html">routes/searchMembers</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Aug 27 2020 07:37:34 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Mon Sep 14 2020 02:21:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: lib/localauthentication</title>
+    <title>JSDoc: Module: routes/popupSchedule</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: lib/localauthentication</h1>
+    <h1 class="page-title">Module: routes/popupSchedule</h1>
 
     
 
@@ -38,9 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">local authentication module
-
-This module performs authentication of users against mongodb</div>
+            <div class="description">schedule popup router module</div>
         
 
         
@@ -89,7 +87,7 @@ This module performs authentication of users against mongodb</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_localauthentication.js.html">lib/localauthentication.js</a>, <a href="lib_localauthentication.js.html#line1">line 1</a>
+        <a href="routes_popupSchedule.js.html">routes/popupSchedule.js</a>, <a href="routes_popupSchedule.js.html#line3">line 3</a>
     </li></ul></dd>
     
 
@@ -146,7 +144,7 @@ This module performs authentication of users against mongodb</div>
     
 
     
-    <h4 class="name" id=".localAuthentication"><span class="type-signature">(async, private, static) </span>localAuthentication<span class="signature">(username, password, done)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".routerGETSchedules"><span class="type-signature">(async, private, static) </span>routerGETSchedules<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -154,23 +152,7 @@ This module performs authentication of users against mongodb</div>
 
 
 <div class="description">
-    authenticate users with a username and password.
-
-Accept a memberID as a username, and case-sensitive lastName as a
-password.
-
-When authentication is sucessful, a user object is passed to the done
-function, which represents the logged in user.  The object contains
-all known properties.
-
-There is an extremely rare edge cases where the behavior is undefined.
-If a user has the same last name and memberID as another member in a
-different council AND both of those members are in this database, only
-the first match will be returned.  If this ever comes to be the
-case, a drop down box of councils should be added to the login screen
-and the council number can be added to the search query for 
-disambiguation.  OR even better, this login could be integrated with
-the BSA SSO system.
+    GET schedule popup page
 </div>
 
 
@@ -206,7 +188,91 @@ the BSA SSO system.
 
         <tr>
             
-                <td class="name"><code>username</code></td>
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the currently logged in user
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
             
 
             <td class="type">
@@ -222,14 +288,14 @@ the BSA SSO system.
 
             
 
-            <td class="description last">username to compare</td>
+            <td class="description last">the memberID of the logged in user</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>password</code></td>
+                <td class="name"><code>councilID</code></td>
             
 
             <td class="type">
@@ -245,14 +311,51 @@ the BSA SSO system.
 
             
 
-            <td class="description last">password to compare</td>
+            <td class="description last">the councilID of the logged in user</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>done</code></td>
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">response object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
             
 
             <td class="type">
@@ -268,7 +371,7 @@ the BSA SSO system.
 
             
 
-            <td class="description last">the function to call upon completion</td>
+            <td class="description last">function call to next middleware</td>
         </tr>
 
     
@@ -309,7 +412,7 @@ the BSA SSO system.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_localauthentication.js.html">lib/localauthentication.js</a>, <a href="lib_localauthentication.js.html#line37">line 37</a>
+        <a href="routes_popupSchedule.js.html">routes/popupSchedule.js</a>, <a href="routes_popupSchedule.js.html#line23">line 23</a>
     </li></ul></dd>
     
 

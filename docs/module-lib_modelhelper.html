@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: lib/modelhelper</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: lib/modelhelper</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">model helper module
+
+This module contains helper functions for interacting with models</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_modelhelper.js.html">lib/modelhelper.js</a>, <a href="lib_modelhelper.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".module.exports.getMember"><span class="type-signature">(static) </span>module.exports.getMember<span class="signature">(q)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    export one or more members
+
+When none of _id, memberID, or councilID are specified,
+this function will return an ARRAY of all members in the database.  If
+there are no members in the database, an empty array will be returned.
+This feature should be used sparingly, it is very inefficient and can
+crash the server once more users are loaded.
+
+When q._id contains a value, a SINGLE member will be returned matching that _id.
+If no member is found with that _id, undef will be returned.
+
+If q._id is not specified, but both q.memberID and q.councilID are specified,
+a SINGLE member will be returned matching both that memberID and councilID.
+If no member is found with that memberID and councilID, undef will be returned.
+
+DEPRECATED BEHAVIOR: If q.memberID is specified and q.councilID is not specified,
+a SINGLE member will be returned matching that memberID.  It is possible for
+two members in different councils to have the same memberID.  If this happens
+and more than one member is found, the first record found will be returned.
+If no member is found with that memberID, undef will be returned.
+
+By default (or when q.return="simple"), a simplified JavaScript object will
+be returned where BigInt and Date values are converted to strings.  This
+loses all of the usual capabilities of a model but is easier to pass into
+a template.  To return a fully-capable model instead, specify q.return="model".
+
+If q.return contains anything other than "model" or "simple", undef will
+be returned.
+
+If q is passed something other than an object, undef will be returned.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>q</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query a single member by _id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">BigInt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query a single member by memberID and councilID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>councilID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query a single member by memberID and councilID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>return</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">contains either "model" or "simple"(default)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_modelhelper.js.html">lib/modelhelper.js</a>, <a href="lib_modelhelper.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    or {Array} see description above
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".module.exports.getRegistration"><span class="type-signature">(static) </span>module.exports.getRegistration<span class="signature">(q)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    export one or more registrations
+
+When none of _id, memberID, or councilID are specified,
+this function will return an ARRAY of all registrations in the database.  If
+there are no registrations in the database, an empty array will be returned.
+This feature should be used sparingly, it is very inefficient and can
+crash the server once more registrations are loaded.
+
+When q._id contains a value, a SINGLE registration will be returned matching that _id.
+If no registration is found with that _id, undef will be returned.  This is NOT a
+search of registrations matching that member._id!  This is the unique ID of the
+registration itself.
+
+When q._id is not specified, but q.member_id is specified, an array of registrations
+will be returned for the member with that _id. If no registrations are found is found
+with that _id, undef will be returned.  (This performs a lookup on the backend and
+internally translates the request to one that specifies a user by memberID and
+councilID, which is an inefficient way to perform this lookup - but matches the
+data schema.)
+
+If q._id and member_id are not specified, but both q.memberID and q.councilID
+are specified, an array of registrations will be returned for the member with that
+memberID and councilID. If no registrations are found is found with that
+memberID and councilID, undef will be returned.
+
+If not looking up by _id and q.earliest is specified, only entries at or after that
+date will be returned.
+
+By default (or when q.return="simple"), a simplified JavaScript object will
+be returned where BigInt and Date values are converted to strings.  This
+loses all of the usual capabilities of a model but is easier to pass into
+a template.  To return a fully-capable model instead, specify q.return="model".
+
+If q.return contains anything other than "model" or "simple", undef will
+be returned.
+
+If q is passed something other than an object, undef will be returned.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>q</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query a single registration by _id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>member_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query registrations by a member's _id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>memberID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">BigInt</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query registrations by memberID and councilID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>councilID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">query registrations by memberID and councilID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>earliest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">only include registrations at or after this date</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>return</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">contains either "model" or "simple"(default)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_modelhelper.js.html">lib/modelhelper.js</a>, <a href="lib_modelhelper.js.html#line191">line 191</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    or {Array} see description above
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-lib_capabilities.html">lib/capabilities</a></li><li><a href="module-lib_deserializeuser.html">lib/deserializeuser</a></li><li><a href="module-lib_localauthentication.html">lib/localauthentication</a></li><li><a href="module-lib_log.html">lib/log</a></li><li><a href="module-lib_modelhelper.html">lib/modelhelper</a></li><li><a href="module-lib_serializeuser.html">lib/serializeuser</a></li><li><a href="module-routes_api.html">routes/api</a></li><li><a href="module-routes_howtoprinttopdf.html">routes/howtoprinttopdf</a></li><li><a href="module-routes_index.html">routes/index</a></li><li><a href="module-routes_login.html">routes/login</a></li><li><a href="module-routes_logout.html">routes/logout</a></li><li><a href="module-routes_popupSchedule.html">routes/popupSchedule</a></li><li><a href="module-routes_popupTranscript.html">routes/popupTranscript</a></li><li><a href="module-routes_profile.html">routes/profile</a></li><li><a href="module-routes_schedule.html">routes/schedule</a></li><li><a href="module-routes_schedulePrint.html">routes/schedulePrint</a></li><li><a href="module-routes_searchMembers.html">routes/searchMembers</a></li><li><a href="module-routes_transcript.html">routes/transcript</a></li><li><a href="module-routes_transcriptPrint.html">routes/transcriptPrint</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Mon Sep 14 2020 02:21:13 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/deserializeuser.js</title>
+    <title>JSDoc: Source: lib/log.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/deserializeuser.js</h1>
+    <h1 class="page-title">Source: lib/log.js</h1>
 
     
 
@@ -27,29 +27,23 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * deserialize user module
+ * log module
  *
- * This module converts data stored in the session cookie into user objects
+ * This module performs debug logging
  *
- * @module lib/deserializeuser
+ * @module lib/log
  */
 
-/**
- * deserialize a logged in user from session storage and reconstruct a user object.
- *
- * Since the user data is so small, the entire object was stored in the session cookie.
- * Copy the whole object back into the user object.
- *
- * @private
- * @memberof module:lib/deserializeuser
- * @param {String}   data            the data stored in the session cookie
- * @param {Function} done            the function to call upon completion
+ /**
+ * Log a message
+ * 
+ * @param {String} message the message to log to the console
  */
-function deserializeUser(data, done) {
-  done(null, data);
-}
-
-module.exports = deserializeUser;
+module.exports = function(message) {
+    if('DEBUG' in process.env &amp;&amp; process.env.DEBUG == 'console') {
+        console.log(message);
+    }
+};
 </code></pre>
         </article>
     </section>
