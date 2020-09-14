@@ -7,7 +7,6 @@
  */
 var express = require("express");
 var router = express.Router();
-var modelhelper = require("../lib/modelhelper");
 
 /**
  * GET schedule popup page
@@ -23,11 +22,7 @@ var modelhelper = require("../lib/modelhelper");
  */
 async function routerGETSchedules(req, res, next) {
   try {
-    res.render("popupSchedule", { 
-      schedule: await modelhelper.getRegistration({
-        memberID: req.user.memberID,
-        councilID: req.user.councilID
-      }),
+    res.render("popupSchedule", {
       user: req.user,
       title: "Member Popup Schedule",
     });

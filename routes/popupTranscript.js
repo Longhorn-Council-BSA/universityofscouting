@@ -6,7 +6,6 @@
  */
 var express = require("express");
 var router = express.Router();
-var modelhelper = require("../lib/modelhelper");
 
 /**
  * GET transcript popup page
@@ -22,11 +21,7 @@ var modelhelper = require("../lib/modelhelper");
  */
 async function routerGETTranscript(req, res, next) {
   try {
-    res.render("popupTranscript", { 
-      transcript: await modelhelper.getRegistration({
-        memberID: req.user.memberID,
-        councilID: req.user.councilID
-      }),
+    res.render("popupTranscript", {
       user: req.user,
       title: "Member Popup Transcript",
     });
