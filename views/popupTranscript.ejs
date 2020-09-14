@@ -33,7 +33,7 @@
                 <th>Course Title</th>
                 <th>Credits</th>
                 <th>Status</th>
-                <th></th>
+                <!--<th></th>-->
               </tr>
             </thead>
             <tbody id="tbody">
@@ -84,7 +84,7 @@
               var editBtn = '<button class="btn btn-sm btn-primary" id="Edit'+i+'" onClick="enableEdit('+i+')">Edit</button>';
               var saveBtn = '<button class="btn btn-sm btn-success" style="display:none;" id="Save'+i+'" onClick="saveTranscriptRecord('+i+')">Save</button>';
               var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="Undo'+i+'" onClick="backTranscriptRecord('+i+')">Back</button>';
-              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].dateMDYHM+'">'+data[i].dateMDYHM+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].status+'</td><td style="width:16%;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
+              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].dateMDYHM+'">'+data[i].dateMDYHM+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].status+'</td></tr>');//<td style="width:16%;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
             }
             $(".loader").css("visibility","hidden");
           }else{

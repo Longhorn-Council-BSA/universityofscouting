@@ -34,7 +34,7 @@
                 <th>Course Instructor</th>
                 <th>Course Location</th>
                 <th>On-line Delivery</th>
-                <th></th>
+                <!--<th></th>-->
               </tr>
             </thead>
             <tbody id="tbody">
@@ -77,7 +77,7 @@
               var editBtn = '<button class="btn btn-sm btn-primary" id="editBtn'+i+'" onClick="editScheduleRecord('+i+')">Edit</button>';
               var saveBtn = '<button class="btn btn-sm btn-success" style="display:none;" id="saveBtn'+i+'" onClick="saveScheduleRecord('+i+')">Save</button>';
               var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="undoBtn'+i+'" onClick="backScheduleRecord('+i+')">Back</button>';
-              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'">'+data[i].dateMDYHM+'</td><td id="COURSE'+i+'">'+data[i].title+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].physical+'</td><td id="DELIVERY'+i+'">'+data[i].online+'</td><td style="width:115px;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
+              $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'">'+data[i].dateMDYHM+'</td><td id="COURSE'+i+'">'+data[i].title+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].physical+'</td><td id="DELIVERY'+i+'">'+data[i].online+'</td></tr>');//<td style="width:115px;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
             }
             $(".loader").css("visibility","hidden");
           }else{
