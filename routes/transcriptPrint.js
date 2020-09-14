@@ -29,7 +29,7 @@ var modelhelper = require("../lib/modelhelper");
 async function routerGETTranscipt(req, res, next) {
   try {
     res.render("transcriptPrint", {
-      transcript: modelhelper.getRegistration({
+      transcript: await modelhelper.getRegistration({
         memberID: req.user.memberID,
         councilID: req.user.councilID
       }),

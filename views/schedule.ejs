@@ -65,8 +65,8 @@
       $(".loader").css("visibility","initial");
       $.ajax({
         dataType: "json",
-        url: "/api/registrations",
-        data: {memberID: ID},
+        url: "/api/members/<%= user._id %>/registrations",
+        data: {},
         success:  function(data){
           if(data.length > 0){
             $("#scheduleTbody").html("");

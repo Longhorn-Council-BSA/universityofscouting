@@ -25,7 +25,7 @@ var modelhelper = require("../lib/modelhelper");
 async function routerGETMembers(req, res, next) {
   try {
     res.render("searchMembers", { 
-      members: modelhelper.getMember(),
+      members: await modelhelper.getMember(),
       user: req.user,
       title: "Administration",
     });
