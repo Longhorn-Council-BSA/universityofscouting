@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.22](https://github.com/ckxng/universityofscouting/compare/v0.0.21...v0.0.22) (2020-09-14)
+
+
+### Bug Fixes
+
+* fixes admin link to show for >= 10 access ([30afcad](https://github.com/ckxng/universityofscouting/commit/30afcad6614d5d9ee5d99a59807d98093e1a5021))
+
 ### [0.0.21](https://github.com/ckxng/universityofscouting/compare/v0.0.20...v0.0.21) (2020-09-14)
 
 
