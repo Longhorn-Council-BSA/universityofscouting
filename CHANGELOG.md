@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.21](https://github.com/ckxng/universityofscouting/compare/v0.0.20...v0.0.21) (2020-09-14)
+
+
+### Bug Fixes
+
+* fixes typo in schedule view name ([e0be30f](https://github.com/ckxng/universityofscouting/commit/e0be30f0cf2e487004c98d5b24c5fc43a70d8054))
+
 ### [0.0.20](https://github.com/ckxng/universityofscouting/compare/v0.0.19...v0.0.20) (2020-09-14)
 
 
