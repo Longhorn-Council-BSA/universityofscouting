@@ -73,6 +73,7 @@ async function routeGETApiMembers(req, res, next) {
  * @memberof module:routes/api
  * @param {Object}   req                  request object
  * @param {Object}   req.user             user object to check against 'api' capability
+ * @param {Date}     req.query.earliest   filters so that no objects are returned older than this time
  * @param {String}   req.query.return     when set to "csv", return CSV output
  * @param {Object}   res                  response object
  * @param {Function} next                 function call to next middleware
@@ -97,6 +98,12 @@ async function routeGETApiRegistrations(req, res, next) {
   } else if ("memberid" in req.params) {
     log("routeGETApiRegistrations: memberid: " + req.params.memberid);
     q.member_id = req.params.memberid;
+  }
+
+  // query by earliest if provided
+  if("earliest" in req.query) {
+    log("routeGETApiRegistrations: earliest: "+req.query.earliest);
+    q.earliest = req.query.earliest;
   }
 
   try {
