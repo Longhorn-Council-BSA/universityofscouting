@@ -22,12 +22,8 @@
         <div class="col">
           <div class="header text-center">
             <h1>University of Scouting Transcript</h1>
-            
             <h4><span id="name"></span></h4>
-            Member ID: <span id="userID"></span> 
-            | 
-            Council: <span id="councilID"></span> 
-            | <span id="rowCount"></span> Records
+            Member ID: <span id="userID"></span> | Council: <span id="councilID"></span> | <span id="rowCount"></span> Records
           </div>
           <table class="mx-auto table table-sm">
             <thead>
@@ -46,12 +42,6 @@
         </div>
       </div>
     </div>
-    <datalist id="statusOptions">
-      <option value="-">
-      <option value="Completed">
-      <option value="In Progress">
-      <option value="Withdrawn">
-    </datalist>
   </body>
   <script>
     //-----------------------------------------------------------------------------------------//
@@ -82,11 +72,9 @@
         url: '/api/members/'+id,
         data: {},
         success: function(userdata) {
-          
           $('#userID').html(userdata.memberID);
           $('#councilID').html(userdata.councilName);
           $('#name').text(userdata.firstName+' '+userdata.lastName);
-
           $.ajax({
             dataType: "json",
             url: "/api/members/"+id+"/registrations",
