@@ -1,10 +1,10 @@
 <%- include header %>
   <div class="container main-body">
-    <div class="row text-center">
+    <div class="row ">
       <div class="col">
-        <ul class="nav nav-tabs" style="color:#003F87;font-weight: bold;">
+        <ul class="nav nav-tabs" style="color:#003F87; font-weight: bold; justify-content: center;">
           <li class="nav-item" id="CurrentMemberTab">
-            <a class="nav-link active" id="CurrentMemberBtn">Current Members</a>
+            <a class="nav-link active" id="CurrentMemberBtn" style="color: rgb(161, 13, 31);">Current Members</a>
           </li>
           <li class="nav-item" id="CreateMemberTab">
             <a class="nav-link" id="CreateMemberBtn">Create Member</a>
@@ -52,17 +52,17 @@
         <form class="mx-auto">
           <div class="form-row mx-auto">
             <div class="col-md-3 mb-2 mx-auto">
-              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault01" placeholder="Member ID" required>
+              <input type="number" class="form-control" autocomplete="NONE" id="validationDefault01" placeholder="Member ID" required>
             </div>
           </div>
           <div class="form-row mx-auto">
             <div class="col-md-3 mb-2 mx-auto">
-              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault02" placeholder="First name" required>
+              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault02" placeholder="First Name" required>
             </div>
           </div>
           <div class="form-row mx-auto">
             <div class="col-md-3 mb-2 mx-auto">
-              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault03" placeholder="Last name" required>
+              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault03" placeholder="Last Name" required>
             </div>
           </div>
           <div class="form-row mx-auto">
@@ -72,7 +72,7 @@
           </div>
           <div class="form-row mx-auto">
             <div class="col-md-3 mb-2 mx-auto">
-              <input type="text" class="form-control" autocomplete="NONE" id="validationDefault05" placeholder="Permission Level" required>
+              <input type="number" class="form-control" autocomplete="NONE" id="validationDefault05" placeholder="Permission Level" required>
             </div>
           </div>
           <button class="btn btn-1" type="submit" style="width: 150px;">Submit</button>
@@ -92,16 +92,19 @@
       $("#CurrentMemberBtn").click(function(){
         $("#Tab01").show();$("#Tab02").hide();$("#Tab03").hide();
         $("#CurrentMemberBtn").addClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "rgb(161, 13, 31)");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "#0151ad");
       });
       //-----------------Tabs 02----------//
       $("#CreateMemberBtn").click(function(){
         $("#Tab01").hide();$("#Tab02").show();$("#Tab03").hide();
         $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").addClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "rgb(161, 13, 31)");$("#ReportsBtn").css("color", "#0151ad");
       });
+      //-----------------Tabs 03----------//
       $("#ReportsBtn").click(function(){
-        //-----------------Tabs 03----------//
         $("#Tab01").hide();$("#Tab02").hide();$("#Tab03").show();
         $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").addClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "rgb(161, 13, 31)");
       });
     });
     //-----------------popups-------------------//
