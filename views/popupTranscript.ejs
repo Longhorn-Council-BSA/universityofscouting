@@ -5,25 +5,32 @@
     <!-- Enable jquery features -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+      body{ font-family: sans-serif !important;}
+      h1{ font-family: adelle, serif !important;}
       .btn + .disabled { cursor: not-allowed;}
-      .header{margin-top: 20px;}
-      tr th, tr td, td input{text-align: center;}
+      tr th, tr td, td input{ text-align: center;}
       tr th, tr td{ width: 20%;}
       td button { width: 50px;}
-      .loader {border: 8px solid #a4a7a8; border-radius: 50%; border-top: 8px solid #CE1126; width: 30px; height: 30px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite; margin: 0px auto 0px 0px;}
-      .loader2 {margin: 0px auto; border: 18px solid #a4a7a8; border-top: 18px solid #CE1126; width: 120px; height: 120px;}
+      .printBtn{ margin:10px auto 0px auto;display: flex; font-weight: bold;}
+      .loader { border: 8px solid #a4a7a8; border-radius: 50%; border-top: 8px solid #CE1126; width: 30px; height: 30px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite; margin: 0px auto 0px 0px;}
+      .loader2 { margin: 0px auto; border: 18px solid #a4a7a8; border-top: 18px solid #CE1126; width: 120px; height: 120px;}
       @-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); }}
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }}
+      @media print {
+        .NoPrint{ display: none;}
+        .header{ margin-top: 20px;}
+      }
     </style>
   </header>
   <body>
+    <button class="btn btn-warning printBtn NoPrint" onclick="print()">Print</button></span>
     <div class="container">
       <div class="row">
         <div class="col">
           <div class="header text-center">
             <h1>University of Scouting Transcript</h1>
             <h4><span id="name"></span></h4>
-            Member ID: <span id="userID"></span> | Council: <span id="councilID"></span> | <span id="rowCount"></span> Records
+            ID: <span id="userID"></span> | Council: <span id="councilID"></span> | <span id="rowCount"></span> Records
           </div>
           <table class="mx-auto table table-sm">
             <thead>

@@ -22,6 +22,7 @@ h1.title { font-size: 30px; padding-top: 30px; font-family: adelle, serif !impor
 #navBar div a:hover span.bracketR{ margin-left: 1px; color: black;}
 .title {margin-top: 20px; font-family: "Times New Roman", Times, serif; font-weight: bold;}
 .title a { text-decoration: none; color: #515354; font-size: 30pt; transition: .4s;}
+li a.nav-link { cursor: pointer;}
 #UoStitle:hover { color: rgb(1, 49, 105);}
 .pageTitle:hover { color: rgb(1, 49, 105);}
 a.pageTitleURL { text-decoration: none;}
