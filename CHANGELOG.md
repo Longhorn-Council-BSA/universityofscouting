@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/ckxng/universityofscouting/compare/v1.1.0...v1.1.1) (2020-09-23)
+
+
+### Bug Fixes
+
+* adjust fade in and out of admin page table ([4cb02ad](https://github.com/ckxng/universityofscouting/commit/4cb02adfe3e651b7faeb466ae1069261c6c7f901))
+
 ## [1.1.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.1.0) (2020-09-23)
 
 
