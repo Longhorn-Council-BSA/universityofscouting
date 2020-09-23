@@ -245,7 +245,8 @@
     });
     //------------------------------------//
     function GETMemberID(){
-      $(".loader").css("visibility","initial");
+      $("#MembersTbody").hide();
+      $(".loader").fadeIn();
       $.ajax({
         dataType: "json",
         url: "/api/members",
@@ -263,7 +264,7 @@
               $("#MembersTbody").append('<tr id="row'+data[i]._id+'"><td>'+data[i].memberID+'</td><td>'+data[i].firstName+'</td><td>'+data[i].lastName+'</td><td>'+data[i].councilName+'</td><td style="width:20%;">'+btns+'</td></tr>');
             }
           }
-          $(".loader").css("visibility","hidden");
+          $(".loader").fadeOut(function(){$("#MembersTbody").fadeIn()});
         }
       });
     }
