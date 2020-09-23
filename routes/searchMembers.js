@@ -9,6 +9,8 @@
 var express = require("express");
 var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
+var councils = require("../data/councils");
+var cap = require("../lib/capabilities");
 
 /**
  * GET member information
@@ -28,6 +30,10 @@ async function routerGETMembers(req, res, next) {
       members: await modelhelper.getMember(),
       user: req.user,
       title: "Administration",
+      councils: councils,
+      showEdit: cap.check(req.user, "editOther"),
+      showDelete: cap.check(req.user, "delete"),
+      showAdd: cap.check(req.user, "add")
     });
   } catch (err) {
     res.status(500).json({
