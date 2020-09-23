@@ -172,6 +172,7 @@
       var fName = $("#fName").val();
       var lName = $("#lName").val();
       var councilID = $("#councilName").val();
+      var council = $("#councilName option:selected").text();
       if(memberID != "" && memberID > 0){
         $("#memberID").css('backgroundColor','');
         if(fName != ""){
@@ -181,10 +182,12 @@
             if(councilID != "Null"){
               $("#councilName").css('backgroundColor','');
               var data = {
-                memberID:memberID,
-                firstName:fName,
-                lastName:lName,
-                councilID:councilID
+                memberID: memberID,
+                firstName: fName,
+                lastName: lName,
+                councilID: councilID,
+                councilName: council,
+                access: 1
               };
               request = $.ajax({
                   url: "/api/members",
