@@ -167,6 +167,13 @@ async function routePOSTApiMembers(req, res, next) {
     });
   }
 
+  if (req.body.access > req.user.access) {
+    log("routePOSTApiMembers: denied access level: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to use that access level",
+    });
+  }
+
   try {
     var newMember = new members(req.body);
     newMember.save(function (err) {
@@ -211,6 +218,13 @@ async function routePUTApiMembers(req, res, next) {
     log("routePUTApiMembers: denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
+    });
+  }
+
+  if (req.body.access > req.user.access) {
+    log("routePUTApiMembers: denied access level: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to use that access level",
     });
   }
 
