@@ -33,13 +33,6 @@ module.exports = {
     //the following capabilities are included in 'viewOther':
     //change any registration record status
 
-    apiList: 10,
-    //faculty
-    //must be assigned to 'api' or higher
-    //the following capabilities are included in 'apiList':
-    //export all members with api
-    //export all registrations with api
-
     editOther: 100,
     //administration
     //must be assigned to 'viewOther' or higher

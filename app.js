@@ -20,6 +20,7 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var ensureLogin = require("connect-ensure-login");
 var csv = require("express-csv");
+var bodyParser = require('body-parser');
 
 // initialize app
 var app = express();
@@ -51,6 +52,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require("express-session")({ secret: process.env.SESSION_SECRET }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // passport authentication session setup
 passport.serializeUser(require("./lib/serializeuser"));
