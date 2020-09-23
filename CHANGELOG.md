@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.1.0) (2020-09-23)
+
+
+### Features
+
+* adds api POST, PUT, updates view cap ([923d437](https://github.com/ckxng/universityofscouting/commit/923d43730e578f5d4c2330b9ef7065b0bbbe8e62))
+* adds delete apis ([11e7521](https://github.com/ckxng/universityofscouting/commit/11e752170f98a54e7bb4ab626452ccb3ecb18a19))
+* limits api access to high access levels ([1e19caa](https://github.com/ckxng/universityofscouting/commit/1e19caabc9f9181dcf8f8e393cb8d6f5462f5725))
+
+
+### Bug Fixes
+
+* minior code cleanup ([932d60c](https://github.com/ckxng/universityofscouting/commit/932d60c7eb7da0062d81e0fb7f464b0149354cf4))
+* update print windows layout and info ([5836576](https://github.com/ckxng/universityofscouting/commit/58365765881eb76a9438d49e5827ec8f18485e40))
+* update transcript status to statusName ([31808ab](https://github.com/ckxng/universityofscouting/commit/31808ab15bd364ee4bcd2c45b251cb556a9f6cfb))
+
 ## [1.0.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.0.0) (2020-09-14)
 
 * First major release
