@@ -13,6 +13,7 @@ var modelhelper = require("../lib/modelhelper");
 var cap = require("../lib/capabilities");
 var log = require("../lib/log");
 const members = require("../models/members");
+const registrations = require("../models/registrations");
 
 /**
  * GET all members.
@@ -250,6 +251,49 @@ async function routePUTApiMembers(req, res, next) {
 }
 
 /**
+ * DELETE an existing member.
+ *
+ * Delete member in the members collection as specified by req.params.id.
+ * The deleted object will be returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routeDELETEApiMembers(req, res, next) {
+  log("routeDELETEApiMembers()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "delete")) {
+    log("routeDELETEApiMembers: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    members.findByIdAndRemove(req.params.id, function (
+      err,
+      deleteMember
+    ) {
+      if (err) {
+        log("routeDELETEApiMembers: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routeDELETEApiMembers: deleted");
+        return res.status(200).send(deleteMember.exportObject());
+      }
+    });
+  } catch (err) {
+    log("routeDELETEApiMembers: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
  * POST a new registration.
  *
  * Create a new registration in the registrations collection as specified by req.body,
@@ -309,6 +353,7 @@ async function routePOSTApiRegistrations(req, res, next) {
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
  * @param {String}   req.body.memberID  memberID is a 64 bit int, so pass in as a string
  * @param {Number}   req.body.councilID
  * @param {String}   req.body.date      in ISO format
@@ -354,6 +399,49 @@ async function routePUTApiRegistrations(req, res, next) {
   }
 }
 
+/**
+ * DELETE an existing registration.
+ *
+ * Delete an existing registration in the registrations collection as specified by req.params.id.  
+ * The deleted object will be returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routeDELETEApiRegistrations(req, res, next) {
+  log("routeDELETEApiRegistrations()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "delete")) {
+    log("routeDELETEApiRegistrations: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    registrations.findByIdAndRemove(
+      req.params.id,
+      function (err, deleteReg) {
+        if (err) {
+          log("routeDELETEApiRegistrations: err " + err);
+          return res.status(500).send(err);
+        } else {
+          log("routeDELETEApiRegistrations: deleted");
+          return res.status(200).send(deleteReg.exportObject());
+        }
+      }
+    );
+  } catch (err) {
+    log("routeDELETEApiRegistrations: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
 // register routes and export router
 router.get("/members", routeGETApiMembers);
 router.post("/members", routePOSTApiMembers);
@@ -361,9 +449,11 @@ router.put("/members", routePOSTApiMembers);
 router.get("/members/:memberid/registrations", routeGETApiRegistrations);
 router.get("/members/:id", routeGETApiMembers);
 router.put("/members/:id", routePUTApiMembers);
+router.delete("/members/:id", routeDELETEApiMembers);
 router.get("/registrations", routeGETApiRegistrations);
 router.post("/registrations", routePOSTApiRegistrations);
 router.put("/registrations", routePOSTApiRegistrations);
 router.get("/registrations/:id", routeGETApiRegistrations);
 router.put("/registrations/:id", routePUTApiRegistrations);
+router.delete("/registrations/:id", routeDELETEApiRegistrations);
 module.exports = router;
