@@ -1,4 +1,6 @@
 <%- include header %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <div class="container main-body">
     <div class="row ">
       <div class="col">
@@ -92,14 +94,85 @@
         <h4>Admins Reports</h4>
       </div>
     </div> -->
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Profile: <span id="modelFullname"></span></h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-md-center">
+              <div class="col-6">
+                <table id="profileTable" class="mx-auto table-sm transcript" style="width: auto;">
+                  <thead>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Member ID</th>
+                      <td style="width: 100%;"><input type="number" class="form-control" id="modelMemberID"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">First Name</th>
+                      <td style="width: 100%;"><input type="text" class="form-control" id="modelfirstName"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Last Name</th>
+                      <td style="width: 100%;"><input type="text" class="form-control" id="modellastName"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Council</th>
+                        <td style="width: 100%;">
+                          <select class="form-control" id="modelcouncilName">
+                            <% var councilMap = {} %>
+                            <% for(const councilID of Object.keys(councils)){councilMap[councils[councilID]] = councilID;} %>
+                            <% for(const councilName of Object.keys(councilMap).sort()) { %>
+                              <option value="<%= councilMap[councilName] %>">
+                                <column><%= councilName %></column>
+                              </option>
+                            <% } %>
+                          </select>
+                        </td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Role</th>
+                      <td style="width: 100%;">
+                        <select class="form-control" id="modelaccessName">
+                          <% if(user.access >= 1){ %><option value="1">Student</option><% }else{ %><option value="1" disabled>Student</option><% } %>
+                          <% if(user.access >= 10){ %><option value="10">Faculty</option><% }else{ %><option value="10" disabled>Faculty</option><% } %>
+                          <% if(user.access >= 100){ %><option value="100">Administrator</option><% }else{ %><option value="100" disabled>Administrator</option><% } %>
+                          <% if(user.access >= 1000){ %><option value="1000">Developer</option><% }else{ %><option value="1000" disabled>Developer</option><% } %>
+                        </select>
+                      </td>
+                    </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <% if(showDelete){ %>
+            <div style="text-align: left; width: 100%;">
+              <button class="btn btn-sm btn-danger" id="modelDelete" title="Delete Member">Delete</button>
+              <button class="btn btn-sm btn-warning" id="modelCancel" title="Cancel Delete Request" style="display: none;">Cancel</button>
+              <button class="btn btn-sm btn-danger" id="modelConfirm" title="Confirm Delete Request" style="display: none;">Confirm</button>
+            </div>
+            <% } %>
+            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-sm btn-primary" id="modelSave">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <span id="currentID" style="display: none;"><%= user._id %></span>
   <script>
+    $('#myModal').on('shown.bs.modal');
     function createMember(){
       var memberID = $("#memberID").val();
       var fName = $("#fName").val();
       var lName = $("#lName").val();
       var councilID = $("#councilName").val();
-      if(memberID != "" && memberID >= 1){
+      if(memberID != "" && memberID > 0){
         $("#memberID").css('backgroundColor','');
         if(fName != ""){
           $("#fName").css('backgroundColor','');
@@ -184,10 +257,8 @@
             for(var i = 0; i < data.length; i++){
               var btns = ' <button class="btn btn-sm btn-1" id="trans'+data[i]._id+'" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button> ';
               btns += ' <button class="btn btn-sm btn-1" id="sched'+data[i]._id+'" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> ';
-              <% if(showDelete){ %>
-              btns += ' <button class="btn btn-sm btn-2" id="del'+data[i]._id+'" onClick="delBtn(\''+data[i]._id+'\')">X</button> ';
-              btns += ' <button class="btn btn-sm btn-2" id="conf'+data[i]._id+'" style="display:none;" onClick="confBtn(\''+data[i]._id+'\')">Confirm</button> ';
-              btns += ' <button class="btn btn-sm btn-3" id="cancel'+data[i]._id+'" style="display:none;" onClick="cancelBtn(\''+data[i]._id+'\')">Cancel</button> ';
+              <% if(showEdit){ %>
+              btns += ' <button type="button" class="btn btn-sm btn-secondary" title="Edit Profile" data-toggle="modal" data-target=".bd-example-modal-lg" onClick="modelLoad(\''+data[i]._id+'\')"><img src="images/pencil.png" style="width:16px;height:20px;"></button> ';
               <% } %>
               $("#MembersTbody").append('<tr id="row'+data[i]._id+'"><td>'+data[i].memberID+'</td><td>'+data[i].firstName+'</td><td>'+data[i].lastName+'</td><td>'+data[i].councilName+'</td><td style="width:20%;">'+btns+'</td></tr>');
             }
@@ -196,13 +267,53 @@
         }
       });
     }
+    //------------------update model data------------------//
+    function modelLoad(id){
+      request = $.ajax({
+          url: "/api/members/"+id,
+          type: "GET",
+          data: {}
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('#modelFullname').html(response.fullNameFL);
+        $('#modelMemberID').val(response.memberID);
+        $('#modelcouncilName').val(response.councilID);
+        $('#modelfirstName').val(response.firstName);
+        $('#modellastName').val(response.lastName);
+        $('#modelaccessName').val(response.access);
+        var currentID = $('#currentID').html();
+        request2 = $.ajax({
+          url: "/api/members/"+currentID,
+          type: "GET",
+          data: {}
+        });
+        // Callback handler that will be called on success
+        request2.done(function (response2, textStatus, jqXHR){
+          if(response2.access < response.access){
+            $('#modelaccessName').attr("disabled",true);
+          }
+          $('#modelSave').attr('onclick', 'saveBtn(\''+response._id+'\')');
+          $('#modelDelete').attr('onclick', 'delBtn(\''+response._id+'\')');
+          $('#modelConfirm').attr('onclick', 'confBtn(\''+response._id+'\')');
+          $('#modelCancel').attr('onclick', 'cancelBtn(\''+response._id+'\')');
+        });
+        request2.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "R2: The following error occurred: "+textStatus, errorThrown);
+        });
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
+    }
     //------------------go to confirm phase------------------//
     function delBtn(id){
-      $("#trans"+id).hide();
-      $("#sched"+id).hide();
-      $("#del"+id).hide();
-      $("#conf"+id).show();
-      $("#cancel"+id).show();
+      $("#modelDelete").hide();
+      $("#modelConfirm").show();
+      $("#modelCancel").show();
       $("#row"+id).css('backgroundColor', 'pink');
     }
     //------------------confirm delete------------------//
@@ -213,7 +324,13 @@
       });
       // Callback handler that will be called on success
       request.done(function (response, textStatus, jqXHR){
-        $("#row"+id).hide();
+        $('[data-dismiss=modal]').click();
+        $('#row'+id).hide();
+        $("#modelDelete").show();
+        $("#modelConfirm").hide();
+        $("#modelCancel").hide();
+        var count = $("#rowCount").html();
+        if(count > 0){ $('#rowCount').html(count-1);}
       });
       // Callback handler that will be called on failure
       request.fail(function (jqXHR, textStatus, errorThrown){
@@ -223,12 +340,35 @@
     }
     //------------------Revert pre-delete------------------//
     function cancelBtn(id){
-      $("#trans"+id).show();
-      $("#sched"+id).show();
-      $("#del"+id).show();
-      $("#conf"+id).hide();
-      $("#cancel"+id).hide();
+      $("#modelDelete").show();
+      $("#modelConfirm").hide();
+      $("#modelCancel").hide();
       $("#row"+id).css('backgroundColor', '');
+    }
+
+    function saveBtn(id){
+      var data = {
+      memberID:$('#modelMemberID').val(),
+      councilID:$('#modelcouncilName').val(),
+      firstName:$('#modelfirstName').val(),
+      lastName:$('#modellastName').val(),
+      access:$('#modelaccessName').val()
+      };
+      request = $.ajax({
+          url: "/api/members/"+id,
+          type: "PUT",
+          data: data
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('[data-dismiss=modal]').click();
+        GETMemberID();
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
     }
     //------------------Filter by member ID------------------//
     $("#searchMemberIDs").on("keyup", function() {
