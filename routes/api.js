@@ -34,7 +34,7 @@ const members = require("../models/members");
  */
 async function routeGETApiMembers(req, res, next) {
   log("routeGETApiMembers()");
-  if (!cap.check(req.user, "api") || !cap.check(req.user, "viewOther")) {
+  if (!cap.check(req.user, "api")) {
     log("routeGETApiMembers: denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
@@ -50,7 +50,7 @@ async function routeGETApiMembers(req, res, next) {
 
   //if no id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if (!("_id" in q) && !cap.check(req.user, "apiList")) {
+  if (!("_id" in q) &&  !cap.check(req.user, "viewOther")) {
     log("routeGETApiMembers: list denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
@@ -90,7 +90,7 @@ async function routeGETApiMembers(req, res, next) {
 async function routeGETApiRegistrations(req, res, next) {
   log("routeGETApiRegistrations()");
   //if api access is not allowed, deny
-  if (!cap.check(req.user, "api") || !cap.check(req.user, "viewOther")) {
+  if (!cap.check(req.user, "api")) {
     log("routeGETApiRegistrations: denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
@@ -117,7 +117,7 @@ async function routeGETApiRegistrations(req, res, next) {
 
   //if no member or id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if (!("_id" in q || "member_id" in q) && !cap.check(req.user, "apiList")) {
+  if (!("_id" in q || "member_id" in q) && !cap.check(req.user, "viewOther")) {
     log("routeGETApiRegistrations: list denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
