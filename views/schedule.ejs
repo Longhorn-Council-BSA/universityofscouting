@@ -45,15 +45,13 @@
     });
     $(".printTip").mouseenter(function() {
       clearTimeout(hideTimer);
-      clearTimeout(hideTimer);
-      clearTimeout(hideTimer);
     });
     $(".printTip").mouseleave(function() {
       $(".printTip").fadeOut();
     });
     //*********HowTo popup********//
     function howToPopup(){
-      var popup = window.open('/howtoprinttopdf', '', 'height=850, width=700');
+      var popup = window.open('/howtoprinttopdf', '', 'height=860, width=700');
       popup.document.close();
     }
     //-------------------------------------------------------------------------//

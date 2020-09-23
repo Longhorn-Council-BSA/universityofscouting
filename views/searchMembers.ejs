@@ -1,6 +1,23 @@
 <%- include header %>
   <div class="container main-body">
-    <div class="row">
+    <div class="row ">
+      <div class="col">
+        <ul class="nav nav-tabs" style="color:#003F87; font-weight: bold; justify-content: center;">
+          <li class="nav-item" id="CurrentMemberTab">
+            <a class="nav-link active" id="CurrentMemberBtn" style="color: rgb(161, 13, 31);">Current Members</a>
+          </li>
+          <% if(showAdd){ %>
+          <li class="nav-item" id="CreateMemberTab">
+            <a class="nav-link" id="CreateMemberBtn">Create Member</a>
+          </li>
+          <% } %>
+          <!-- <li class="nav-item" id="ReportsTab">
+            <a class="nav-link" id="ReportsBtn">Reports</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+    <div class="row" id="Tab01" style="display: initial;">
       <div class="col">
         <table class="mx-auto table table-sm text-center" style="margin-bottom: 0px;">
           <tr>
@@ -19,10 +36,10 @@
             <td class="font-weight-bold align-middle"><span id="rowCount"></span> Members Found </td>
           </tr>
         </table>
-        <table id="Members" class="mx-auto table table-hover table-sm text-center sortable">
+        <table id="Members" class="mx-auto table table-hover table-sm text-center">
           <thead class="thead-dark">
             <tr>
-              <th>Member ID</th><th>First Name</th><th>Last Name</th><th>Council</th><th class="sorttable_nosort">Records</th>
+              <th>Member ID</th><th>First Name</th><th>Last Name</th><th>Council</th><th class="sorttable_nosort">Options</th>
             </tr>
           </thead>
           <tbody id="MembersTbody">
@@ -31,8 +48,115 @@
         <div class="loader loader2"></div>
       </div>
     </div>
+    <% if(showAdd){ %>
+    <div class="row" id="Tab02" style="display: none;">
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Create Member Profile</h4>
+        <form class="mx-auto" onsubmit="event.preventDefault();">
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="number" class="form-control" autocomplete="NONE" id="memberID" placeholder="Member ID">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="text" class="form-control" autocomplete="NONE" id="fName" placeholder="First Name">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="text" class="form-control" autocomplete="NONE" id="lName" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <select class="form-control" name="councils" id="councilName">
+                <option value="Null">-- Please Select a Council --</option>
+                <% var councilMap = {} %>
+                <% for(const councilID of Object.keys(councils)){councilMap[councils[councilID]] = councilID;} %>
+                <% for(const councilName of Object.keys(councilMap).sort()) { %>
+                  <option value="<%= councilMap[councilName] %>">
+                    <column><%= councilName %></column>
+                  </option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-1" type="submit" style="width: 150px;" onClick="createMember()">Submit</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+    <!-- <div class="row" id="Tab03" style="display: none;">
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Admins Reports</h4>
+      </div>
+    </div> -->
   </div>
   <script>
+    function createMember(){
+      var memberID = $("#memberID").val();
+      var fName = $("#fName").val();
+      var lName = $("#lName").val();
+      var councilID = $("#councilName").val();
+      if(memberID != "" && memberID >= 1){
+        $("#memberID").css('backgroundColor','');
+        if(fName != ""){
+          $("#fName").css('backgroundColor','');
+          if(lName != ""){
+            $("#lName").css('backgroundColor','');
+            if(councilID != "Null"){
+              $("#councilName").css('backgroundColor','');
+              var data = {
+                memberID:memberID,
+                firstName:fName,
+                lastName:lName,
+                councilID:councilID
+              };
+              request = $.ajax({
+                  url: "/api/members",
+                  type: "POST",
+                  data: data
+              });
+              // Callback handler that will be called on success
+              request.done(function (response, textStatus, jqXHR){
+                  $("#memberID").val("");
+                  $("#fName").val("");
+                  $("#lName").val("");
+                  $("#councilName").val("Null");
+                  GETMemberID();
+              });
+              // Callback handler that will be called on failure
+              request.fail(function (jqXHR, textStatus, errorThrown){
+                  // Log the error to the alert window
+                  alert( "The following error occurred: "+textStatus+"\n\nAre you sure this member ID doesn't already exist?", errorThrown);
+              });
+            }else{$("#councilName").css('backgroundColor','pink').focus();}
+          }else{$("#lName").css('backgroundColor','pink').focus();}
+        }else{$("#fName").css('backgroundColor','pink').focus();}
+      }else{$("#memberID").css('backgroundColor','pink').focus();}
+    }
+    //-----------------Navigation Tabs----------//
+    $(document).ready(function(){
+      //-----------------Tabs 01----------//
+      $("#CurrentMemberBtn").click(function(){
+        $("#Tab01").show();$("#Tab02").hide();$("#Tab03").hide();
+        $("#CurrentMemberBtn").addClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "rgb(161, 13, 31)");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "#0151ad");
+      });
+      //-----------------Tabs 02----------//
+      $("#CreateMemberBtn").click(function(){
+        $("#Tab01").hide();$("#Tab02").show();$("#Tab03").hide();
+        $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").addClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "rgb(161, 13, 31)");$("#ReportsBtn").css("color", "#0151ad");
+      });
+      //-----------------Tabs 03----------//
+      $("#ReportsBtn").click(function(){
+        $("#Tab01").hide();$("#Tab02").hide();$("#Tab03").show();
+        $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").addClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "rgb(161, 13, 31)");
+      });
+    });
     //-----------------popups-------------------//
     function popupSchedule(id){
       var popup = window.open('/popupSchedule?id='+id, '', 'height=900, width=1200');
@@ -58,12 +182,53 @@
             $("#MembersTbody").html("");
             $("#rowCount").html(data.length);
             for(var i = 0; i < data.length; i++){
-              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].councilName+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button></td></tr>');
+              var btns = ' <button class="btn btn-sm btn-1" id="trans'+data[i]._id+'" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button> ';
+              btns += ' <button class="btn btn-sm btn-1" id="sched'+data[i]._id+'" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> ';
+              <% if(showDelete){ %>
+              btns += ' <button class="btn btn-sm btn-2" id="del'+data[i]._id+'" onClick="delBtn(\''+data[i]._id+'\')">X</button> ';
+              btns += ' <button class="btn btn-sm btn-2" id="conf'+data[i]._id+'" style="display:none;" onClick="confBtn(\''+data[i]._id+'\')">Confirm</button> ';
+              btns += ' <button class="btn btn-sm btn-3" id="cancel'+data[i]._id+'" style="display:none;" onClick="cancelBtn(\''+data[i]._id+'\')">Cancel</button> ';
+              <% } %>
+              $("#MembersTbody").append('<tr id="row'+data[i]._id+'"><td>'+data[i].memberID+'</td><td>'+data[i].firstName+'</td><td>'+data[i].lastName+'</td><td>'+data[i].councilName+'</td><td style="width:20%;">'+btns+'</td></tr>');
             }
           }
           $(".loader").css("visibility","hidden");
         }
       });
+    }
+    //------------------go to confirm phase------------------//
+    function delBtn(id){
+      $("#trans"+id).hide();
+      $("#sched"+id).hide();
+      $("#del"+id).hide();
+      $("#conf"+id).show();
+      $("#cancel"+id).show();
+      $("#row"+id).css('backgroundColor', 'pink');
+    }
+    //------------------confirm delete------------------//
+    function confBtn(id){
+      request = $.ajax({
+        url: "/api/members/"+id,
+        type: "DELETE",
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $("#row"+id).hide();
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
+    }
+    //------------------Revert pre-delete------------------//
+    function cancelBtn(id){
+      $("#trans"+id).show();
+      $("#sched"+id).show();
+      $("#del"+id).show();
+      $("#conf"+id).hide();
+      $("#cancel"+id).hide();
+      $("#row"+id).css('backgroundColor', '');
     }
     //------------------Filter by member ID------------------//
     $("#searchMemberIDs").on("keyup", function() {

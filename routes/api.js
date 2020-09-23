@@ -12,6 +12,8 @@ var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
 var cap = require("../lib/capabilities");
 var log = require("../lib/log");
+const members = require("../models/members");
+const registrations = require("../models/registrations");
 
 /**
  * GET all members.
@@ -35,10 +37,9 @@ async function routeGETApiMembers(req, res, next) {
   log("routeGETApiMembers()");
   if (!cap.check(req.user, "api")) {
     log("routeGETApiMembers: denied: " + req.user.access);
-    res.status(401).json({
+    return res.status(401).json({
       message: "You do not have permission to access this API",
     });
-    return;
   }
 
   // query by _id if provided
@@ -50,25 +51,24 @@ async function routeGETApiMembers(req, res, next) {
 
   //if no id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if(!('_id' in q) && !cap.check(req.user, "apiList")) {
+  if (!("_id" in q) &&  !cap.check(req.user, "viewOther")) {
     log("routeGETApiMembers: list denied: " + req.user.access);
-    res.status(401).json({
+    return res.status(401).json({
       message: "You do not have permission to access this API",
     });
-    return;
   }
 
   try {
     if (req.query.return == "csv") {
       log("routeGETApiMembers: return csv");
-      res.csv(await modelhelper.getMember(q));
+      return res.csv(await modelhelper.getMember(q));
     } else {
       log("routeGETApiMembers: return");
-      res.json(await modelhelper.getMember(q));
+      return res.json(await modelhelper.getMember(q));
     }
   } catch (err) {
     log("routeGETApiMembers: error");
-    res.status(500).json({
+    return res.status(500).json({
       message: err.message,
     });
   }
@@ -93,10 +93,9 @@ async function routeGETApiRegistrations(req, res, next) {
   //if api access is not allowed, deny
   if (!cap.check(req.user, "api")) {
     log("routeGETApiRegistrations: denied: " + req.user.access);
-    res.status(401).json({
+    return res.status(401).json({
       message: "You do not have permission to access this API",
     });
-    return;
   }
 
   // query by _id if provided
@@ -119,25 +118,325 @@ async function routeGETApiRegistrations(req, res, next) {
 
   //if no member or id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if(!('_id' in q || 'member_id' in q) && !cap.check(req.user, "apiList")) {
+  if (!("_id" in q || "member_id" in q) && !cap.check(req.user, "viewOther")) {
     log("routeGETApiRegistrations: list denied: " + req.user.access);
-    res.status(401).json({
+    return res.status(401).json({
       message: "You do not have permission to access this API",
     });
-    return;
   }
 
   try {
     if (req.query.return == "csv") {
       log("routeGETApiRegistrations: return csv");
-      res.csv(await modelhelper.getRegistration(q));
+      return res.csv(await modelhelper.getRegistration(q));
     } else {
       log("routeGETApiRegistrations: return");
-      res.json(await modelhelper.getRegistration(q));
+      return res.json(await modelhelper.getRegistration(q));
     }
   } catch (err) {
     log("routeGETApiRegistrations: error");
-    res.status(500).json({
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * POST a new member.
+ *
+ * Create a new member in the members collection as specified by req.body,
+ * and generate a new database identifier.  The consutrcted object will be
+ * returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.body.memberID  memberID is a 64 bit int, so pass in as a string
+ * @param {Number}   req.body.councilID
+ * @param {String}   req.body.firstName
+ * @param {String}   req.body.lastName
+ * @param {String}   req.body.access
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routePOSTApiMembers(req, res, next) {
+  log("routePOSTApiMembers()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "add")) {
+    log("routePOSTApiMembers: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  if (req.body.access > req.user.access) {
+    log("routePOSTApiMembers: denied access level: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to use that access level",
+    });
+  }
+
+  try {
+    var newMember = new members(req.body);
+    newMember.save(function (err) {
+      if (err) {
+        log("routePOSTApiMembers: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routePOSTApiMembers: saved");
+        return res.status(200).send(newMember.exportObject());
+      }
+    });
+  } catch (err) {
+    log("routePOSTApiMembers: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * PUT an existing member.
+ *
+ * Update a new member in the members collection as specified by req.params.id
+ * using the data in req.body.  The consutrcted object will be
+ * returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      limit to responses to a single member by _id
+ * @param {String}   req.body.memberID  memberID is a 64 bit int, so pass in as a string
+ * @param {Number}   req.body.councilID
+ * @param {String}   req.body.firstName
+ * @param {String}   req.body.lastName
+ * @param {String}   req.body.access
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routePUTApiMembers(req, res, next) {
+  log("routePUTApiMembers()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "editOther")) {
+    log("routePUTApiMembers: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  if (req.body.access > req.user.access) {
+    log("routePUTApiMembers: denied access level: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to use that access level",
+    });
+  }
+
+  try {
+    members.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (
+      err,
+      editMember
+    ) {
+      if (err) {
+        log("routePUTApiMembers: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routePUTApiMembers: saved");
+        return res.status(200).send(editMember.exportObject());
+      }
+    });
+  } catch (err) {
+    log("routePUTApiMembers: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * DELETE an existing member.
+ *
+ * Delete member in the members collection as specified by req.params.id.
+ * The deleted object will be returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routeDELETEApiMembers(req, res, next) {
+  log("routeDELETEApiMembers()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "delete")) {
+    log("routeDELETEApiMembers: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    members.findByIdAndRemove(req.params.id, function (
+      err,
+      deleteMember
+    ) {
+      if (err) {
+        log("routeDELETEApiMembers: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routeDELETEApiMembers: deleted");
+        return res.status(200).send(deleteMember.exportObject());
+      }
+    });
+  } catch (err) {
+    log("routeDELETEApiMembers: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * POST a new registration.
+ *
+ * Create a new registration in the registrations collection as specified by req.body,
+ * and generate a new database identifier.  The consutrcted object will be
+ * returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.body.memberID  memberID is a 64 bit int, so pass in as a string
+ * @param {Number}   req.body.councilID
+ * @param {String}   req.body.date      in ISO format
+ * @param {Number}   req.body.type
+ * @param {String}   req.body.title
+ * @param {Number}   req.body.credits
+ * @param {String}   req.body.instructor
+ * @param {String}   req.body.physical
+ * @param {String}   req.body.online
+ * @param {Number}   req.body.status
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routePOSTApiRegistrations(req, res, next) {
+  log("routePOSTApiRegistrations()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "add")) {
+    log("routePOSTApiRegistrations: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    var newReg = new registrations(req.body);
+    newReg.save(function (err) {
+      if (err) {
+        log("routePOSTApiRegistrations: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routePOSTApiRegistrations: saved");
+        return res.status(200).send(newReg.exportObject());
+      }
+    });
+  } catch (err) {
+    log("routePOSTApiRegistrations: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * PUT an existing registration.
+ *
+ * Update an existing registration in the registrations collection as specified by req.body.  The consutrcted object will be
+ * The consutrcted object will be returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
+ * @param {String}   req.body.memberID  memberID is a 64 bit int, so pass in as a string
+ * @param {Number}   req.body.councilID
+ * @param {String}   req.body.date      in ISO format
+ * @param {Number}   req.body.type
+ * @param {String}   req.body.title
+ * @param {Number}   req.body.credits
+ * @param {String}   req.body.instructor
+ * @param {String}   req.body.physical
+ * @param {String}   req.body.online
+ * @param {Number}   req.body.status
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routePUTApiRegistrations(req, res, next) {
+  log("routePUTApiRegistrations()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "editOther")) {
+    log("routePUTApiRegistrations: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    registrations.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+      function (err, editReg) {
+        if (err) {
+          log("routePUTApiRegistrations: err " + err);
+          return res.status(500).send(err);
+        } else {
+          log("routePUTApiRegistrations: saved");
+          return res.status(200).send(editReg.exportObject());
+        }
+      }
+    );
+  } catch (err) {
+    log("routePUTApiRegistrations: error");
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+/**
+ * DELETE an existing registration.
+ *
+ * Delete an existing registration in the registrations collection as specified by req.params.id.  
+ * The deleted object will be returned.
+ *
+ * @private
+ * @memberof module:routes/api
+ * @param {Object}   req                request object
+ * @param {String}   req.params.id      database _id
+ * @param {Object}   res                response object
+ * @param {Function} next               function call to next middleware
+ */
+async function routeDELETEApiRegistrations(req, res, next) {
+  log("routeDELETEApiRegistrations()");
+  if (!cap.check(req.user, "api") || !cap.check(req.user, "delete")) {
+    log("routeDELETEApiRegistrations: denied: " + req.user.access);
+    return res.status(401).json({
+      message: "You do not have permission to access this API",
+    });
+  }
+
+  try {
+    registrations.findByIdAndRemove(
+      req.params.id,
+      function (err, deleteReg) {
+        if (err) {
+          log("routeDELETEApiRegistrations: err " + err);
+          return res.status(500).send(err);
+        } else {
+          log("routeDELETEApiRegistrations: deleted");
+          return res.status(200).send(deleteReg.exportObject());
+        }
+      }
+    );
+  } catch (err) {
+    log("routeDELETEApiRegistrations: error");
+    return res.status(500).json({
       message: err.message,
     });
   }
@@ -145,8 +444,16 @@ async function routeGETApiRegistrations(req, res, next) {
 
 // register routes and export router
 router.get("/members", routeGETApiMembers);
+router.post("/members", routePOSTApiMembers);
+router.put("/members", routePOSTApiMembers);
 router.get("/members/:memberid/registrations", routeGETApiRegistrations);
 router.get("/members/:id", routeGETApiMembers);
+router.put("/members/:id", routePUTApiMembers);
+router.delete("/members/:id", routeDELETEApiMembers);
 router.get("/registrations", routeGETApiRegistrations);
+router.post("/registrations", routePOSTApiRegistrations);
+router.put("/registrations", routePOSTApiRegistrations);
 router.get("/registrations/:id", routeGETApiRegistrations);
+router.put("/registrations/:id", routePUTApiRegistrations);
+router.delete("/registrations/:id", routeDELETEApiRegistrations);
 module.exports = router;

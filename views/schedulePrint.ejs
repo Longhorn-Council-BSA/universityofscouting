@@ -14,10 +14,7 @@
   </header>
   <body>
     <div class="header text-center">
-      ID: <span id="userID"><%= user.memberID %></span> 
-      | <span id="fname"><%= user.fullNameFL %></span>
-      | <span id="date1"></span>
-      | <span><%= schedule.length %> Records</span>
+      ID: <%= user.memberID %>  | <%= user.fullNameFL %> | <%= new Date().toLocaleDateString("en-US", {year: "numeric", month: "long", day: "numeric" }); %> | <%= schedule.length %> Records
     </div>
     <% var i = 0, count = 0, pages = 0; %>
     <% for(var T=0; T<99; T++) {  %>
@@ -29,7 +26,7 @@
           <tr>
             <th>
               Course Date/TIme<br/>
-              <span style="font-size: 8pt;">(mm/dd/yyyy)</span>
+              <!-- <span style="font-size: 8pt;">(mm/dd/yyyy)</span> -->
             </th>
             <th>Course Title</th>
             <th>Course Instructor</th>
@@ -56,11 +53,6 @@
       <div>Page <%= T+1 %> of <%= Math.round(pages+1) %></div>
     </div>
     <% if(i == schedule.length){break;} %>
-    <% } %>
-    <script> 
-      var dateObj = new Date(); 
-      var options = {year: "numeric", month: "long", day: "numeric" }; 
-      document.getElementById("date1").innerHTML = (dateObj.toLocaleDateString("en-US", options));
-    </script>     
+    <% } %>    
   </body> 
 </html>
