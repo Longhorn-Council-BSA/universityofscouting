@@ -35,7 +35,7 @@
           <div class="header text-center">
             <h1>University of Scouting Transcript</h1>
             <h4><span id="name"></span></h4>
-            ID: <span id="userID"></span> | Council: <span id="councilID"></span> | <span id="rowCount"></span> Records
+            ID: <span id="userID"></span> | Council: <span id="councilName"></span> (<span id="councilID"></span>) | <span id="rowCount"></span> Records
           </div>
           <table class="mx-auto table table-sm">
             <thead>
@@ -65,7 +65,7 @@
           </div>
           <div class="modal-body">
             <div class="row justify-content-md-center">
-              <div class="col-6">
+              <div class="col">
                 <table id="profileTable" class="mx-auto table-sm transcript text-white" style="width: auto;">
                   <thead>
                     <tr>
@@ -79,6 +79,33 @@
                     <tr>
                       <th style="width: auto;text-align: left;">Credits</th>
                       <td style="width:fit-content;"><input type="number" class="form-control text-center" id="modelCredits"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Type</th>
+                      <td style="width: fit-content;">
+                        <select class="form-control text-center" id="modelCourseType" style=" text-align-last:center;">
+                          <option value="1">Course</option>
+                          <option value="2">Degree</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course instructor</th>
+                      <td style="width: fit-content;"><input type="text"  class="form-control text-center" id="modelCourseInstructor"></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Location</th>
+                      <td style="width: fit-content;">
+                        <textarea class="form-control" id="modelCourseLocation" rows="2" cols="30">
+                        </textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Online Information</th>
+                      <td style="width: fit-content;">
+                        <textarea class="form-control" id="modelCourseOnline" rows="2" cols="30">
+                        </textarea>
+                      </td>
                     </tr>
                     <tr>
                       <th style="width: auto;text-align: left;">Status</th>
@@ -129,10 +156,11 @@
         }
       };
       var id = getUrlParameter('id');
-      getSchedule(id);
+      getTranscript(id);
+      return id;
     }
     // -----------------------------------------------------------------------------------------//
-    function getSchedule(id){
+    function getTranscript(id){
       $("#tbody").hide();
       $(".loader").fadeIn();
       $.ajax({
@@ -141,7 +169,8 @@
         data: {},
         success: function(userdata) {
           $('#userID').html(userdata.memberID);
-          $('#councilID').html(userdata.councilName);
+          $('#councilName').html(userdata.councilName);
+          $('#councilID').html(userdata.councilID);
           $('#name').text(userdata.fullNameFL);
           $.ajax({
             dataType: "json",
@@ -205,6 +234,12 @@
         var credits = response.credits;
         if(isNaN(credits)){credits = 0;}else{credits = response.credits;}
         $('#modelCredits').val(credits);
+
+        $('#modelCourseType').val(response.type);
+        $('#modelCourseInstructor').val(response.instructor);
+        $('#modelCourseLocation').html(response.physical);
+        $('#modelCourseOnline').html(response.online);
+
         $('#modelStatus').val(response.status);
         $('#modelSave').attr('onclick', 'saveBtn(\''+response._id+'\')');
         $('#modelDelete').attr('onclick', 'delBtn(\''+response._id+'\')');
@@ -219,11 +254,28 @@
     }
     // -----------------------------------------------------------------------------------------//
     function saveBtn(id){
+      var memberID = $('#userID').html();
+      var council = $('#councilID').html();
       var date = $('#modelCourseDate').val();
       var title = $('#modelCourseTitle').val();
-      var credits = $('#modelCredits').val();if(credits == 0){credits = "-"}
+      var credits = $('#modelCredits').val();if(credits < 0){credits = 0}
+      var type = $('#modelCourseType').val();
+      var instructor = $('#modelCourseInstructor').val();
+      var location = $('#modelCourseLocation').val();
+      var online = $('#modelCourseOnline').val();
       var status = $('#modelStatus').val();
-      var data = {date: date+"-05:00", title: title, credits: credits, status: status};
+      var data = {
+        memberID: memberID,
+        councilID: council,
+        date: date+"-06:00",
+        type: type,
+        title: title,
+        credits: credits,
+        instructor: instructor,
+        physical: location,
+        online: online,
+        status: status
+      };
       request = $.ajax({
           url: "/api/registrations/"+id,
           type: "PUT",
@@ -290,19 +342,41 @@
       $('#modelCourseDate').val('');
       $('#modelCourseTitle').val('');
       $('#modelCredits').val('');
+      $('#modelCourseType').val('');
+      $('#modelCourseInstructor').val('');
+      $('#modelCourseLocation').val('');
+      $('#modelCourseOnline').val('');
       $('#modelStatus').val('');
     }
+    //---------------------------------------------------------------------------//
     function addRecord(){
       var memberID = $('#userID').html();
+      var council = $('#councilID').html();
       var date = $('#modelCourseDate').val();
       var title = $('#modelCourseTitle').val();
       var credits = $('#modelCredits').val();if(credits == 0){credits = "-"}
+      var type = $('#modelCourseType').val();
+      var instructor = $('#modelCourseInstructor').val();
+      var location = $('#modelCourseLocation').val();
+      var online = $('#modelCourseOnline').val();
       var status = $('#modelStatus').val();
-      var data = {memberID: memberID, date: date+"-05:00", title: title, credits: credits, status: status};
-      if(data.memberID != "" && data.data != "" && data.title != "" && data.title != "" && data.credits != "" && data.status != ""){
+      var data = {
+        memberID: memberID,
+        councilID: council,
+        date: date+"-06:00",
+        type: type,
+        title: title,
+        credits: credits,
+        instructor: instructor,
+        physical: location,
+        online: online,
+        status: status
+      };
+      // if(data.memberID != "" && data.data != "" && data.title != "" && data.title != "" && data.credits != "" && data.status != ""){
         request = $.ajax({
             url: "/api/registrations",
             type: "POST",
+            dataType: 'json',
             data: data
         });
         // Callback handler that will be called on success
@@ -319,12 +393,12 @@
             // Log the error to the alert window
             alert( "The following error occurred: "+textStatus, errorThrown);
         });
-      }else{
-        $('#modelCourseDate').css('backgroundColor', 'pink');
-        $('#modelCourseTitle').css('backgroundColor', 'pink');
-        $('#modelCredits').css('backgroundColor', 'pink');
-        $('#modelStatus').css('backgroundColor', 'pink');
-      }
+      // }else{
+      //   $('#modelCourseDate').css('backgroundColor', 'pink');
+      //   $('#modelCourseTitle').css('backgroundColor', 'pink');
+      //   $('#modelCredits').css('backgroundColor', 'pink');
+      //   $('#modelStatus').css('backgroundColor', 'pink');
+      // }
     }
   </script>
 </html>
