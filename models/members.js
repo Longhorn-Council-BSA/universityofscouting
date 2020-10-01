@@ -75,8 +75,20 @@ MembersSchema.virtual("accessName").get(function () {
  * This object is not a full model and is effectively read-only.  But it is
  * easier to serialize into something that can be stored into a session or
  * manipulated in EJS templates.
+ * 
+ * @param {String} type  when 'strict' only return values that exist in the DB
  */
-MembersSchema.methods.exportObject = function () {
+MembersSchema.methods.exportObject = function (type='simple') {
+  if(type == 'strict') {
+    return {
+      _id: this._id.toString(), //Long Number
+      memberID: this.memberID.toString(), //Long Number
+      councilID: this.councilID,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      access: this.access,
+    };
+  }
   return {
     _id: this._id.toString(), //Long Number
     memberID: this.memberID.toString(), //Long Number

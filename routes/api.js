@@ -20,6 +20,8 @@ const registrations = require("../models/registrations");
  *
  * Return all members in either JSON or CSV format.  JSON is returned by default.
  * If ?return=csv is provided in the query, a CSV will be provided.
+ * If ?requrn=strictcsv, a CSV will be provided containing ONLY those options that are
+ * actually present in the database (for use with the CSV import capability).
  *
  * If the calling route provides req._id, then limit responses to just that
  * member, by _id.
@@ -29,7 +31,7 @@ const registrations = require("../models/registrations");
  * @param {Object}   req                request object
  * @param {Object}   req.user           user object to check against 'api' capability
  * @param {String}   req.params.id      limit to responses to a single member by _id
- * @param {String}   req.query.return   when set to "csv", return CSV output
+ * @param {String}   req.query.return   optionally select non-JSON output format
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
@@ -58,10 +60,31 @@ async function routeGETApiMembers(req, res, next) {
     });
   }
 
+  // return only database entries when strict is requested
+  if(req.query.return == "strictcsv") {
+    q.return = "strict";
+  }
+
   try {
-    if (req.query.return == "csv") {
+    if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiMembers: return csv");
-      return res.csv(await modelhelper.getMember(q));
+      response = await modelhelper.getMember(q);
+      
+      // response must be an array
+      if(response.constructor !== Array) {
+        response = [ response ];
+      }
+
+      // build the header row and add it at the beginning of the array
+      header = [];
+      for(var prop in response[0]) {
+        if(response[0].hasOwnProperty(prop)) {
+          header.push(prop);
+        }
+      }
+      response.unshift(header);
+      
+      return res.csv(response);
     } else {
       log("routeGETApiMembers: return");
       return res.json(await modelhelper.getMember(q));
@@ -79,12 +102,15 @@ async function routeGETApiMembers(req, res, next) {
  *
  * Return all registration entries in either JSON or CSV format.  JSON is returned by default.
  * If ?return=csv is provided in the query, a CSV will be provided.
+ * If ?requrn=strictcsv, a CSV will be provided containing ONLY those options that are
+ * actually present in the database (for use with the CSV import capability).
+ *
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                  request object
  * @param {Object}   req.user             user object to check against 'api' capability
  * @param {Date}     req.query.earliest   filters so that no objects are returned older than this time
- * @param {String}   req.query.return     when set to "csv", return CSV output
+ * @param {String}   req.query.return     optionally select non-JSON output format
  * @param {Object}   res                  response object
  * @param {Function} next                 function call to next middleware
  */
@@ -125,10 +151,31 @@ async function routeGETApiRegistrations(req, res, next) {
     });
   }
 
+  // return only database entries when strict is requested
+  if(req.query.return == "strictcsv") {
+    q.return = "strict";
+  }
+
   try {
-    if (req.query.return == "csv") {
+    if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiRegistrations: return csv");
-      return res.csv(await modelhelper.getRegistration(q));
+      response = await modelhelper.getRegistration(q);
+      
+      // response must be an array
+      if(response.constructor !== Array) {
+        response = [ response ];
+      }
+
+      // build the header row and add it at the beginning of the array
+      header = [];
+      for(var prop in response[0]) {
+        if(response[0].hasOwnProperty(prop)) {
+          header.push(prop);
+        }
+      }
+      response.unshift(header);
+      
+      return res.csv(response);
     } else {
       log("routeGETApiRegistrations: return");
       return res.json(await modelhelper.getRegistration(q));

@@ -114,9 +114,26 @@ RegistrationsSchema.virtual("statusName").get(function () {
  *
  * This object is not a full model and is effectively read-only.  But it is
  * easier to serialize into something that can be stored into a session or
- * manipulated in EJS templates.
+ * manipulated in EJS templates. 
+ *  
+ * @param {String} type  when 'strict' only return values that exist in the DB
  */
-RegistrationsSchema.methods.exportObject = function () {
+RegistrationsSchema.methods.exportObject = function (type='simple') {
+  if(type == 'strict') {
+    return {
+      _id: this._id.toString(), //String (Hex number)
+      memberID: this.memberID.toString(), //Long Number
+      councilID: this.councilID,
+      date: this.date.toISOString(), //Date Object
+      type: this.type,
+      title: this.title,
+      credits: this.credits,
+      instructor: this.instructor,
+      physical: this.physical,
+      online: this.online,
+      status: this.status
+    };
+  }
   return {
     _id: this._id.toString(), //String (Hex number)
     memberID: this.memberID.toString(), //Long Number
