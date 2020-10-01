@@ -37,7 +37,7 @@
             <h4><span id="name"></span></h4>
             ID: <span id="userID"></span> | Council: <span id="councilName"></span> (<span id="councilID"></span>) | <span id="rowCount"></span> Records
           </div>
-          <table class="mx-auto table table-sm">
+          <table id="memberTable" class="mx-auto table table-sm">
             <thead>
               <tr>
                 <th>Course Date</th>
@@ -161,7 +161,7 @@
     }
     // -----------------------------------------------------------------------------------------//
     function getTranscript(id){
-      $("#tbody").hide();
+      $("#memberTable").hide();
       $(".loader").fadeIn();
       $.ajax({
         dataType: 'json',
@@ -185,11 +185,11 @@
                   var btns = ' <button type="button" class="btn btn-sm btn-secondary" title="Edit Profile" data-toggle="modal" data-target=".bd-example-modal-lg" onClick="modelLoad(\''+data[i]._id+'\')"><img src="images/pencil.png" style="width:16px;height:20px;"></button> ';
                   $("#tbody").append('<tr id="row'+data[i]._id+'"><td id="DATE'+i+'" date-data="'+data[i].dateMDY+'">'+data[i].dateMDYHM+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].statusName+'</td><td class="NoPrint" style="width:16%;">'+btns+'</td></tr>');
                 }
-                $(".loader").fadeOut(function(){$("#tbody").fadeIn()});
+                $(".loader").fadeOut(function(){$("#memberTable").fadeIn()});
               }else{
                 $("#rowCount").html(data.length);
-                $("#tbody").append('<tr><td colspan="4"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+userdata.memberID+'</strong></h4></td></tr>');
-                $(".loader").fadeOut(function(){$("#tbody").fadeIn()});
+                $("#tbody").append('<tr><td colspan="5"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+userdata.memberID+'</strong></h4></td></tr>');
+                $(".loader").fadeOut(function(){$("#memberTable").fadeIn()});
               }
             },
             error: function (jqXHR, exception) {

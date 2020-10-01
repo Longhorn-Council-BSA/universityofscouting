@@ -13,9 +13,9 @@
             <a class="nav-link" id="CreateMemberBtn">Create Member</a>
           </li>
           <% } %>
-          <!-- <li class="nav-item" id="ReportsTab">
-            <a class="nav-link" id="ReportsBtn">Reports</a>
-          </li> -->
+          <li class="nav-item" id="ReportsTab">
+            <a class="nav-link" id="ReportsBtn">Tools</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -89,11 +89,23 @@
       </div>
     </div>
     <% } %>
-    <!-- <div class="row" id="Tab03" style="display: none;">
+    <div class="row" id="Tab03" style="display: none;">
       <div class="col text-center" style="padding-top: 20px;">
-        <h4>Admins Reports</h4>
+        <h4>Admins Tools</h4>
+        <br/>
+        <h5>Download</h5>
+        <hr style="width: 300px;"/>
+        <button class="btn btn-sm btn-1" id="downloadCSVbtn" onclick="downloadCSV(true)" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">Inclusive CSV</button>
+        <button class="btn btn-sm btn-1" id="downloadCSVbtn" onclick="downloadCSV(false)" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Strict CSV</button>
+        <br/><br/>
+        <br/><br/>
+        <h5>Upload</h5>
+        <hr style="width: 300px;"/>
+        <input type="file" id="importFilefield" class="" style="border:2px solid grey; border-radius:5px;"> 
+        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV()">Import CSV</button>
       </div>
-    </div> -->
+    </div>
+    <!-----------popup model---------->
     <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content bg-dark text-white">
@@ -166,6 +178,36 @@
   </div>
   <span id="currentID" style="display: none;"><%= user._id %></span>
   <script>
+    //------------------enable button popovers------------------//
+    $(document).ready(function(){
+      $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+      $('button').popover({
+        trigger: 'hover'
+      })
+    })
+    //----------------------------------------------------------//
+    function downloadCSV(id){
+      // request = $.ajax({
+      //     url: "/api/members/5ee016428aee91ff9471da9c/registrations",
+      //     type: "GET",
+      //   });
+      //   // Callback handler that will be called on success
+      //   request.done(function (response, textStatus, jqXHR){
+            
+      //   });
+      //   request.fail(function (jqXHR, textStatus, errorThrown){
+      //     // Log the error to the alert window
+      //     alert( "The following error occurred: "+textStatus, errorThrown);
+      //   });
+    }
+    //---------------------------------------------------------------//
+    function importCSV(){
+      var fileLength = $('#importFilefield').val();
+      alert(fileLength.length);
+    }
+    //---------------Popup modal for add/editing records------------------//
     $('#myModal').on('shown.bs.modal');
     function createMember(){
       var memberID = $("#memberID").val();
