@@ -76,6 +76,15 @@ RegistrationsSchema.virtual("dateMDYHM").get(function () {
 });
 
 /**
+ * Provides a friendly date/time (dateYMDHM) representation of date
+ */
+RegistrationsSchema.virtual("dateYMDHM").get(function () {
+  var m = moment(this.date);
+  m.tz(settings.timezone);
+  return m.format();
+});
+
+/**
  * Provides a friendly name (typeName) for type
  */
 RegistrationsSchema.virtual("typeName").get(function () {
@@ -141,6 +150,7 @@ RegistrationsSchema.methods.exportObject = function (type='simple') {
     date: this.date.toISOString(), //Date Object
     dateMDY: this.dateMDY,
     dateMDYHM: this.dateMDYHM,
+    dateYMDHM: this.dateYMDHM,
     type: this.type,
     typeName: this.typeName,
     title: this.title,
