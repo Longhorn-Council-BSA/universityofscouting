@@ -20,6 +20,8 @@ const registrations = require("../models/registrations");
  *
  * Return all members in either JSON or CSV format.  JSON is returned by default.
  * If ?return=csv is provided in the query, a CSV will be provided.
+ * If ?requrn=strictcsv, a CSV will be provided containing ONLY those options that are
+ * actually present in the database (for use with the CSV import capability).
  *
  * If the calling route provides req._id, then limit responses to just that
  * member, by _id.
@@ -29,7 +31,7 @@ const registrations = require("../models/registrations");
  * @param {Object}   req                request object
  * @param {Object}   req.user           user object to check against 'api' capability
  * @param {String}   req.params.id      limit to responses to a single member by _id
- * @param {String}   req.query.return   when set to "csv", return CSV output
+ * @param {String}   req.query.return   optionally select non-JSON output format
  * @param {Object}   res                response object
  * @param {Function} next               function call to next middleware
  */
@@ -51,17 +53,40 @@ async function routeGETApiMembers(req, res, next) {
 
   //if no id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if (!("_id" in q) &&  !cap.check(req.user, "viewOther")) {
+  if (!("_id" in q) && !cap.check(req.user, "viewOther")) {
     log("routeGETApiMembers: list denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
     });
   }
 
+  // return only database entries when strict is requested
+  if (req.query.return == "strictcsv") {
+    q.return = "strict";
+  }
+
   try {
-    if (req.query.return == "csv") {
+    if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiMembers: return csv");
-      return res.csv(await modelhelper.getMember(q));
+      response = await modelhelper.getMember(q);
+
+      res.setHeader("Content-Disposition", "attachment;filename=members.csv");
+
+      // response must be an array
+      if (response.constructor !== Array) {
+        response = [response];
+      }
+
+      // build the header row and add it at the beginning of the array
+      header = [];
+      for (var prop in response[0]) {
+        if (response[0].hasOwnProperty(prop)) {
+          header.push(prop);
+        }
+      }
+      response.unshift(header);
+
+      return res.csv(response);
     } else {
       log("routeGETApiMembers: return");
       return res.json(await modelhelper.getMember(q));
@@ -79,12 +104,15 @@ async function routeGETApiMembers(req, res, next) {
  *
  * Return all registration entries in either JSON or CSV format.  JSON is returned by default.
  * If ?return=csv is provided in the query, a CSV will be provided.
+ * If ?requrn=strictcsv, a CSV will be provided containing ONLY those options that are
+ * actually present in the database (for use with the CSV import capability).
+ *
  * @private
  * @memberof module:routes/api
  * @param {Object}   req                  request object
  * @param {Object}   req.user             user object to check against 'api' capability
  * @param {Date}     req.query.earliest   filters so that no objects are returned older than this time
- * @param {String}   req.query.return     when set to "csv", return CSV output
+ * @param {String}   req.query.return     optionally select non-JSON output format
  * @param {Object}   res                  response object
  * @param {Function} next                 function call to next middleware
  */
@@ -125,10 +153,33 @@ async function routeGETApiRegistrations(req, res, next) {
     });
   }
 
+  // return only database entries when strict is requested
+  if (req.query.return == "strictcsv") {
+    q.return = "strict";
+  }
+
   try {
-    if (req.query.return == "csv") {
+    if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiRegistrations: return csv");
-      return res.csv(await modelhelper.getRegistration(q));
+      response = await modelhelper.getRegistration(q);
+
+      res.setHeader("Content-Disposition", "attachment;filename=registrations.csv");
+
+      // response must be an array
+      if (response.constructor !== Array) {
+        response = [response];
+      }
+
+      // build the header row and add it at the beginning of the array
+      header = [];
+      for (var prop in response[0]) {
+        if (response[0].hasOwnProperty(prop)) {
+          header.push(prop);
+        }
+      }
+      response.unshift(header);
+
+      return res.csv(response);
     } else {
       log("routeGETApiRegistrations: return");
       return res.json(await modelhelper.getRegistration(q));
@@ -173,6 +224,13 @@ async function routePOSTApiMembers(req, res, next) {
     return res.status(401).json({
       message: "You do not have permission to use that access level",
     });
+  }
+
+  // blank _id is not valid, so remove it.
+  // the CSV importer does this by accident sometimes
+  if("_id" in req.body && (req.body._id == undefined || req.body._id == null || req.body._id == "")) {
+    log("routePOSTApiMembers: remove blank _id");
+    delete req.body._id;
   }
 
   try {
@@ -273,10 +331,7 @@ async function routeDELETEApiMembers(req, res, next) {
   }
 
   try {
-    members.findByIdAndRemove(req.params.id, function (
-      err,
-      deleteMember
-    ) {
+    members.findByIdAndRemove(req.params.id, function (err, deleteMember) {
       if (err) {
         log("routeDELETEApiMembers: err " + err);
         return res.status(500).send(err);
@@ -323,6 +378,13 @@ async function routePOSTApiRegistrations(req, res, next) {
     return res.status(401).json({
       message: "You do not have permission to access this API",
     });
+  }
+
+  // blank _id is not valid, so remove it.
+  // the CSV importer does this by accident sometimes
+  if("_id" in req.body && (req.body._id == undefined || req.body._id == null || req.body._id == "")) {
+    log("routePOSTApiRegistrations: remove blank _id");
+    delete req.body._id;
   }
 
   try {
@@ -402,7 +464,7 @@ async function routePUTApiRegistrations(req, res, next) {
 /**
  * DELETE an existing registration.
  *
- * Delete an existing registration in the registrations collection as specified by req.params.id.  
+ * Delete an existing registration in the registrations collection as specified by req.params.id.
  * The deleted object will be returned.
  *
  * @private
@@ -422,18 +484,15 @@ async function routeDELETEApiRegistrations(req, res, next) {
   }
 
   try {
-    registrations.findByIdAndRemove(
-      req.params.id,
-      function (err, deleteReg) {
-        if (err) {
-          log("routeDELETEApiRegistrations: err " + err);
-          return res.status(500).send(err);
-        } else {
-          log("routeDELETEApiRegistrations: deleted");
-          return res.status(200).send(deleteReg.exportObject());
-        }
+    registrations.findByIdAndRemove(req.params.id, function (err, deleteReg) {
+      if (err) {
+        log("routeDELETEApiRegistrations: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routeDELETEApiRegistrations: deleted");
+        return res.status(200).send(deleteReg.exportObject());
       }
-    );
+    });
   } catch (err) {
     log("routeDELETEApiRegistrations: error");
     return res.status(500).json({
