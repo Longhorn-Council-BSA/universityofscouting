@@ -1,4 +1,5 @@
 // jshint.unstable bigint: true
+// jshint esversion: 6
 var mongoose = require("mongoose");
 require("mongoose-long")(mongoose);
 var moment = require("moment-timezone");
@@ -33,15 +34,15 @@ RegistrationsSchema = new mongoose.Schema({
   },
   instructor: {
     type: String,
-    required: true,
+    required: false,
   },
   physical: {
     type: String,
-    required: true,
+    required: false,
   },
   online: {
     type: String,
-    required: true,
+    required: false,
   },
   status: {
     type: Number,

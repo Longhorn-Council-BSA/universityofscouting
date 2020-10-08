@@ -1,4 +1,5 @@
 // jshint.unstable bigint: true
+// jshint esversion: 6
 var mongoose = require("mongoose");
 require("mongoose-long")(mongoose);
 var councils = require("../data/councils");
