@@ -53,7 +53,7 @@ async function routeGETApiMembers(req, res, next) {
 
   //if no id filtering queries were provided and
   //if apiList access is not allowed, deny
-  if (!("_id" in q) &&  !cap.check(req.user, "viewOther")) {
+  if (!("_id" in q) && !cap.check(req.user, "viewOther")) {
     log("routeGETApiMembers: list denied: " + req.user.access);
     return res.status(401).json({
       message: "You do not have permission to access this API",
@@ -61,7 +61,7 @@ async function routeGETApiMembers(req, res, next) {
   }
 
   // return only database entries when strict is requested
-  if(req.query.return == "strictcsv") {
+  if (req.query.return == "strictcsv") {
     q.return = "strict";
   }
 
@@ -69,21 +69,23 @@ async function routeGETApiMembers(req, res, next) {
     if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiMembers: return csv");
       response = await modelhelper.getMember(q);
-      
+
+      res.setHeader("Content-Disposition", "attachment;filename=members.csv");
+
       // response must be an array
-      if(response.constructor !== Array) {
-        response = [ response ];
+      if (response.constructor !== Array) {
+        response = [response];
       }
 
       // build the header row and add it at the beginning of the array
       header = [];
-      for(var prop in response[0]) {
-        if(response[0].hasOwnProperty(prop)) {
+      for (var prop in response[0]) {
+        if (response[0].hasOwnProperty(prop)) {
           header.push(prop);
         }
       }
       response.unshift(header);
-      
+
       return res.csv(response);
     } else {
       log("routeGETApiMembers: return");
@@ -152,7 +154,7 @@ async function routeGETApiRegistrations(req, res, next) {
   }
 
   // return only database entries when strict is requested
-  if(req.query.return == "strictcsv") {
+  if (req.query.return == "strictcsv") {
     q.return = "strict";
   }
 
@@ -160,21 +162,23 @@ async function routeGETApiRegistrations(req, res, next) {
     if (req.query.return == "csv" || req.query.return == "strictcsv") {
       log("routeGETApiRegistrations: return csv");
       response = await modelhelper.getRegistration(q);
-      
+
+      res.setHeader("Content-Disposition", "attachment;filename=registrations.csv");
+
       // response must be an array
-      if(response.constructor !== Array) {
-        response = [ response ];
+      if (response.constructor !== Array) {
+        response = [response];
       }
 
       // build the header row and add it at the beginning of the array
       header = [];
-      for(var prop in response[0]) {
-        if(response[0].hasOwnProperty(prop)) {
+      for (var prop in response[0]) {
+        if (response[0].hasOwnProperty(prop)) {
           header.push(prop);
         }
       }
       response.unshift(header);
-      
+
       return res.csv(response);
     } else {
       log("routeGETApiRegistrations: return");
@@ -320,10 +324,7 @@ async function routeDELETEApiMembers(req, res, next) {
   }
 
   try {
-    members.findByIdAndRemove(req.params.id, function (
-      err,
-      deleteMember
-    ) {
+    members.findByIdAndRemove(req.params.id, function (err, deleteMember) {
       if (err) {
         log("routeDELETEApiMembers: err " + err);
         return res.status(500).send(err);
@@ -449,7 +450,7 @@ async function routePUTApiRegistrations(req, res, next) {
 /**
  * DELETE an existing registration.
  *
- * Delete an existing registration in the registrations collection as specified by req.params.id.  
+ * Delete an existing registration in the registrations collection as specified by req.params.id.
  * The deleted object will be returned.
  *
  * @private
@@ -469,18 +470,15 @@ async function routeDELETEApiRegistrations(req, res, next) {
   }
 
   try {
-    registrations.findByIdAndRemove(
-      req.params.id,
-      function (err, deleteReg) {
-        if (err) {
-          log("routeDELETEApiRegistrations: err " + err);
-          return res.status(500).send(err);
-        } else {
-          log("routeDELETEApiRegistrations: deleted");
-          return res.status(200).send(deleteReg.exportObject());
-        }
+    registrations.findByIdAndRemove(req.params.id, function (err, deleteReg) {
+      if (err) {
+        log("routeDELETEApiRegistrations: err " + err);
+        return res.status(500).send(err);
+      } else {
+        log("routeDELETEApiRegistrations: deleted");
+        return res.status(200).send(deleteReg.exportObject());
       }
-    );
+    });
   } catch (err) {
     log("routeDELETEApiRegistrations: error");
     return res.status(500).json({
