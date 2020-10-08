@@ -33,15 +33,15 @@ RegistrationsSchema = new mongoose.Schema({
   },
   instructor: {
     type: String,
-    required: true,
+    required: false,
   },
   physical: {
     type: String,
-    required: true,
+    required: false,
   },
   online: {
     type: String,
-    required: true,
+    required: false,
   },
   status: {
     type: Number,
