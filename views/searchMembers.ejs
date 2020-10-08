@@ -124,7 +124,30 @@
         <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV('members')">Import CSV</button>
       </div>
     </div>
+    <br/><br/>
+    <div class="row">
+      <div class="col-8 mx-auto text-center">
+        <h5 id="importCounters" style="display: none;"><span id="doneCount">0</span> Completed / <span id="errorCount">0</span> Failed</h5>
+        <table class="mx-auto table table-sm" id="importErrorsTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>memberID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody id="importErrors">
+            <!-- filled by errors from imports -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+    <!-----------Loader--------------->
+    <div class="ajax_loader hidden" style="font-size: 25pt; color: cyan; padding-top: 10%; text-align: center;">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d6e32754941303.596fc27b9d2bf.gif" width="400px" height="400px"/>
+    </div>
     <!-----------popup model---------->
     <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -211,6 +234,10 @@
     function importCSV(type){
       var fileLength = $('#importFilefield_'+type).val();
       if(fileLength.length > 0){
+        $(".hidden").fadeIn();
+        $('#errorCount').html(0);
+        $('#doneCount').html(0);
+        $('#importErrors').html('');
         $('#importFilefield_'+type).parse({
           config: {
             skipEmptyLines: true,
@@ -233,12 +260,21 @@
               });
               // Callback handler that will be called on success
               request.done(function (response, textStatus, jqXHR){
+                $('#importCounters').fadeIn();
+                var countDone = parseInt($('#doneCount').html());
+                countDone++;
+                $('#doneCount').html(countDone);
                 console.log(results.data.memberID+"\n\n"+response+"\n\n"+textStatus)
               });
               // Callback handler that will be called on failure
               request.fail(function (jqXHR, textStatus, errorThrown){
                   // Log the error to the alert window
                   console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
+                  $('#importErrorsTable').fadeIn();
+                  var count = parseInt($('#errorCount').html());
+                  count++;
+                  $('#errorCount').html(count);
+                  $('#importErrors').append('<tr><td>'+results.data._id+'</td><td>'+results.data.memberID+'</td><td>'+results.data.firstName+'</td><td>'+results.data.lastName+'</td></tr>')
               });
             }
           },
@@ -252,6 +288,7 @@
           {
             // executed after all files are complete
             console.log("Completed!");
+            $(".hidden").fadeOut();
           }
         });
       }else{
