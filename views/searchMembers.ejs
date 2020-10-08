@@ -1,6 +1,7 @@
 <%- include header %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha512-rKFvwjvE4liWPlFnvH4ZhRDfNZ9FOpdkD/BU5gAIA3VS3vOQrQ5BjKgbO3kxebKhHdHcNUHLqxQYSoxee9UwgA==" crossorigin="anonymous"></script>
   <div class="container main-body">
     <div class="row ">
       <div class="col">
@@ -91,20 +92,39 @@
     <% } %>
     <div class="row" id="Tab03" style="display: none;">
       <div class="col text-center" style="padding-top: 20px;">
-        <h4>Admins Tools</h4>
+        <h4>Registration Tools</h4>
         <br/>
         <h5>Download</h5>
         <hr style="width: 300px;"/>
-        <button class="btn btn-sm btn-1" id="downloadCSVbtn" onclick="downloadCSV(true)" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">Inclusive CSV</button>
-        <button class="btn btn-sm btn-1" id="downloadCSVbtn" onclick="downloadCSV(false)" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Strict CSV</button>
+        <!-- <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">All Data CSV</button> -->
+        <a href="/api/registrations?return=strictcsv">
+          <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Importable CSV</button>
+        </a>
         <br/><br/>
         <br/><br/>
         <h5>Upload</h5>
         <hr style="width: 300px;"/>
-        <input type="file" id="importFilefield" class="" style="border:2px solid grey; border-radius:5px;"> 
-        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV()">Import CSV</button>
+        <input type="file" id="importFilefield_registrations" class="" style="border:2px solid grey; border-radius:5px;"> 
+        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV('registrations')">Import CSV</button>
+      </div>
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Members Tools</h4>
+        <br/>
+        <h5>Download</h5>
+        <hr style="width: 300px;"/>
+        <!-- <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">All Data CSV</button> -->
+        <a href="/api/members?return=strictcsv">
+          <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Importable CSV</button>
+        </a>
+        <br/><br/>
+        <br/><br/>
+        <h5>Upload</h5>
+        <hr style="width: 300px;"/>
+        <input type="file" id="importFilefield_members" class="" style="border:2px solid grey; border-radius:5px;"> 
+        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV('members')">Import CSV</button>
       </div>
     </div>
+  </div>
     <!-----------popup model---------->
     <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -187,25 +207,56 @@
         trigger: 'hover'
       })
     })
-    //----------------------------------------------------------//
-    function downloadCSV(id){
-      // request = $.ajax({
-      //     url: "/api/members/5ee016428aee91ff9471da9c/registrations",
-      //     type: "GET",
-      //   });
-      //   // Callback handler that will be called on success
-      //   request.done(function (response, textStatus, jqXHR){
-            
-      //   });
-      //   request.fail(function (jqXHR, textStatus, errorThrown){
-      //     // Log the error to the alert window
-      //     alert( "The following error occurred: "+textStatus, errorThrown);
-      //   });
-    }
     //---------------------------------------------------------------//
-    function importCSV(){
-      var fileLength = $('#importFilefield').val();
-      alert(fileLength.length);
+    function importCSV(type){
+      var fileLength = $('#importFilefield_'+type).val();
+      if(fileLength.length > 0){
+        $('#importFilefield_'+type).parse({
+          config: {
+            skipEmptyLines: true,
+            header: true,
+            dynamicTyping: true,
+            worker: true,
+            step: function(results, parser) {
+              var method = "POST";
+              var url = "/api/"+type+"/";
+              console.log("Row data:", results.data);
+            	console.log("Row errors:", results.errors);
+              if("_id" in results.data && results.data._id !== null){
+                method = "PUT";
+                url += results.data._id+"/";
+              }
+              request = $.ajax({
+                  url: url,
+                  type: method,
+                  data: results.data
+              });
+              // Callback handler that will be called on success
+              request.done(function (response, textStatus, jqXHR){
+                console.log(results.data.memberID+"\n\n"+response+"\n\n"+textStatus)
+              });
+              // Callback handler that will be called on failure
+              request.fail(function (jqXHR, textStatus, errorThrown){
+                  // Log the error to the alert window
+                  console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
+              });
+            }
+          },
+          error: function(err, file, inputElem, reason)
+          {
+            // executed if an error occurs while loading the file,
+            // or if before callback aborted for some reason
+            console.log("CSV Parse Error: "+reason);
+          },
+          complete: function()
+          {
+            // executed after all files are complete
+            console.log("Completed!");
+          }
+        });
+      }else{
+        alert("Please select a file to import...")
+      }
     }
     //---------------Popup modal for add/editing records------------------//
     $('#myModal').on('shown.bs.modal');
