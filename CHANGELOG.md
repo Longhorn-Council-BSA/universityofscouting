@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/ckxng/universityofscouting/compare/v1.1.1...v1.2.0) (2020-10-08)
+
+
+### Features
+
+* adds csv filename to csv response ([194876c](https://github.com/ckxng/universityofscouting/commit/194876c26012262040c4d8cf4712f49e73cc5035))
+* adds strict csv output ([e95c1d5](https://github.com/ckxng/universityofscouting/commit/e95c1d516792060ff2d9b5c703fd532c9d75f42c))
+
+
+### Bug Fixes
+
+* added fields needed  to edit registrations ([5cb869d](https://github.com/ckxng/universityofscouting/commit/5cb869daaf63532d52501b0719a9e909e80e45b8))
+* footer image aspect ratio ([d5c0888](https://github.com/ckxng/universityofscouting/commit/d5c0888c257dbff296750d4c7d2f4702fb32170f))
+* prevents blank _id from posting ([7405cdf](https://github.com/ckxng/universityofscouting/commit/7405cdf85bbc88e11bc3bfc77ad70db842bb9a1f))
+* prevents blank _id from posting 2 ([9e991bb](https://github.com/ckxng/universityofscouting/commit/9e991bbc113e8e5c23acaf2df59e6bddb4ca5ba3))
+* table fade in and out when loading ([d998ef8](https://github.com/ckxng/universityofscouting/commit/d998ef869f6749db549fe20c8380aff15105f688))
+
 ### [1.1.1](https://github.com/ckxng/universityofscouting/compare/v1.1.0...v1.1.1) (2020-09-23)
 
 
