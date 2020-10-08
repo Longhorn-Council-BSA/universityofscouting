@@ -226,6 +226,12 @@ async function routePOSTApiMembers(req, res, next) {
     });
   }
 
+  // blank _id is not valid, so remove it.
+  // the CSV importer does this by accident sometimes
+  if("_id" in req.body && "_id" == "") {
+    delete req.body._id;
+  }
+
   try {
     var newMember = new members(req.body);
     newMember.save(function (err) {
@@ -371,6 +377,12 @@ async function routePOSTApiRegistrations(req, res, next) {
     return res.status(401).json({
       message: "You do not have permission to access this API",
     });
+  }
+
+  // blank _id is not valid, so remove it.
+  // the CSV importer does this by accident sometimes
+  if("_id" in req.body && "_id" == "") {
+    delete req.body._id;
   }
 
   try {
