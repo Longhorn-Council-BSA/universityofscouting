@@ -228,7 +228,8 @@ async function routePOSTApiMembers(req, res, next) {
 
   // blank _id is not valid, so remove it.
   // the CSV importer does this by accident sometimes
-  if("_id" in req.body && "_id" == "") {
+  if("_id" in req.body && (req.body._id == undefined || req.body._id == null || req.body._id == "")) {
+    log("routePOSTApiMembers: remove blank _id");
     delete req.body._id;
   }
 
@@ -381,7 +382,8 @@ async function routePOSTApiRegistrations(req, res, next) {
 
   // blank _id is not valid, so remove it.
   // the CSV importer does this by accident sometimes
-  if("_id" in req.body && "_id" == "") {
+  if("_id" in req.body && (req.body._id == undefined || req.body._id == null || req.body._id == "")) {
+    log("routePOSTApiRegistrations: remove blank _id");
     delete req.body._id;
   }
 
