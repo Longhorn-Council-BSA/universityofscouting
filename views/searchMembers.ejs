@@ -137,7 +137,7 @@
     <br/><br/>
     <div class="row">
       <div class="col-8 mx-auto text-center">
-        <h5 id="importCounters" style="display: none;"><span id="doneCount">0</span> Completed / <span id="errorCount">0</span> Failed</h5>
+        <h5 id="importCounters" style="display: none;"><span id="doneCount">0</span> Completed / <span id="errorCount">0</span> Failed / Out of <span id="countOutOf"></span></h5>
         <table class="mx-auto table table-sm" id="importErrorsTable" style="display: none;">
           <thead>
             <tr>
@@ -156,7 +156,7 @@
   </div>
     <!-----------Loader--------------->
     <div class="ajax_loader hidden" style="font-size: 25pt; color: cyan; padding-top: 10%; text-align: center;">
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d6e32754941303.596fc27b9d2bf.gif" width="400px" height="400px"/>
+      <img src="https://media0.giphy.com/media/jOyNeVMe1WFdIkSK24/source.gif" width="400px" height="400px"/>
     </div>
     <!-----------popup model---------->
     <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -243,9 +243,9 @@
     //---------------------------------------------------------------//
     function importCSV(type){
       var fileLength = $('#importFilefield_'+type).val();
-      var tableCounter = [];
-      $(".hidden").show();
       if(fileLength.length > 0){
+        var workerStarted = 0, workerFinished = 0;
+        $(".hidden").show();
         $('#errorCount').html(0);
         $('#doneCount').html(0);
         $('#importErrors').html('');
@@ -254,9 +254,9 @@
             skipEmptyLines: true,
             header: true,
             dynamicTyping: true,
-            worker: true,
+            //worker: true,
             step: function(results, parser) {
-              tableCounter.push(results.data._id);
+              workerStarted++;
               var method = "POST";
               var url = "/api/"+type+"/";
               // console.log("Row data:", results.data);
@@ -275,6 +275,7 @@
               });
               // Callback handler that will be called on success
               request.done(function (response, textStatus, jqXHR){
+                workerFinished++;
                 $('#importCounters').fadeIn();
                 var countDone = parseInt($('#doneCount').html());
                 countDone++;
@@ -283,6 +284,7 @@
               });
               // Callback handler that will be called on failure
               request.fail(function (jqXHR, textStatus, errorThrown){
+                workerFinished++;
                 // Log the error to the alert window
                 // console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
                 $('#importErrorsTable').fadeIn();
@@ -302,9 +304,13 @@
           complete: function()
           {
             // executed after all files are complete
-            // console.log("Completed!");
-            let timer = tableCounter.length*20;
-            setTimeout(function(){$(".hidden").fadeOut();}, timer);
+            $('#countOutOf').html(workerStarted);
+            var workerCheck = setInterval(function(){
+              if(workerFinished >= workerStarted){
+                $(".hidden").fadeOut();
+                clearInterval(workerCheck);
+              }
+            }, 1000);
           }
         });
       }else{
