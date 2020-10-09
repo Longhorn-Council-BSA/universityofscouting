@@ -337,7 +337,7 @@ async function routeDELETEApiMembers(req, res, next) {
         return res.status(500).send(err);
       } else {
         log("routeDELETEApiMembers: deleted");
-        return res.status(200).send(deleteMember.exportObject());
+        return res.status(200);
       }
     });
   } catch (err) {
@@ -490,7 +490,7 @@ async function routeDELETEApiRegistrations(req, res, next) {
         return res.status(500).send(err);
       } else {
         log("routeDELETEApiRegistrations: deleted");
-        return res.status(200).send(deleteReg.exportObject());
+        return res.status(200);
       }
     });
   } catch (err) {

@@ -65,7 +65,7 @@
       $.ajax({
         dataType: "json",
         url: "/api/members/<%= user._id %>/registrations",
-        data: {},
+        data: {earliest: "<%= earliest %>"},
         success:  function(data){
           if(data.length > 0){
             $("#scheduleTbody").html("");
