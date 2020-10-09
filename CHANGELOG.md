@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/ckxng/universityofscouting/compare/v1.3.0...v1.4.0) (2020-10-09)
+
+
+### Features
+
+* adds bulk delete options ([b62163f](https://github.com/ckxng/universityofscouting/commit/b62163f769bd96342f233dfca7d402145d485078))
+* filters schedule by start date ([91391f4](https://github.com/ckxng/universityofscouting/commit/91391f4fdfc68ec41dfcd64e28526a0fdcfce53e))
+
 ## [1.3.0](https://github.com/ckxng/universityofscouting/compare/v1.2.0...v1.3.0) (2020-10-09)
 
 
