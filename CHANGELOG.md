@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
+* adds CSV import and export
 * adds csv filename to csv response ([194876c](https://github.com/ckxng/universityofscouting/commit/194876c26012262040c4d8cf4712f49e73cc5035))
 * adds strict csv output ([e95c1d5](https://github.com/ckxng/universityofscouting/commit/e95c1d516792060ff2d9b5c703fd532c9d75f42c))
 
