@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/ckxng/universityofscouting/compare/v1.2.0...v1.3.0) (2020-10-09)
+
+
+### Features
+
+* adds google analytivs ([bbc6eba](https://github.com/ckxng/universityofscouting/commit/bbc6eba79481a42a4468badde34cf0719b3a459f))
+* improves login page clarity ([53f0f1c](https://github.com/ckxng/universityofscouting/commit/53f0f1c88f10c86fb1db8eeb8a4fed77fd1aed59))
+
+
+### Bug Fixes
+
+* corrects the export format for a single registration ([a3b7e39](https://github.com/ckxng/universityofscouting/commit/a3b7e3984ab74b3a659debf7c8f94261f9001317))
+
 ## [1.2.0](https://github.com/ckxng/universityofscouting/compare/v1.1.1...v1.2.0) (2020-10-08)
 
 
