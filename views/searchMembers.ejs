@@ -257,8 +257,8 @@
             step: function(results, parser) {
               var method = "POST";
               var url = "/api/"+type+"/";
-              console.log("Row data:", results.data);
-            	console.log("Row errors:", results.errors);
+              // console.log("Row data:", results.data);
+            	// console.log("Row errors:", results.errors);
               if("_id" in results.data && results.data._id !== null){
                 method = "PUT";
                 url += results.data._id+"/";
@@ -277,12 +277,12 @@
                 var countDone = parseInt($('#doneCount').html());
                 countDone++;
                 $('#doneCount').html(countDone);
-                console.log(results.data.memberID+"\n\n"+response+"\n\n"+textStatus)
+                // console.log(results.data.memberID+"\n\n"+response+"\n\n"+textStatus)
               });
               // Callback handler that will be called on failure
               request.fail(function (jqXHR, textStatus, errorThrown){
                   // Log the error to the alert window
-                  console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
+                  // console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
                   $('#importErrorsTable').fadeIn();
                   var count = parseInt($('#errorCount').html());
                   count++;
@@ -362,18 +362,26 @@
         $("#Tab01").show();$("#Tab02").hide();$("#Tab03").hide();
         $("#CurrentMemberBtn").addClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").removeClass("active");
         $("#CurrentMemberBtn").css("color", "rgb(161, 13, 31)");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "#0151ad");
+        $("#importCounters").hide();
+        $("#importErrorsTable").hide();
       });
       //-----------------Tabs 02----------//
       $("#CreateMemberBtn").click(function(){
         $("#Tab01").hide();$("#Tab02").show();$("#Tab03").hide();
         $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").addClass("active");$("#ReportsBtn").removeClass("active");
         $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "rgb(161, 13, 31)");$("#ReportsBtn").css("color", "#0151ad");
+        $("#importCounters").hide();
+        $("#importErrorsTable").hide();
       });
       //-----------------Tabs 03----------//
       $("#ReportsBtn").click(function(){
         $("#Tab01").hide();$("#Tab02").hide();$("#Tab03").show();
         $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").addClass("active");
         $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "rgb(161, 13, 31)");
+        if($('#errorCount').html() != "0" && $('#doneCount').html() != "0"){
+          $("#importCounters").show();
+          $("#importErrorsTable").show();
+        }
       });
     });
     //-----------------popups-------------------//
