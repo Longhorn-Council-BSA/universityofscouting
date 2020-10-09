@@ -243,8 +243,9 @@
     //---------------------------------------------------------------//
     function importCSV(type){
       var fileLength = $('#importFilefield_'+type).val();
+      var tableCounter = [];
+      $(".hidden").show();
       if(fileLength.length > 0){
-        $(".hidden").fadeIn();
         $('#errorCount').html(0);
         $('#doneCount').html(0);
         $('#importErrors').html('');
@@ -255,6 +256,7 @@
             dynamicTyping: true,
             worker: true,
             step: function(results, parser) {
+              tableCounter.push(results.data._id);
               var method = "POST";
               var url = "/api/"+type+"/";
               // console.log("Row data:", results.data);
@@ -267,9 +269,9 @@
                 }
               }
               request = $.ajax({
-                  url: url,
-                  type: method,
-                  data: method!="DELETE"?results.data:null
+                url: url,
+                type: method,
+                data: method!="DELETE"?results.data:null
               });
               // Callback handler that will be called on success
               request.done(function (response, textStatus, jqXHR){
@@ -281,13 +283,13 @@
               });
               // Callback handler that will be called on failure
               request.fail(function (jqXHR, textStatus, errorThrown){
-                  // Log the error to the alert window
-                  // console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
-                  $('#importErrorsTable').fadeIn();
-                  var count = parseInt($('#errorCount').html());
-                  count++;
-                  $('#errorCount').html(count);
-                  $('#importErrors').append('<tr><td>'+results.data._id+'</td><td>'+results.data.memberID+'</td><td>'+results.data.firstName+'</td><td>'+results.data.lastName+'</td></tr>')
+                // Log the error to the alert window
+                // console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
+                $('#importErrorsTable').fadeIn();
+                var count = parseInt($('#errorCount').html());
+                count++;
+                $('#errorCount').html(count);
+                $('#importErrors').append('<tr><td>'+results.data._id+'</td><td>'+results.data.memberID+'</td><td>'+results.data.firstName+'</td><td>'+results.data.lastName+'</td></tr>')
               });
             }
           },
@@ -300,8 +302,9 @@
           complete: function()
           {
             // executed after all files are complete
-            console.log("Completed!");
-            $(".hidden").fadeOut();
+            // console.log("Completed!");
+            let timer = tableCounter.length*20;
+            setTimeout(function(){$(".hidden").fadeOut();}, timer);
           }
         });
       }else{
