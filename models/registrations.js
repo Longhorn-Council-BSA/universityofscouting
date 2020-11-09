@@ -1,4 +1,5 @@
 // jshint.unstable bigint: true
+// jshint esversion: 6
 var mongoose = require("mongoose");
 require("mongoose-long")(mongoose);
 var moment = require("moment-timezone");
@@ -33,15 +34,15 @@ RegistrationsSchema = new mongoose.Schema({
   },
   instructor: {
     type: String,
-    required: true,
+    required: false,
   },
   physical: {
     type: String,
-    required: true,
+    required: false,
   },
   online: {
     type: String,
-    required: true,
+    required: false,
   },
   status: {
     type: Number,
@@ -73,6 +74,15 @@ RegistrationsSchema.virtual("dateMDYHM").get(function () {
   var m = moment(this.date);
   m.tz(settings.timezone);
   return m.format("L LT");
+});
+
+/**
+ * Provides a friendly date/time (dateYMDHM) representation of date
+ */
+RegistrationsSchema.virtual("dateYMDHM").get(function () {
+  var m = moment(this.date);
+  m.tz(settings.timezone);
+  return m.format();
 });
 
 /**
@@ -114,16 +124,34 @@ RegistrationsSchema.virtual("statusName").get(function () {
  *
  * This object is not a full model and is effectively read-only.  But it is
  * easier to serialize into something that can be stored into a session or
- * manipulated in EJS templates.
+ * manipulated in EJS templates. 
+ *  
+ * @param {String} type  when 'strict' only return values that exist in the DB
  */
-RegistrationsSchema.methods.exportObject = function () {
+RegistrationsSchema.methods.exportObject = function (type='simple') {
+  if(type == 'strict') {
+    return {
+      _id: this._id.toString(), //String (Hex number)
+      memberID: this.memberID.toString(), //Long Number
+      councilID: this.councilID,
+      date: this.date.toISOString(), //Date Object
+      type: this.type,
+      title: this.title,
+      credits: this.credits,
+      instructor: this.instructor,
+      physical: this.physical,
+      online: this.online,
+      status: this.status
+    };
+  }
   return {
-    _id: this._id.toString(), //Long Number
+    _id: this._id.toString(), //String (Hex number)
     memberID: this.memberID.toString(), //Long Number
     councilID: this.councilID,
     date: this.date.toISOString(), //Date Object
     dateMDY: this.dateMDY,
     dateMDYHM: this.dateMDYHM,
+    dateYMDHM: this.dateYMDHM,
     type: this.type,
     typeName: this.typeName,
     title: this.title,

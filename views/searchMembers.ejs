@@ -1,6 +1,26 @@
 <%- include header %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js" integrity="sha512-rKFvwjvE4liWPlFnvH4ZhRDfNZ9FOpdkD/BU5gAIA3VS3vOQrQ5BjKgbO3kxebKhHdHcNUHLqxQYSoxee9UwgA==" crossorigin="anonymous"></script>
   <div class="container main-body">
-    <div class="row">
+    <div class="row ">
+      <div class="col">
+        <ul class="nav nav-tabs" style="color:#003F87; font-weight: bold; justify-content: center;">
+          <li class="nav-item" id="CurrentMemberTab">
+            <a class="nav-link active" id="CurrentMemberBtn" style="color: rgb(161, 13, 31);">Current Members</a>
+          </li>
+          <% if(showAdd){ %>
+          <li class="nav-item" id="CreateMemberTab">
+            <a class="nav-link" id="CreateMemberBtn">Create Member</a>
+          </li>
+          <% } %>
+          <li class="nav-item" id="ReportsTab">
+            <a class="nav-link" id="ReportsBtn">Tools</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row" id="Tab01" style="display: initial;">
       <div class="col">
         <table class="mx-auto table table-sm text-center" style="margin-bottom: 0px;">
           <tr>
@@ -19,10 +39,10 @@
             <td class="font-weight-bold align-middle"><span id="rowCount"></span> Members Found </td>
           </tr>
         </table>
-        <table id="Members" class="mx-auto table table-hover table-sm text-center sortable">
+        <table id="Members" class="mx-auto table table-hover table-sm text-center">
           <thead class="thead-dark">
             <tr>
-              <th>Member ID</th><th>First Name</th><th>Last Name</th><th>Council</th><th class="sorttable_nosort">Records</th>
+              <th>Member ID</th><th>First Name</th><th>Last Name</th><th>Council</th><th class="sorttable_nosort">Options</th>
             </tr>
           </thead>
           <tbody id="MembersTbody">
@@ -31,8 +51,331 @@
         <div class="loader loader2"></div>
       </div>
     </div>
+    <% if(showAdd){ %>
+    <div class="row" id="Tab02" style="display: none;">
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Create Member Profile</h4>
+        <form class="mx-auto" onsubmit="event.preventDefault();">
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="number" class="form-control" autocomplete="NONE" id="memberID" placeholder="Member ID">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="text" class="form-control" autocomplete="NONE" id="fName" placeholder="First Name">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <input type="text" class="form-control" autocomplete="NONE" id="lName" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-row mx-auto">
+            <div class="col-md-3 mb-2 mx-auto">
+              <select class="form-control" name="councils" id="councilName">
+                <option value="Null">-- Please Select a Council --</option>
+                <% var councilMap = {} %>
+                <% for(const councilID of Object.keys(councils)){councilMap[councils[councilID]] = councilID;} %>
+                <% for(const councilName of Object.keys(councilMap).sort()) { %>
+                  <option value="<%= councilMap[councilName] %>">
+                    <column><%= councilName %></column>
+                  </option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-1" type="submit" style="width: 150px;" onClick="createMember()">Submit</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+    <div class="row" id="Tab03" style="display: none;">
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Registration Tools</h4>
+        <br/>
+        <h5>Download</h5>
+        <hr style="width: 300px;"/>
+        <!-- <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">All Data CSV</button> -->
+        <a href="/api/registrations?return=strictcsv">
+          <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Importable CSV</button>
+        </a>
+        <br/><br/>
+        <br/><br/>
+        <h5>Upload</h5>
+        <hr style="width: 300px;"/>
+        <input type="file" id="importFilefield_registrations" class="" style="border:2px solid grey; border-radius:5px;"> 
+        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV('registrations')">Import CSV</button>
+        <p>
+          When _id is filled in, a record will be updated.<br>
+          When _id is blank, a record will be added.<br>
+          When _id is filled in and memberID = "delete", the record will be deleted.
+        </p>
+      </div>
+      <div class="col text-center" style="padding-top: 20px;">
+        <h4>Members Tools</h4>
+        <br/>
+        <h5>Download</h5>
+        <hr style="width: 300px;"/>
+        <!-- <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with all data columns." title="Download All Data">All Data CSV</button> -->
+        <a href="/api/members?return=strictcsv">
+          <button class="btn btn-sm btn-1" id="downloadCSVbtn" data-toggle="hover" data-content="This will download a CSV with specific data columns which are also the accepted import format." title="Download Import Accepted Format">Importable CSV</button>
+        </a>
+        <br/><br/>
+        <br/><br/>
+        <h5>Upload</h5>
+        <hr style="width: 300px;"/>
+        <input type="file" id="importFilefield_members" class="" style="border:2px solid grey; border-radius:5px;"> 
+        <button class="btn btn-2 btn-sm" id="downloadCSVbtn" onclick="importCSV('members')">Import CSV</button>
+        <p>
+          When _id is filled in, a record will be updated.<br>
+          When _id is blank, a record will be added.<br>
+          When _id is filled in and memberID = "delete", the record will be deleted.
+        </p>
+      </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+      <div class="col-8 mx-auto text-center">
+        <h5 id="importCounters" style="display: none;"><span id="doneCount">0</span> Completed / <span id="errorCount">0</span> Failed</h5>
+        <table class="mx-auto table table-sm" id="importErrorsTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>memberID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody id="importErrors">
+            <!-- filled by errors from imports -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+    <!-----------Loader--------------->
+    <div class="ajax_loader hidden" style="font-size: 25pt; color: cyan; padding-top: 10%; text-align: center;">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d6e32754941303.596fc27b9d2bf.gif" width="400px" height="400px"/>
+    </div>
+    <!-----------popup model---------->
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Profile: <span id="modelFullname"></span></h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-md-center">
+              <div class="col-6">
+                <table id="profileTable" class="mx-auto table-sm transcript" style="width: auto;">
+                  <thead>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Member ID</th>
+                      <td style="width: 100%;"><input type="number" class="form-control" id="modelMemberID"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">First Name</th>
+                      <td style="width: 100%;"><input type="text" class="form-control" id="modelfirstName"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Last Name</th>
+                      <td style="width: 100%;"><input type="text" class="form-control" id="modellastName"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Council</th>
+                        <td style="width: 100%;">
+                          <select class="form-control" id="modelcouncilName">
+                            <% var councilMap = {} %>
+                            <% for(const councilID of Object.keys(councils)){councilMap[councils[councilID]] = councilID;} %>
+                            <% for(const councilName of Object.keys(councilMap).sort()) { %>
+                              <option value="<%= councilMap[councilName] %>">
+                                <column><%= councilName %></column>
+                              </option>
+                            <% } %>
+                          </select>
+                        </td>
+                    </tr>
+                    <tr>
+                      <th style="width: fit-content;text-align: left;">Role</th>
+                      <td style="width: 100%;">
+                        <select class="form-control" id="modelaccessName">
+                          <% if(user.access >= 1){ %><option value="1">Student</option><% }else{ %><option value="1" disabled>Student</option><% } %>
+                          <% if(user.access >= 10){ %><option value="10">Faculty</option><% }else{ %><option value="10" disabled>Faculty</option><% } %>
+                          <% if(user.access >= 100){ %><option value="100">Administrator</option><% }else{ %><option value="100" disabled>Administrator</option><% } %>
+                          <% if(user.access >= 1000){ %><option value="1000">Developer</option><% }else{ %><option value="1000" disabled>Developer</option><% } %>
+                        </select>
+                      </td>
+                    </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <% if(showDelete){ %>
+            <div style="text-align: left; width: 100%;">
+              <button class="btn btn-sm btn-danger" id="modelDelete" title="Delete Member">Delete</button>
+              <button class="btn btn-sm btn-warning" id="modelCancel" title="Cancel Delete Request" style="display: none;">Cancel</button>
+              <button class="btn btn-sm btn-danger" id="modelConfirm" title="Confirm Delete Request" style="display: none;">Confirm</button>
+            </div>
+            <% } %>
+            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-sm btn-primary" id="modelSave">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span id="currentID" style="display: none;"><%= user._id %></span>
   <script>
+    //------------------enable button popovers------------------//
+    $(document).ready(function(){
+      $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+      $('button').popover({
+        trigger: 'hover'
+      })
+    })
+    //---------------------------------------------------------------//
+    function importCSV(type){
+      var fileLength = $('#importFilefield_'+type).val();
+      if(fileLength.length > 0){
+        $(".hidden").fadeIn();
+        $('#errorCount').html(0);
+        $('#doneCount').html(0);
+        $('#importErrors').html('');
+        $('#importFilefield_'+type).parse({
+          config: {
+            skipEmptyLines: true,
+            header: true,
+            dynamicTyping: true,
+            worker: true,
+            step: function(results, parser) {
+              var method = "POST";
+              var url = "/api/"+type+"/";
+              console.log("Row data:", results.data);
+            	console.log("Row errors:", results.errors);
+              if("_id" in results.data && results.data._id !== null){
+                method = "PUT";
+                url += results.data._id+"/";
+                if(results.data.memberID === "delete") {
+                  method = "DELETE";
+                }
+              }
+              request = $.ajax({
+                  url: url,
+                  type: method,
+                  data: method!="DELETE"?results.data:null
+              });
+              // Callback handler that will be called on success
+              request.done(function (response, textStatus, jqXHR){
+                $('#importCounters').fadeIn();
+                var countDone = parseInt($('#doneCount').html());
+                countDone++;
+                $('#doneCount').html(countDone);
+                console.log(results.data.memberID+"\n\n"+response+"\n\n"+textStatus)
+              });
+              // Callback handler that will be called on failure
+              request.fail(function (jqXHR, textStatus, errorThrown){
+                  // Log the error to the alert window
+                  console.log( "The following error occurred: "+textStatus+"\n\n"+results.data.memberID+"\n\n"+jqXHR, errorThrown);
+                  $('#importErrorsTable').fadeIn();
+                  var count = parseInt($('#errorCount').html());
+                  count++;
+                  $('#errorCount').html(count);
+                  $('#importErrors').append('<tr><td>'+results.data._id+'</td><td>'+results.data.memberID+'</td><td>'+results.data.firstName+'</td><td>'+results.data.lastName+'</td></tr>')
+              });
+            }
+          },
+          error: function(err, file, inputElem, reason)
+          {
+            // executed if an error occurs while loading the file,
+            // or if before callback aborted for some reason
+            console.log("CSV Parse Error: "+reason);
+          },
+          complete: function()
+          {
+            // executed after all files are complete
+            console.log("Completed!");
+            $(".hidden").fadeOut();
+          }
+        });
+      }else{
+        alert("Please select a file to import...")
+      }
+    }
+    //---------------Popup modal for add/editing records------------------//
+    $('#myModal').on('shown.bs.modal');
+    function createMember(){
+      var memberID = $("#memberID").val();
+      var fName = $("#fName").val();
+      var lName = $("#lName").val();
+      var councilID = $("#councilName").val();
+      var council = $("#councilName option:selected").text();
+      if(memberID != "" && memberID > 0){
+        $("#memberID").css('backgroundColor','');
+        if(fName != ""){
+          $("#fName").css('backgroundColor','');
+          if(lName != ""){
+            $("#lName").css('backgroundColor','');
+            if(councilID != "Null"){
+              $("#councilName").css('backgroundColor','');
+              var data = {
+                memberID: memberID,
+                firstName: fName,
+                lastName: lName,
+                councilID: councilID,
+                councilName: council,
+                access: 1
+              };
+              request = $.ajax({
+                  url: "/api/members",
+                  type: "POST",
+                  data: data
+              });
+              // Callback handler that will be called on success
+              request.done(function (response, textStatus, jqXHR){
+                  $("#memberID").val("");
+                  $("#fName").val("");
+                  $("#lName").val("");
+                  $("#councilName").val("Null");
+                  GETMemberID();
+              });
+              // Callback handler that will be called on failure
+              request.fail(function (jqXHR, textStatus, errorThrown){
+                  // Log the error to the alert window
+                  alert( "The following error occurred: "+textStatus+"\n\nAre you sure this member ID doesn't already exist?", errorThrown);
+              });
+            }else{$("#councilName").css('backgroundColor','pink').focus();}
+          }else{$("#lName").css('backgroundColor','pink').focus();}
+        }else{$("#fName").css('backgroundColor','pink').focus();}
+      }else{$("#memberID").css('backgroundColor','pink').focus();}
+    }
+    //-----------------Navigation Tabs----------//
+    $(document).ready(function(){
+      //-----------------Tabs 01----------//
+      $("#CurrentMemberBtn").click(function(){
+        $("#Tab01").show();$("#Tab02").hide();$("#Tab03").hide();
+        $("#CurrentMemberBtn").addClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "rgb(161, 13, 31)");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "#0151ad");
+      });
+      //-----------------Tabs 02----------//
+      $("#CreateMemberBtn").click(function(){
+        $("#Tab01").hide();$("#Tab02").show();$("#Tab03").hide();
+        $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").addClass("active");$("#ReportsBtn").removeClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "rgb(161, 13, 31)");$("#ReportsBtn").css("color", "#0151ad");
+      });
+      //-----------------Tabs 03----------//
+      $("#ReportsBtn").click(function(){
+        $("#Tab01").hide();$("#Tab02").hide();$("#Tab03").show();
+        $("#CurrentMemberBtn").removeClass("active");$("#CreateMemberBtn").removeClass("active");$("#ReportsBtn").addClass("active");
+        $("#CurrentMemberBtn").css("color", "#0151ad");$("#CreateMemberBtn").css("color", "#0151ad");$("#ReportsBtn").css("color", "rgb(161, 13, 31)");
+      });
+    });
     //-----------------popups-------------------//
     function popupSchedule(id){
       var popup = window.open('/popupSchedule?id='+id, '', 'height=900, width=1200');
@@ -48,7 +391,8 @@
     });
     //------------------------------------//
     function GETMemberID(){
-      $(".loader").css("visibility","initial");
+      $("#MembersTbody").hide();
+      $(".loader").fadeIn();
       $.ajax({
         dataType: "json",
         url: "/api/members",
@@ -58,11 +402,119 @@
             $("#MembersTbody").html("");
             $("#rowCount").html(data.length);
             for(var i = 0; i < data.length; i++){
-              $("#MembersTbody").append("<tr><td>"+data[i].memberID+"</td><td>"+data[i].firstName+"</td><td>"+data[i].lastName+"</td><td>"+data[i].councilName+'</td><td style="width:16%;"><button class="btn btn-sm btn-1" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> <button class="btn btn-sm btn-1" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button></td></tr>');
+              var btns = ' <button class="btn btn-sm btn-1" id="trans'+data[i]._id+'" onClick="popupTranscript(\''+data[i]._id+'\')">Transcript</button> ';
+              btns += ' <button class="btn btn-sm btn-1" id="sched'+data[i]._id+'" onClick="popupSchedule(\''+data[i]._id+'\')">Schedule</button> ';
+              <% if(showEdit){ %>
+              btns += ' <button type="button" class="btn btn-sm btn-secondary" title="Edit Profile" data-toggle="modal" data-target=".bd-example-modal-lg" onClick="modelLoad(\''+data[i]._id+'\')"><img src="images/pencil.png" style="width:16px;height:20px;"></button> ';
+              <% } %>
+              $("#MembersTbody").append('<tr id="row'+data[i]._id+'"><td>'+data[i].memberID+'</td><td>'+data[i].firstName+'</td><td>'+data[i].lastName+'</td><td>'+data[i].councilName+'</td><td style="width:20%;">'+btns+'</td></tr>');
             }
           }
-          $(".loader").css("visibility","hidden");
+          $(".loader").fadeOut(function(){$("#MembersTbody").fadeIn()});
         }
+      });
+    }
+    //------------------update model data------------------//
+    function modelLoad(id){
+      request = $.ajax({
+          url: "/api/members/"+id,
+          type: "GET",
+          data: {}
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('#modelFullname').html(response.fullNameFL);
+        $('#modelMemberID').val(response.memberID);
+        $('#modelcouncilName').val(response.councilID);
+        $('#modelfirstName').val(response.firstName);
+        $('#modellastName').val(response.lastName);
+        $('#modelaccessName').val(response.access);
+        var currentID = $('#currentID').html();
+        request2 = $.ajax({
+          url: "/api/members/"+currentID,
+          type: "GET",
+          data: {}
+        });
+        // Callback handler that will be called on success
+        request2.done(function (response2, textStatus, jqXHR){
+          if(response2.access < response.access){
+            $('#modelaccessName').attr("disabled",true);
+          }
+          $('#modelSave').attr('onclick', 'saveBtn(\''+response._id+'\')');
+          $('#modelDelete').attr('onclick', 'delBtn(\''+response._id+'\')');
+          $('#modelConfirm').attr('onclick', 'confBtn(\''+response._id+'\')');
+          $('#modelCancel').attr('onclick', 'cancelBtn(\''+response._id+'\')');
+        });
+        request2.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "R2: The following error occurred: "+textStatus, errorThrown);
+        });
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
+    }
+    //------------------go to confirm phase------------------//
+    function delBtn(id){
+      $("#modelDelete").hide();
+      $("#modelConfirm").show();
+      $("#modelCancel").show();
+      $("#row"+id).css('backgroundColor', 'pink');
+    }
+    //------------------confirm delete------------------//
+    function confBtn(id){
+      request = $.ajax({
+        url: "/api/members/"+id,
+        type: "DELETE",
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('[data-dismiss=modal]').click();
+        $('#row'+id).hide();
+        $("#modelDelete").show();
+        $("#modelConfirm").hide();
+        $("#modelCancel").hide();
+        var count = $("#rowCount").html();
+        if(count > 0){ $('#rowCount').html(count-1);}
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
+    }
+    //------------------Revert pre-delete------------------//
+    function cancelBtn(id){
+      $("#modelDelete").show();
+      $("#modelConfirm").hide();
+      $("#modelCancel").hide();
+      $("#row"+id).css('backgroundColor', '');
+    }
+
+    function saveBtn(id){
+      var data = {
+      memberID:$('#modelMemberID').val(),
+      councilID:$('#modelcouncilName').val(),
+      firstName:$('#modelfirstName').val(),
+      lastName:$('#modellastName').val(),
+      access:$('#modelaccessName').val()
+      };
+      request = $.ajax({
+          url: "/api/members/"+id,
+          type: "PUT",
+          data: data
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('[data-dismiss=modal]').click();
+        GETMemberID();
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
       });
     }
     //------------------Filter by member ID------------------//

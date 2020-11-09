@@ -18,6 +18,9 @@ Do not enable DEBUG for production deployments.
     SESSION_SECRET=abc123
     DEBUG=console
 
+If you are a council other than Longhorn Council, then you will want to update views/footer.ejs
+to replace the included Google Analytics snippit with your own (or remove it).
+
 # Documentation
 
 View the [generated documentation](https://longhorn-council-bsa.github.io/universityofscouting/docs/).

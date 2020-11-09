@@ -1,41 +1,50 @@
 <html>
   <header>
-    <title>Member Schedule</title>
+    <title>Member Transcript</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Enable jquery features -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <style>
+      body{ font-family: sans-serif !important;}
+      h1{ font-family: adelle, serif !important;}
       .btn + .disabled { cursor: not-allowed;}
-      .header{margin-top: 20px;}
-      tr th, tr td, td input{text-align: center;}
+      tr th, tr td, td input{ text-align: center;}
       tr th, tr td{ width: 20%;}
       td button { width: 50px;}
-      .loader {border: 8px solid #a4a7a8; border-radius: 50%; border-top: 8px solid #CE1126; width: 30px; height: 30px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite; margin: 0px auto 0px 0px;}
-      .loader2 {margin: 0px auto; border: 18px solid #a4a7a8; border-top: 18px solid #CE1126; width: 120px; height: 120px;}
+      .printBtn{ margin:10px auto 0px auto; font-weight: bold;}
+      .loader { border: 8px solid #a4a7a8; border-radius: 50%; border-top: 8px solid #CE1126; width: 30px; height: 30px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite; margin: 0px auto 0px 0px;}
+      .loader2 { margin: 0px auto; border: 18px solid #a4a7a8; border-top: 18px solid #CE1126; width: 120px; height: 120px;}
       @-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); }}
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }}
+      @media print {
+        .NoPrint{ display: none;}
+        .header{ margin-top: 20px;}
+      }
     </style>
   </header>
   <body>
+    <div class="mx-auto text-center">
+      <button class="btn btn-warning printBtn NoPrint" onclick="print()">Print</button>
+      <button class="btn btn-success printBtn NoPrint"  data-toggle="modal" data-target=".bd-example-modal-lg" onclick="modelCreate()">Create Record</button>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col">
           <div class="header text-center">
             <h1>University of Scouting Transcript</h1>
             <h4><span id="name"></span></h4>
-            Member ID: <span id="userID"></span> 
-            | 
-            Council: <span id="councilID"></span> 
-            | <span id="rowCount"></span> Records
+            ID: <span id="userID"></span> | Council: <span id="councilName"></span> (<span id="councilID"></span>) | <span id="rowCount"></span> Records
           </div>
-          <table class="mx-auto table table-sm">
+          <table id="memberTable" class="mx-auto table table-sm">
             <thead>
               <tr>
                 <th>Course Date</th>
                 <th>Course Title</th>
                 <th>Credits</th>
                 <th>Status</th>
-                <!--<th></th>-->
+                <th class="NoPrint">Options</th>
               </tr>
             </thead>
             <tbody id="tbody">
@@ -45,15 +54,98 @@
         </div>
       </div>
     </div>
-    <datalist id="statusOptions">
-      <option value="-">
-      <option value="Completed">
-      <option value="In Progress">
-      <option value="Withdrawn">
-    </datalist>
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Record</h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-md-center">
+              <div class="col">
+                <table id="profileTable" class="mx-auto table-sm transcript text-white" style="width: auto;">
+                  <thead>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Date</th>
+                      <td style="width: fit-content;"><input type="datetime-local"  class="form-control text-center" id="modelCourseDate"></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Title</th>
+                      <td style="width: fit-content;"><input type="text" class="form-control text-center" id="modelCourseTitle"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Credits</th>
+                      <td style="width:fit-content;"><input type="number" class="form-control text-center" id="modelCredits"/></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Type</th>
+                      <td style="width: fit-content;">
+                        <select class="form-control text-center" id="modelCourseType" style=" text-align-last:center;">
+                          <option value="1">Course</option>
+                          <option value="2">Degree</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course instructor</th>
+                      <td style="width: fit-content;"><input type="text"  class="form-control text-center" id="modelCourseInstructor"></td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Course Location</th>
+                      <td style="width: fit-content;">
+                        <textarea class="form-control" id="modelCourseLocation" rows="2" cols="30">
+                        </textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Online Information</th>
+                      <td style="width: fit-content;">
+                        <textarea class="form-control" id="modelCourseOnline" rows="2" cols="30">
+                        </textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="width: auto;text-align: left;">Status</th>
+                        <td style="width: auto;">
+                          <select class="form-control text-center" id="modelStatus" style=" text-align-last:center;">
+                            <option value="0">Hidden</option>
+                            <option value="1">Registered</option>
+                            <option value="2">Attended</option>
+                            <option value="3">Completed</option>
+                          </select>
+                        </td>
+                    </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div style="text-align: left; width: 100%;">
+              <button class="btn btn-sm btn-danger" id="modelDelete" title="Delete Member">Delete</button>
+              <button class="btn btn-sm btn-warning" id="modelCancel" title="Cancel Delete Request" style="display: none;">Cancel</button>
+              <button class="btn btn-sm btn-danger" id="modelConfirm" title="Confirm Delete Request" style="display: none;">Confirm</button>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-sm btn-primary" id="modelSave">Save changes</button>
+            <button type="button" class="btn btn-sm btn-success noDisplay" id="addRecord" onclick="addRecord()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
-    $("document").ready(function(){
+    //-----------------------------------------------------------------------------------------//
+    function printTranscript() {
+      var win = window.open('/transcriptPrint', '', 'height=800, width=1000'); 
+      win.document.close(); 
+      win.print(); 
+    }
+    //-----------------------------------------------------------------------------------------//
+    $("document").ready(readURL());
+    function readURL(){
       var getUrlParameter = function getUrlParameter(sParam) {
       var sPageURL = window.location.search.substring(1), sURLVariables = sPageURL.split('&'), sParameterName, i;
       for (i = 0; i < sURLVariables.length; i++) {
@@ -64,21 +156,22 @@
         }
       };
       var id = getUrlParameter('id');
-      getSchedule(id);
-    });
+      getTranscript(id);
+      return id;
+    }
     // -----------------------------------------------------------------------------------------//
-    function getSchedule(id){
-      $(".loader").css("visibility","initial");
+    function getTranscript(id){
+      $("#memberTable").hide();
+      $(".loader").fadeIn();
       $.ajax({
         dataType: 'json',
         url: '/api/members/'+id,
         data: {},
         success: function(userdata) {
-          
           $('#userID').html(userdata.memberID);
-          $('#councilID').html(userdata.councilName);
-          $('#name').text(userdata.firstName+' '+userdata.lastName);
-
+          $('#councilName').html(userdata.councilName);
+          $('#councilID').html(userdata.councilID);
+          $('#name').text(userdata.fullNameFL);
           $.ajax({
             dataType: "json",
             url: "/api/members/"+id+"/registrations",
@@ -89,74 +182,223 @@
                 $("#rowCount").html(data.length);
                 for(var i = 0; i < data.length; i++){
                   if(data[i].credits == undefined){data[i].credits = '-';}
-                  var confBtn = '<button class="btn btn-sm btn-warning" style="display:none;width:auto;" id="Conf'+i+'" onClick="confDelTranscriptRecord('+i+')">Conf</button>';
-                  var delBtn = '<button class="btn btn-sm btn-danger disabled" id="Del'+i+'" onClick="delTranscriptRecord('+i+')" disabled>Del</button>';
-                  var editBtn = '<button class="btn btn-sm btn-primary" id="Edit'+i+'" onClick="enableEdit('+i+')">Edit</button>';
-                  var saveBtn = '<button class="btn btn-sm btn-success" style="display:none;" id="Save'+i+'" onClick="saveTranscriptRecord('+i+')">Save</button>';
-                  var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="Undo'+i+'" onClick="backTranscriptRecord('+i+')">Back</button>';
-                  $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].dateMDYHM+'">'+data[i].dateMDYHM+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].status+'</td></tr>');//<td style="width:16%;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
+                  var btns = ' <button type="button" class="btn btn-sm btn-secondary" title="Edit Profile" data-toggle="modal" data-target=".bd-example-modal-lg" onClick="modelLoad(\''+data[i]._id+'\')"><img src="images/pencil.png" style="width:16px;height:20px;"></button> ';
+                  $("#tbody").append('<tr id="row'+data[i]._id+'"><td id="DATE'+i+'" date-data="'+data[i].dateMDY+'">'+data[i].dateMDYHM+'</td><td id="TITLE'+i+'">'+data[i].title+'</td><td id="CREDITS'+i+'">'+data[i].credits+'</td><td id="STATUS'+i+'">'+data[i].statusName+'</td><td class="NoPrint" style="width:16%;">'+btns+'</td></tr>');
                 }
-                $(".loader").css("visibility","hidden");
+                $(".loader").fadeOut(function(){$("#memberTable").fadeIn()});
               }else{
                 $("#rowCount").html(data.length);
-                $("#tbody").append('<tr><td colspan="4"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+userdata.memberID+'</strong></h4></td></tr>');
-                $(".loader").css("visibility","hidden");
+                $("#tbody").append('<tr><td colspan="5"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+userdata.memberID+'</strong></h4></td></tr>');
+                $(".loader").fadeOut(function(){$("#memberTable").fadeIn()});
               }
-            }
+            },
+            error: function (jqXHR, exception) {
+              var msg = '';
+              if (jqXHR.status === 0) {
+                  msg = 'Not connect.\n Verify Network.';
+              } else if (jqXHR.status == 404) {
+                  msg = 'Requested page not found. [404]';
+              } else if (jqXHR.status == 500) {
+                  msg = 'Internal Server Error [500].';
+              } else if (exception === 'parsererror') {
+                  msg = 'Requested JSON parse failed.';
+              } else if (exception === 'timeout') {
+                  msg = 'Time out error.';
+              } else if (exception === 'abort') {
+                  msg = 'Ajax request aborted.';
+              } else {
+                  msg = 'Uncaught Error.\n' + jqXHR.responseText;
+              }
+              alert(msg);
+            },
           });
         }
       });
     }
-    // -----------------------------------------------------------------------------------------//
-    function enableEdit(i){
-      $('#DATE'+i).html('<input id="inputDate'+i+'" type="date" value="'+$('#DATE'+i).attr('date-data')+'"/>');
-      $('#TITLE'+i).html('<input id="inputTitle'+i+'" type="text" value="'+$('#TITLE'+i).text()+'"/>');
-      $('#CREDITS'+i).html('<input id="inputCredits'+i+'" type="number" value="'+$('#CREDITS'+i).text()+'"/>');
-      $('#STATUS'+i).html('<input id="inputStatus'+i+'" list="statusOptions" value="'+$('#STATUS'+i).text()+'"/>');
-      $('#Edit'+i).css('display', 'none');
-      $('#Save'+i).css('display', 'initial');
-      $('#Del'+i).removeClass('disabled').attr("disabled", false);
-      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
+    function modelLoad(id){
+      $('.modal-title').html('Edit Record');
+      $('#addRecord').hide();
+      $('#modelSave').show();
+      $('#modelDelete').show();
+      $('#modelConfirm').hide();
+      $('#modelCancel').hide();
+      request = $.ajax({
+          url: "/api/registrations/"+id,
+          type: "GET",
+          data: {}
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('#modelCourseDate').val(jQuery.trim(response.dateYMDHM).substring(0, 19));
+        $('#modelCourseTitle').val(response.title);
+        var credits = response.credits;
+        if(isNaN(credits)){credits = 0;}else{credits = response.credits;}
+        $('#modelCredits').val(credits);
+
+        $('#modelCourseType').val(response.type);
+        $('#modelCourseInstructor').val(response.instructor);
+        $('#modelCourseLocation').html(response.physical);
+        $('#modelCourseOnline').html(response.online);
+
+        $('#modelStatus').val(response.status);
+        $('#modelSave').attr('onclick', 'saveBtn(\''+response._id+'\')');
+        $('#modelDelete').attr('onclick', 'delBtn(\''+response._id+'\')');
+        $('#modelConfirm').attr('onclick', 'confBtn(\''+response._id+'\')');
+        $('#modelCancel').attr('onclick', 'cancelBtn(\''+response._id+'\')');
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
     }
     // -----------------------------------------------------------------------------------------//
-    function saveTranscriptRecord(i){
-      var date = $('#inputDate'+i).val();
-      var todayTime = new Date(date);
-      var month = todayTime.getMonth() + 1;
-      var day = todayTime.getDate();
-      var year = todayTime.getFullYear();
-      var DATE = month + "/" + day + "/" + year;
-      $('#DATE'+i).html(DATE);
-      $('#TITLE'+i).html($('#inputTitle'+i).val());
-      var CREDITS = $('#inputCredits'+i).val();
-      if(CREDITS == ""){CREDITS = "-"}
-      $('#CREDITS'+i).html(CREDITS);
-      $('#STATUS'+i).html($('#inputStatus'+i).val());
-      $('#Edit'+i).show();
-      $('#Save'+i).hide();
-      $('#Del'+i).addClass('disabled').attr("disabled", true);
-      $('#row'+i).css('background-color', '#48ca53ea');
-      setTimeout(function(){$('#row'+i).css('background-color', '');}, 2000);
+    function saveBtn(id){
+      var memberID = $('#userID').html();
+      var council = $('#councilID').html();
+      var date = $('#modelCourseDate').val();
+      var title = $('#modelCourseTitle').val();
+      var credits = $('#modelCredits').val();if(credits < 0){credits = 0}
+      var type = $('#modelCourseType').val();
+      var instructor = $('#modelCourseInstructor').val();
+      var location = $('#modelCourseLocation').val();
+      var online = $('#modelCourseOnline').val();
+      var status = $('#modelStatus').val();
+      var data = {
+        memberID: memberID,
+        councilID: council,
+        date: date+"-06:00",
+        type: type,
+        title: title,
+        credits: credits,
+        instructor: instructor,
+        physical: location,
+        online: online,
+        status: status
+      };
+      request = $.ajax({
+          url: "/api/registrations/"+id,
+          type: "PUT",
+          data: data
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('#modelDelete').show();
+        $('#modelConfirm').hide();
+        $('#modelCancel').hide();
+        $('#row'+id).css('background-color', '#48ca53ea');
+        $('[data-dismiss=modal]').click();
+        setTimeout(function(){$('#row'+id).css('background-color', '');readURL();}, 2000);
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
     }
     // -----------------------------------------------------------------------------------------//
-    function delTranscriptRecord(i){
-      $('#row'+i).css('background-color', 'red');
-      $('#Conf'+i).show();
-      $('#Undo'+i).show();
-      $('#Del'+i).hide();
-      $('#Save'+i).hide();
+    function delBtn(id){
+      $('#row'+id).css('background-color', 'rgba(255, 192, 56, 0.815)');
+      $('#modelConfirm').show();
+      $('#modelCancel').show();
+      $('#modelDelete').hide();
     }
     // -----------------------------------------------------------------------------------------//
-    function confDelTranscriptRecord(i){
-      $('#row'+i).toggle(function(){$(this).animate({ color: "#FF0000" }, 1000);});
+    function confBtn(id){
+      request = $.ajax({
+          url: "/api/registrations/"+id,
+          type: "DELETE",
+          data: {}
+      });
+      // Callback handler that will be called on success
+      request.done(function (response, textStatus, jqXHR){
+        $('#modelDelete').show();
+        $('#modelConfirm').hide();
+        $('#modelCancel').hide();
+        $('[data-dismiss=modal]').click();
+        $('#row'+id).toggle(function(){$(this).animate({ color: "#FF0000" }, 1000);readURL();});
+      });
+      // Callback handler that will be called on failure
+      request.fail(function (jqXHR, textStatus, errorThrown){
+          // Log the error to the alert window
+          alert( "The following error occurred: "+textStatus, errorThrown);
+      });
     }
     // -----------------------------------------------------------------------------------------//
-    function backTranscriptRecord(i){
-      $('#Conf'+i).hide();
-      $('#Undo'+i).hide();
-      $('#Save'+i).show();
-      $('#Del'+i).show();
-      $('#row'+i).css('background-color', 'rgba(255, 192, 56, 0.815)');
+    function cancelBtn(id){
+      $('#modelConfirm').hide();
+      $('#modelCancel').hide();
+      $('#modelDelete').show();
+      $('#row'+id).css('background-color', '');
+    }
+    // -----------------------------------------------------------------------------------------//
+    function modelCreate(){
+      $('.modal-title').html('Create Record');
+      $('#addRecord').show();
+      $('#modelSave').hide();
+      $('#modelDelete').hide();
+      $('#modelConfirm').hide();
+      $('#modelCancel').hide();
+      $('#modelCourseDate').val('');
+      $('#modelCourseTitle').val('');
+      $('#modelCredits').val('');
+      $('#modelCourseType').val('');
+      $('#modelCourseInstructor').val('');
+      $('#modelCourseLocation').val('');
+      $('#modelCourseOnline').val('');
+      $('#modelStatus').val('');
+    }
+    //---------------------------------------------------------------------------//
+    function addRecord(){
+      var memberID = $('#userID').html();
+      var council = $('#councilID').html();
+      var date = $('#modelCourseDate').val();
+      var title = $('#modelCourseTitle').val();
+      var credits = $('#modelCredits').val();if(credits == 0){credits = "-"}
+      var type = $('#modelCourseType').val();
+      var instructor = $('#modelCourseInstructor').val();
+      var location = $('#modelCourseLocation').val();
+      var online = $('#modelCourseOnline').val();
+      var status = $('#modelStatus').val();
+      var data = {
+        memberID: memberID,
+        councilID: council,
+        date: date+"-06:00",
+        type: type,
+        title: title,
+        credits: credits,
+        instructor: instructor,
+        physical: location,
+        online: online,
+        status: status
+      };
+      // if(data.memberID != "" && data.data != "" && data.title != "" && data.title != "" && data.credits != "" && data.status != ""){
+        request = $.ajax({
+            url: "/api/registrations",
+            type: "POST",
+            dataType: 'json',
+            data: data
+        });
+        // Callback handler that will be called on success
+        request.done(function (response, textStatus, jqXHR){
+          $('#modelDelete').show();
+          $('#modelConfirm').hide();
+          $('#modelCancel').hide();
+          $('[data-dismiss=modal]').click();
+          $('.modal-title').html('Edit Record');
+          readURL();
+        });
+        // Callback handler that will be called on failure
+        request.fail(function (jqXHR, textStatus, errorThrown){
+            // Log the error to the alert window
+            alert( "The following error occurred: "+textStatus, errorThrown);
+        });
+      // }else{
+      //   $('#modelCourseDate').css('backgroundColor', 'pink');
+      //   $('#modelCourseTitle').css('backgroundColor', 'pink');
+      //   $('#modelCredits').css('backgroundColor', 'pink');
+      //   $('#modelStatus').css('backgroundColor', 'pink');
+      // }
     }
   </script>
 </html>

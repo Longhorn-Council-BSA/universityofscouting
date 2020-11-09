@@ -5,28 +5,33 @@
     <!-- Enable jquery features -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+      body{ font-family: sans-serif !important;}
+      h1{ font-family: adelle, serif !important;}
       .btn + .disabled { cursor: not-allowed;}
       .header{margin-top: 20px;}
       tr th, tr td, td input{text-align: center;}
       td input{display: inline !important;}
+      td button { width: 50px;}
+      .printBtn{ margin:10px auto 0px auto;display: flex; font-weight: bold;}
       .loader{border:8px solid #a4a7a8;border-radius:50%;border-top:8px solid #ce1126;width:30px;height:30px;-webkit-animation:spin 2s linear infinite;animation:spin 2s linear infinite;margin:0 auto 0 0}
       .loader2{margin:0 auto;border:18px solid #a4a7a8;border-top:18px solid #ce1126;width:120px;height:120px}
       @-webkit-keyframes spin{0%{-webkit-transform:rotate(0)}100%{-webkit-transform:rotate(360deg)}}
       @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-      td button { width: 50px;}
+      @media print {
+        .NoPrint{ display: none;}
+        .header{ margin-top: 20px;}
+      }
     </style>
   </header>
   <body>
+    <button class="btn btn-warning printBtn NoPrint" onclick="print()">Print</button></span>
     <div class="container">
       <div class="row">
         <div class="col">
           <div class="header text-center">
             <h1>University of Scouting Schedule</h1>
             <h4><span id="name"></span></h4>
-            Member ID: <span id="userID"></span> 
-            | 
-            Council: <span id="councilID"></span> 
-            | <span id="rowCount"></span> Records
+            ID: <span id="userID"></span> | Council: <span id="councilID"></span> | <span id="rowCount"></span> Records
           </div>
           <table class="mx-auto table table-sm">
             <thead>
@@ -36,7 +41,7 @@
                 <th>Course Instructor</th>
                 <th>Course Location</th>
                 <th>On-line Delivery</th>
-                <!--<th></th>-->
+                <!--<th>Options</th>-->
               </tr>
             </thead>
             <tbody id="tbody">
@@ -62,7 +67,8 @@
       getSchedule(id);
     });
     function getSchedule(id){
-      $(".loader").css("visibility","initial");
+      $("#tbody").hide();
+      $(".loader").fadeIn();
       $.ajax({
         dataType: 'json',
         url: '/api/members/'+id,
@@ -89,11 +95,11 @@
                   var undoBtn = '<button class="btn btn-sm btn-primary" style="display:none;" id="undoBtn'+i+'" onClick="backScheduleRecord('+i+')">Back</button>';
                   $("#tbody").append('<tr id="row'+i+'"><td id="DATE'+i+'" date-data="'+data[i].date+'">'+data[i].dateMDYHM+'</td><td id="COURSE'+i+'">'+data[i].title+'</td><td id="INSTRUCTOR'+i+'">'+data[i].instructor+'</td><td id="LOCATION'+i+'">'+data[i].physical+'</td><td id="DELIVERY'+i+'">'+data[i].online+'</td></tr>');//<td style="width:115px;">'+saveBtn+editBtn+delBtn+confBtn+undoBtn+'</td></tr>');
                 }
-                $(".loader").css("visibility","hidden");
+                $(".loader").fadeOut(function(){$("#tbody").fadeIn()});
               }else{
                 $("#rowCount").html(data.length);
                 $("#tbody").append('<tr><td colspan="6"><h4 style="color:#CE1126;text-align:center;"><strong>'+data.length+' records returned for member ID '+userdata.memberID+'</strong></h4></td></tr>');
-                $(".loader").css("visibility","hidden");
+                $(".loader").fadeOut(function(){$("#tbody").fadeIn()});
               }
             }
           });

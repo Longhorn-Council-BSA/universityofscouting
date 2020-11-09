@@ -2,6 +2,68 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/ckxng/universityofscouting/compare/v1.3.0...v1.4.0) (2020-10-09)
+
+
+### Features
+
+* adds bulk delete options ([b62163f](https://github.com/ckxng/universityofscouting/commit/b62163f769bd96342f233dfca7d402145d485078))
+* filters schedule by start date ([91391f4](https://github.com/ckxng/universityofscouting/commit/91391f4fdfc68ec41dfcd64e28526a0fdcfce53e))
+
+## [1.3.0](https://github.com/ckxng/universityofscouting/compare/v1.2.0...v1.3.0) (2020-10-09)
+
+
+### Features
+
+* adds google analytivs ([bbc6eba](https://github.com/ckxng/universityofscouting/commit/bbc6eba79481a42a4468badde34cf0719b3a459f))
+* improves login page clarity ([53f0f1c](https://github.com/ckxng/universityofscouting/commit/53f0f1c88f10c86fb1db8eeb8a4fed77fd1aed59))
+
+
+### Bug Fixes
+
+* corrects the export format for a single registration ([a3b7e39](https://github.com/ckxng/universityofscouting/commit/a3b7e3984ab74b3a659debf7c8f94261f9001317))
+
+## [1.2.0](https://github.com/ckxng/universityofscouting/compare/v1.1.1...v1.2.0) (2020-10-08)
+
+
+### Features
+
+* adds CSV import and export
+* adds csv filename to csv response ([194876c](https://github.com/ckxng/universityofscouting/commit/194876c26012262040c4d8cf4712f49e73cc5035))
+* adds strict csv output ([e95c1d5](https://github.com/ckxng/universityofscouting/commit/e95c1d516792060ff2d9b5c703fd532c9d75f42c))
+
+
+### Bug Fixes
+
+* added fields needed  to edit registrations ([5cb869d](https://github.com/ckxng/universityofscouting/commit/5cb869daaf63532d52501b0719a9e909e80e45b8))
+* footer image aspect ratio ([d5c0888](https://github.com/ckxng/universityofscouting/commit/d5c0888c257dbff296750d4c7d2f4702fb32170f))
+* prevents blank _id from posting ([7405cdf](https://github.com/ckxng/universityofscouting/commit/7405cdf85bbc88e11bc3bfc77ad70db842bb9a1f))
+* prevents blank _id from posting 2 ([9e991bb](https://github.com/ckxng/universityofscouting/commit/9e991bbc113e8e5c23acaf2df59e6bddb4ca5ba3))
+* table fade in and out when loading ([d998ef8](https://github.com/ckxng/universityofscouting/commit/d998ef869f6749db549fe20c8380aff15105f688))
+
+### [1.1.1](https://github.com/ckxng/universityofscouting/compare/v1.1.0...v1.1.1) (2020-09-23)
+
+
+### Bug Fixes
+
+* adjust fade in and out of admin page table ([4cb02ad](https://github.com/ckxng/universityofscouting/commit/4cb02adfe3e651b7faeb466ae1069261c6c7f901))
+
+## [1.1.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.1.0) (2020-09-23)
+
+
+### Features
+
+* adds api POST, PUT, updates view cap ([923d437](https://github.com/ckxng/universityofscouting/commit/923d43730e578f5d4c2330b9ef7065b0bbbe8e62))
+* adds delete apis ([11e7521](https://github.com/ckxng/universityofscouting/commit/11e752170f98a54e7bb4ab626452ccb3ecb18a19))
+* limits api access to high access levels ([1e19caa](https://github.com/ckxng/universityofscouting/commit/1e19caabc9f9181dcf8f8e393cb8d6f5462f5725))
+
+
+### Bug Fixes
+
+* minior code cleanup ([932d60c](https://github.com/ckxng/universityofscouting/commit/932d60c7eb7da0062d81e0fb7f464b0149354cf4))
+* update print windows layout and info ([5836576](https://github.com/ckxng/universityofscouting/commit/58365765881eb76a9438d49e5827ec8f18485e40))
+* update transcript status to statusName ([31808ab](https://github.com/ckxng/universityofscouting/commit/31808ab15bd364ee4bcd2c45b251cb556a9f6cfb))
+
 ## [1.0.0](https://github.com/ckxng/universityofscouting/compare/v0.0.23...v1.0.0) (2020-09-14)
 
 * First major release

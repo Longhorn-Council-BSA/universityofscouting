@@ -4,7 +4,6 @@
       <div class="col-5 text-center mx-auto">
         <!-- Transcript download/print options -->
         <button type="button" id="btnExportToCsv" class="btn btn-sm btn-3 noprint">Download CSV</button>
-        <!-- <button onclick="downloadPDF()" class="btn btn-sm btn-3 noprint disabled" style="cursor: not-allowed;" disabled>Download PDF</button> -->
         <button id="printBTN" onclick="printTranscript()" class="btn btn-sm btn-3 noprint">Print</button>
         <span class="printTip" id="printTip"><strong>Tool-Tip: </strong><br/>To save your Transcript on your computer you can Print to PDF!<br/><span class="ClickHere" onClick="howToPopup()">Click here for instructions!</span></span>
       </div>
@@ -14,7 +13,8 @@
         <p style="margin:0px;">
           ID: <span id="userID"><%= user.memberID %> | </span>
           <span id="fname"><%= user.firstName %></span>
-          <span id="lname"><%= user.lastName %></span>
+          <span id="lname"><%= user.lastName %> | </span>
+          <span><%= transcript.length %> Record<% if(transcript.length>1){%>s<%}%></span>
         </p>
         <div id="transcriptTableDiv" style="font-weight: normal;">
           <table id="transcriptTable" class="mx-auto table table-hover table-sm transcript text-center sortable">
@@ -24,43 +24,22 @@
                 <th>Course Date</th>
                 <th>Course Title</th>
                 <th>Credits</th>
+                <th>Type</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colspan="4" style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Course Records ~</td>
-              </tr>
               <% var count = 0; %>
               <% for(var i=0; i<transcript.length; i++) {  %>
-              <% if(transcript[i].type == 1){ %>
               <% count++; %>
               <tr>
                 <td><%= transcript[i].dateMDYHM %></td>
                 <td><%= transcript[i].title %></td>
                 <td><%= transcript[i].credits %></td>
-                <td><%= transcript[i].status %></td>
-              </tr>
-              <% }} %>
-              <% if(count == 0){ %>
-              <tr>
-                <td colspan="4"><%= count %> Course Records Found</td>
+                <td><%= transcript[i].typeName %></td>
+                <td><%= transcript[i].statusName %></td>
               </tr>
               <% } %>
-              <tr>
-                <td colspan="4"style="font:15pt arial;font-weight: bold;margin:0px;text-align: center; background-color: lightgray;">~ Degree Records ~</td>
-              </tr>
-              <% count = 0; %>
-              <% for(var i=0; i<transcript.length; i++) {  %>
-              <% if(transcript[i].type == 2){ %>
-              <% count++; %>
-              <tr>
-                <td><%= transcript[i].dateMDYHM %></td>
-                <td><%= transcript[i].title %></td>
-                <td><%= transcript[i].credits %></td>
-                <td><%= transcript[i].status %></td>
-              </tr>
-              <% }} %>
               <% if(count == 0){ %>
               <tr>
                 <td colspan="4"><%= count %> Course Records Found</td>
@@ -78,86 +57,84 @@
       </div>
     </div>
   </div>
-<script>
-//******Open print friendly window // Print as PDF******//  
-  function printTranscript() {
-    var win = window.open('/transcriptPrint', '', 'height=800, width=1000'); 
-    win.document.close(); 
-    win.print(); 
+  <script>
+  //******Open print friendly window // Print as PDF******//  
+    function printTranscript() {
+      var win = window.open('/transcriptPrint', '', 'height=800, width=1000'); 
+      win.document.close(); 
+      win.print(); 
+    }
+    //***Tooltip Popup for HowTo****//
+    $("#printBTN").mouseenter(function() {
+      $(".printTip").fadeIn("fast");
+      hideTimer = setTimeout(function(){ $(".printTip").fadeOut();}, 4000);
+    });
+    $(".printTip").mouseenter(function() {
+      clearTimeout(hideTimer);
+    });
+    $(".printTip").mouseleave(function() {
+      $(".printTip").fadeOut();
+    });
+    //*********HowTo popup********//
+    function howToPopup(){
+      var popup = window.open('/howtoprinttopdf', '', 'height=860, width=700');
+      popup.document.close();
+    }
+  </script>
+  <script>
+    //******Download Transcript CSV file******//  
+    const dataTable = document.getElementById("transcriptTable");
+    const btnExportToCsv = document.getElementById("btnExportToCsv");
+    var fname = document.getElementById('fname').innerHTML;
+    var lname = document.getElementById('lname').innerHTML;
+    var user = fname+" "+lname;
+    btnExportToCsv.addEventListener("click", function() {
+        const exporter = new TableCSVExporter(dataTable);
+        const csvOutput = exporter.convertToCSV();
+        const csvBlob = new Blob([csvOutput], { type: "text/csv" });
+        const blobUrl = URL.createObjectURL(csvBlob);
+        const anchorElement = document.createElement("a");
+        anchorElement.href = blobUrl;
+        anchorElement.download = "University of Scouting Transcript - "+user+".csv";
+        anchorElement.click();
+        setTimeout(function(){
+            URL.revokeObjectURL(blobUrl);
+        }, 500);
+    });
+  class TableCSVExporter {
+    constructor (table, includeHeaders = true) {
+        this.table = table;
+        this.rows = Array.from(table.querySelectorAll("tr"));
+        if (!includeHeaders && this.rows[0].querySelectorAll("th").length) {
+            this.rows.shift();
+        }
+    }
+    convertToCSV () {
+        const lines = [];
+        const numCols = this._findLongestRowLength();
+        for (const row of this.rows) {
+            let line = "";
+            for (let i = 0; i < numCols; i++) {
+                if (row.children[i] !== undefined) {
+                    line += TableCSVExporter.parseCell(row.children[i]);
+                }
+                line += (i !== (numCols - 1)) ? "," : "";
+            }
+            lines.push(line);
+        }
+        return lines.join("\n");
+    }
+    _findLongestRowLength () {
+        return this.rows.reduce((l, row) => row.childElementCount > l ? row.childElementCount : l, 0);
+    }
+    static parseCell (tableCell) {
+        let parsedValue = tableCell.textContent;
+        // Replace all double quotes with two double quotes
+        parsedValue = parsedValue.replace(/"/g, `""`);
+        // If value contains comma, new-line or double-quote, enclose in double quotes
+        parsedValue = /[",\n]/.test(parsedValue) ? `"${parsedValue}"` : parsedValue;
+        return parsedValue;
+    }
   }
-  //***Tooltop Popup for HowTo****//
-  $("#printBTN").mouseenter(function() {
-    $(".printTip").fadeIn("fast");
-    hideTimer = setTimeout(function(){ $(".printTip").fadeOut();}, 4000);
-  });
-  $(".printTip").mouseenter(function() {
-    clearTimeout(hideTimer);
-    clearTimeout(hideTimer);
-    clearTimeout(hideTimer);
-  });
-  $(".printTip").mouseleave(function() {
-    $(".printTip").fadeOut();
-  });
-  //*********HowTo popup********//
-  function howToPopup(){
-    var popup = window.open('/howtoprinttopdf', '', 'height=850, width=700');
-    popup.document.close();
-  }
-</script>
-<script>
-  //******Download Transcript CSV file******//  
-  const dataTable = document.getElementById("transcriptTable");
-  const btnExportToCsv = document.getElementById("btnExportToCsv");
-  var fname = document.getElementById('fname').innerHTML;
-  var lname = document.getElementById('lname').innerHTML;
-  var user = fname+" "+lname;
-  btnExportToCsv.addEventListener("click", function() {
-      const exporter = new TableCSVExporter(dataTable);
-      const csvOutput = exporter.convertToCSV();
-      const csvBlob = new Blob([csvOutput], { type: "text/csv" });
-      const blobUrl = URL.createObjectURL(csvBlob);
-      const anchorElement = document.createElement("a");
-      anchorElement.href = blobUrl;
-      anchorElement.download = "University of Scouting Transcript - "+user+".csv";
-      anchorElement.click();
-      setTimeout(function(){
-          URL.revokeObjectURL(blobUrl);
-      }, 500);
-  });
-class TableCSVExporter {
-  constructor (table, includeHeaders = true) {
-      this.table = table;
-      this.rows = Array.from(table.querySelectorAll("tr"));
-      if (!includeHeaders && this.rows[0].querySelectorAll("th").length) {
-          this.rows.shift();
-      }
-  }
-  convertToCSV () {
-      const lines = [];
-      const numCols = this._findLongestRowLength();
-      for (const row of this.rows) {
-          let line = "";
-          for (let i = 0; i < numCols; i++) {
-              if (row.children[i] !== undefined) {
-                  line += TableCSVExporter.parseCell(row.children[i]);
-              }
-              line += (i !== (numCols - 1)) ? "," : "";
-          }
-          lines.push(line);
-      }
-      return lines.join("\n");
-  }
-  _findLongestRowLength () {
-      return this.rows.reduce((l, row) => row.childElementCount > l ? row.childElementCount : l, 0);
-  }
-  static parseCell (tableCell) {
-      let parsedValue = tableCell.textContent;
-      // Replace all double quotes with two double quotes
-      parsedValue = parsedValue.replace(/"/g, `""`);
-      // If value contains comma, new-line or double-quote, enclose in double quotes
-      parsedValue = /[",\n]/.test(parsedValue) ? `"${parsedValue}"` : parsedValue;
-      return parsedValue;
-  }
-}
-</script>
+  </script>
 <%- include footer %>

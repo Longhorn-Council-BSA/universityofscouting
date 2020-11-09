@@ -9,6 +9,7 @@
 var express = require("express");
 var router = express.Router();
 var modelhelper = require("../lib/modelhelper");
+var config = require("../config/settings");
 
 /**
  * GET schedule page
@@ -25,10 +26,7 @@ var modelhelper = require("../lib/modelhelper");
 async function routerGETSchedules(req, res, next) {
   try {
     res.render("schedule", { 
-      schedule: await modelhelper.getRegistration({
-        memberID: req.user.memberID,
-        councilID: req.user.councilID
-      }),
+      earliest: config.earliest,
       user: req.user,
       title: "Schedule",
     });

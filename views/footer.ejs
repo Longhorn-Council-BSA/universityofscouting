@@ -1,5 +1,5 @@
-    <div class="container" id="footer">
-      <div class="row" style="height: 100%;">
+    <div class="container">
+      <div class="row" style="height: 100%;" id="footer">
         <div class="col-2" style="height: 100%;">
           <p class="copyright" style="margin-top: 160px;">Copyright &copy; 2020</p>
         </div>
@@ -22,6 +22,17 @@
           else if(pageTitle == "Login"){document.getElementById("inputPassword1").focus();$('#HOME span.bracketL').css({ marginRight : "1px", color : "black"});$('#HOME span.bracketR').css({ marginLeft : "1px", color : "black"});}
         }
       );
+    </script>
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-98083353-7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-98083353-7');
     </script>
   </body>
 </html>

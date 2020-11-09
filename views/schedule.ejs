@@ -45,15 +45,13 @@
     });
     $(".printTip").mouseenter(function() {
       clearTimeout(hideTimer);
-      clearTimeout(hideTimer);
-      clearTimeout(hideTimer);
     });
     $(".printTip").mouseleave(function() {
       $(".printTip").fadeOut();
     });
     //*********HowTo popup********//
     function howToPopup(){
-      var popup = window.open('/howtoprinttopdf', '', 'height=850, width=700');
+      var popup = window.open('/howtoprinttopdf', '', 'height=860, width=700');
       popup.document.close();
     }
     //-------------------------------------------------------------------------//
@@ -62,11 +60,12 @@
     });
     function getSchedule(){
       var ID = $("#userID").html();
-      $(".loader").css("visibility","initial");
+      $("#scheduleTbody").hide();
+      $(".loader").fadeIn();
       $.ajax({
         dataType: "json",
         url: "/api/members/<%= user._id %>/registrations",
-        data: {},
+        data: {earliest: "<%= earliest %>"},
         success:  function(data){
           if(data.length > 0){
             $("#scheduleTbody").html("");
@@ -76,12 +75,12 @@
                 $("#scheduleTbody").append("<tr><td>"+data[i].dateMDYHM+"</td><td>"+data[i].title+"</td><td>"+data[i].instructor+"</td><td>"+data[i].physical+"</td><td>"+data[i].online+'</td></tr>');
               }
             }
-            $(".loader").css("visibility","hidden");
+            $(".loader").fadeOut(function(){$("#scheduleTbody").fadeIn()});
           }else{
             $("#scheduleTbody").html("");
             $("#rowCount").html(data.length);
             $("#scheduleTbody").append('<tr><td colspan="5"><h4 style="color:#CE1126;"><strong>'+data.length+' records returned for member ID '+ID+'</strong></h4></td></tr>');
-            $(".loader").css("visibility","hidden");
+            $(".loader").fadeOut(function(){$("#scheduleTbody").fadeIn()});
           }
         }
       });
