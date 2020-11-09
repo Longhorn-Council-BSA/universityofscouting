@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/ckxng/universityofscouting/compare/v1.4.0...v1.4.1) (2020-11-09)
+
+
+### Bug Fixes
+
+* replaces contact email ([a13224d](https://github.com/ckxng/universityofscouting/commit/a13224d0dc6e6a7679e9ff4ccd58c78b8b722df4))
+
 ## [1.4.0](https://github.com/ckxng/universityofscouting/compare/v1.3.0...v1.4.0) (2020-10-09)
 
 
