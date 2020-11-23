@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ckxng/universityofscouting.git"
+    "url": "git+https://github.com/Longhorn-Council-BSA/universityofscouting.git"
   },
   "bugs": {
-    "url": "https://github.com/ckxng/universityofscouting/issues"
+    "url": "https://github.com/Longhorn-Council-BSA/universityofscouting/issues"
   },
-  "homepage": "https://github.com/ckxng/docker-standardversion",
+  "homepage": "https://github.com/Longhorn-Council-BSA/docker-standardversion",
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
