@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
-    "jsdoc": "^3.6.4",
+    "jsdoc": "^3.6.7",
     "jshint": "^2.11.1"
   }
 }
